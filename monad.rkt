@@ -8,6 +8,7 @@
 
 (struct monad (return bind map))
 
+
 ;; List monad.
 (define List
   (monad
@@ -55,11 +56,16 @@
    ;;        ((y -> r) -> r)
   ; (λ (d f) (λ (k) (d (λ (x) ((f x) k)))))
   ; ))
+
+(define (monad-join M)
+  (lambda (mmx)
+    ((monad-bind M) mmx (lambda (x) x))))
+
    
 (provide (struct-out monad))
-(provide List)
-(provide (struct-out nothing))
-(provide (struct-out just))
-(provide Maybe)
-(provide Id)
-;(provide Cont)
+(provide monad-join)
+(provide
+ (struct-out nothing)
+ (struct-out just))
+(provide Maybe Id List)
+

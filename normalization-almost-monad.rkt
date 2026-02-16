@@ -18,5 +18,11 @@
     norm-bind
     norm-map))
 
+(define norm-join (monad-join Norm))
+
 (provide Norm)
-(provide norm-return norm-bind norm-map)
+(provide
+ norm-return
+ norm-bind
+ norm-map
+ norm-join)

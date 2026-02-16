@@ -3,13 +3,13 @@
 (require leftdo/monad)
 
 
-;; Do-notation
 (define-syntax rDo
   (syntax-rules (<- return)
     [(rDo m var <- mexp rest ...)
      ((monad-bind m) mexp (match-lambda [var (rDo m rest ...)]))]
     [(rDo m return value)
      ((monad-return m) value)]))
+
 
 (define-syntax accDo
   (syntax-rules (<- return)
