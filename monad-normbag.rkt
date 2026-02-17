@@ -1,12 +1,11 @@
 #lang racket
 
 (require racket/struct)
-(require leftdo/monad)
-(require leftdo/left-do)
-(require rackunit)
-(require leftdo/normalization-almost-monad)
-(require leftdo/normalized-distributions)
 (require rebellion/collection/multiset)
+(require rackunit)
+(require leftdo/monad)
+(require leftdo/leftdo)
+(require leftdo/monad-norm)
 
 
 

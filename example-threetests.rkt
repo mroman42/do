@@ -1,8 +1,8 @@
 #lang racket
 
-(require sesquilaw/left-do)
-(require sesquilaw/distributions)
-(require sesquilaw/norm)
+(require leftdo/leftdo)
+(require leftdo/monad)
+(require leftdo/monad-norm)
 (require rebellion/collection/multiset)
 
 ;; https://arxiv.org/pdf/2309.07053

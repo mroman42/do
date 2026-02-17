@@ -2,14 +2,8 @@
 
 (require rackunit)
 (require leftdo/monad)
-(require leftdo/subdistributions)
-(require leftdo/normalized)
+(require leftdo/monad-norm)
 (require leftdo/left-do)
-
-(define (observe x y)
-  (if (equal? x y)
-      (uniform (list '()))
-      (uniform (list))))
 
 ;; Partial stochastic
 ;; f : Dir -> Color x Color
@@ -22,7 +16,7 @@
 ;; g : Dir -> Dir
 (define (g x)
   (match x
-    ['left (uniform (list))]
+    ['left (uniform)]
     ['right (distribution ['left 1/5] ['right 4/5])]))
 
 ;; Stochastic

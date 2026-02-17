@@ -10,16 +10,9 @@
 ;; Causal Inference in Statistics: A Primer -- Pearl, Glymour, and Jewell.
 
 
-(require leftdo/monad)
-(require leftdo/subdistributions)
-(require leftdo/normalization-almost-monad)
 (require leftdo/left-do)
-
-(define (observe x y)
-  (if (equal? x y)
-      (uniform (list '()))
-      (uniform (list))))
-
+(require leftdo/monad)
+(require leftdo/monad-norm)
 
 (define survey
   (distribution
@@ -144,6 +137,7 @@
        '() <- (observe u iu)
        return y))
 
+
 ;; Let us check that P*(y|x) = SUM{u} P(y|x,u) P(u).
 (define eq3-lhs
   (lDo Norm
@@ -227,10 +221,6 @@
                  '() <- (observe z zp)
                  return y)
        return y))
-
-;; This is backdoor!
-
-
 
 
 (define smoke-marginal

@@ -3,7 +3,7 @@
 (require leftdo/monad)
 (require leftdo/normalized-distributions)
 (require leftdo/normalization-almost-monad)
-(require leftdo/left-do)
+(require leftdo/leftdo)
 
 
 

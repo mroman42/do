@@ -95,6 +95,10 @@
     [(_ [x v] rest ...)  (cons (pair x v) (distribution rest ...))]
     [(_)                 (list)]))
 
+(define-syntax uniform
+  (syntax-rules ()
+    [(_ x ...) (dist-uniform (list x ...))])) 
+
 
 
 (check-equal?
@@ -150,10 +154,11 @@
 
 
 
-(provide
- dist-bind dist-return dist-map
- (rename-out [dist-uniform uniform])
- dist-void dist-normalize)
+(provide dist-bind
+         dist-return
+         dist-map
+         dist-void
+         dist-normalize
+         uniform)
 (provide Subd)
 (provide distribution)
-;;(provide dist-bind dist-return (rename-out [dist-uniform uniform]) dist-normalize dist-void)

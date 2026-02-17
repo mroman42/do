@@ -2,7 +2,7 @@
 
 (require leftdo/monad)
 
-
+;; Right associative do-notation.
 (define-syntax rDo
   (syntax-rules (<- return)
     [(rDo m var <- mexp rest ...)
@@ -10,7 +10,7 @@
     [(rDo m return value)
      ((monad-return m) value)]))
 
-
+;; Auxiliary accumulating do-notation.
 (define-syntax accDo
   (syntax-rules (<- return)
     [(accDo m acc accVar
@@ -29,10 +29,12 @@
        accVar <- acc
        return var)]))
 
+;; Left associative do-notation.
 (define-syntax lDo
   (syntax-rules (<- return)
     [(lDo m rest ...)
      (accDo m (rDo m return (list)) (list) rest ...)]))
 
 
-(provide rDo lDo)
+(provide rDo
+         lDo)
