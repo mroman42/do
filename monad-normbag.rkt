@@ -1,34 +1,11 @@
 #lang racket
 
-(require racket/struct)
-(require rebellion/collection/multiset)
-(require rackunit)
 (require leftdo/monad)
 (require leftdo/leftdo)
 (require leftdo/monad-norm)
+(require leftdo/monad-bag)
 
 
-
-(define (bag-map f mx)
-  (for/multiset
-      ([x (multiset->list mx)])
-    (f x)))
-
-(define (bag-bind mx f)
-  (apply multiset
-    (append-map (lambda (m) (multiset->list m))
-         (map f (multiset->list mx)))))
-
-(define (bag-return x)
-  (multiset x))
-
-(define Bag
-  (monad
-   bag-return
-   bag-bind
-   bag-map))
-
-(define bag-join (monad-join Bag))
 
 
 (define/match (r-seq l)
@@ -47,10 +24,10 @@
         return (append xs (list x)))])
 
 (define (rbag-seq b)
-  (r-seq (multiset->list b)))
+  (r-seq (bag->list b)))
 
 (define (lbag-seq b)
-  (dist-map (lambda (x) (apply multiset x)) (l-seq (multiset->list b))))
+  (dist-map (lambda (x) (apply multiset x)) (l-seq (bag->list b))))
 
 
 (define (normbag-return x)
@@ -61,9 +38,9 @@
 
 (define (normbag-bind mx f)
    (norm-join
-     (norm-map (lambda (nbbx) (norm-map (lambda (bbx) (bag-join bbx)) nbbx))
-               (norm-map (lambda (m) (lbag-seq m))
-                         (normbag-map f mx)))))
+     (norm-map
+       (lambda (nbbx) (norm-map (lambda (bbx) (bag-join bbx)) nbbx))
+       (norm-map (lambda (m) (lbag-seq m)) (normbag-map f mx)))))
 
 
 (define NormBag
@@ -74,11 +51,11 @@
 
 
 (define (frequentist nbx)
-  (norm-join (norm-map (lambda (bx) (uniform (multiset->list bx))) nbx)))
+  (norm-join (norm-map (lambda (bx) (dist-uniform (bag->list bx))) nbx)))
 
 (define-syntax distribution
   (syntax-rules ()
-    [(_ [x v] rest ...)  (cons (list (multiset x) v) (distribution rest ...))]
+    [(_ [x v] rest ...)  (cons (list (bag-return x) v) (distribution rest ...))]
     [(_)                 (list)]))
 
 (define-syntax bag
@@ -89,13 +66,12 @@
 
 (define (observe x y)
   (if (equal? x y)
-      (uniform (list (bag-return '())))
-      (uniform (list))))
+      (uniform (bag-return '()))
+      (uniform)))
 
 
-(provide distribution
-         bag)
-(provide NormBag)
-(provide normbag-bind normbag-return normbag-map)
-(provide observe
+(provide distribution bag)
+(provide NormBag
+         normbag-bind normbag-return normbag-map
+         observe
          frequentist)

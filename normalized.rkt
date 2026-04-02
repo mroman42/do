@@ -159,6 +159,7 @@
          dist-map
          dist-void
          dist-normalize
+         dist-uniform
          uniform)
 (provide Subd)
 (provide distribution)
