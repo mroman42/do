@@ -72,6 +72,8 @@
 
 (provide distribution bag)
 (provide NormBag
-         normbag-bind normbag-return normbag-map
+         normbag-bind
+         normbag-return
+         normbag-map
          observe
          frequentist)

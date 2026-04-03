@@ -23,8 +23,9 @@
                   return (list var accVar))
                 (list var accVar)
                 rest ...)]
+
     [(accDo m acc accVar
-                return var)
+            return var)
      (rDo m
        accVar <- acc
        return var)]))

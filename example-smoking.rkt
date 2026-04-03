@@ -13,6 +13,7 @@
 (require leftdo/left-do)
 (require leftdo/monad)
 (require leftdo/monad-norm)
+(require leftdo/leftdo-newleft)
 
 (define survey
   (distribution
@@ -26,22 +27,23 @@
      [(list 'nonsmoker 'notar 'cancer)  342/800]))
 
 (define (estimate-intervention i)
-  (lDo Norm
-    zp <- (lDo Norm
+  (leftDo Norm
+    zp <- (leftDo Norm
                (list x z y) <- survey
                '() <- (observe i x)
                return z)
-    xp <- (lDo Norm
+    xp <- (leftDo Norm
                (list x z y) <- survey
                return x)
-    y  <- (lDo Norm
+    y  <- (leftDo Norm
                (list x z y) <- survey
                '() <- (observe x xp)
                '() <- (observe z zp)
                return y)
     return y))
 
-
+(estimate-intervention 'smoker)
+(estimate-intervention 'nonsmoker)
 
 ;; Dummy data.
 (define dummydata

@@ -48,19 +48,18 @@
 ;;;;;;;; Experiments
 
 (define jex1
-  (rDo Norm
+  (lDo Norm
        individual <- (distribution ['ill 5/100] ['healthy 95/100])
-       individual <- (rDo Norm
-                   world <- (uniform 'positive 'positive 'negative)
-                   individual <- (lDo Norm
-                               result <- (test individual)
-                               '() <- (observe result world)
-                               return individual)
-                   return individual)
+       world <- (uniform 'positive 'positive 'negative)
+       individual <- (lDo Norm
+                          result <- (test individual)
+                          '() <- (observe result world)
+                          return individual)
        return individual))
 
-(define jex2
+(define jex1
   (lDo Norm
+       individual <- (distribution ['ill 5/100] ['healthy 95/100])
        world <- (uniform 'positive 'positive 'negative)
        individual <- (lDo Norm
                           individual <- (distribution ['ill 5/100] ['healthy 95/100])

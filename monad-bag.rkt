@@ -25,12 +25,15 @@
 
 (define (bag->list b) (multiset->list b))
 
+(define bag multiset)
+
 (provide Bag
          bag-map
          bag-bind
          bag-return
          bag-join
          bag->list
+         bag
          multiset
          )
 
