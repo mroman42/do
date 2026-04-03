@@ -22,4 +22,6 @@
 (provide
   Frequentist
   uniform
+  distribution
+  observe
   bag)

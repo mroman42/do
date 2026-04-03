@@ -34,7 +34,7 @@
            x <~ f
            rest ...)
      (slideDo sm
-           '() <- (uniform '())
+           '() <- ((monad-return (slide-monad sm)) '())
            x <~ f
            rest ...)]
     
@@ -47,7 +47,7 @@
      (slideDo sm
            u <- h
            b <- ((slide-distribute sm) f (match-lambda
-                    [x (rDo m
+                    [x (rDo (slide-monad sm)
                             y <- g
                             return (list x y))]))
            (list x y) <~ b
