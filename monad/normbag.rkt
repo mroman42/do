@@ -2,8 +2,8 @@
 
 (require leftdo/monad)
 (require leftdo/leftdo)
-(require leftdo/monad-norm)
-(require leftdo/monad-bag)
+(require leftdo/monad/norm)
+(require leftdo/monad/bag)
 
 
 

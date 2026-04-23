@@ -9,43 +9,6 @@
 (struct monad (return bind map))
 
 
-;; List monad.
-(define List
-  (monad
-   ;; x -> List x
-   (λ (x) (list x))
-   ;; List x -> (x -> List y) -> List y
-   (λ (xs f) (append-map f xs))
-   ;; (x -> y) -> List x -> List y
-   (λ (f xs) (map f xs))))
-
-;; Identity monad.
-(define Id
-  (monad
-   (λ (x) x)
-   (λ (xs f) (f xs))
-   (λ (f xs) (f xs))))
-
-;; Maybe monad.
-(struct just (elem) #:transparent)
-(struct nothing () #:transparent) 
-
-(define Maybe
-  (monad
-   ;; return : x -> Maybe x
-   (λ (x) (just x))
-   ;; bind : Maybe x -> (x -> Maybe y) -> Maybe y
-   (λ (xs f)
-     (if (just? xs)
-         (f (just-elem xs))
-         (nothing)))
-   ;; map : (x -> y) -> (Maybe x -> Maybe y)
-   (λ (f mx)
-     (if (just? mx)
-         (just (f (just-elem mx)))
-         (nothing)))))
-
-
 ;; Continuation monad.
 ;(define Cont
  ; (monad 
@@ -64,8 +27,5 @@
    
 (provide (struct-out monad))
 (provide monad-join)
-(provide
- (struct-out nothing)
- (struct-out just))
-(provide Maybe Id List)
+
 

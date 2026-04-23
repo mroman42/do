@@ -1,9 +1,9 @@
 #lang racket
 
 (require leftdo/monad)
-(require (except-in leftdo/monad-norm))
-(require leftdo/monad-bag)
-(require (except-in leftdo/monad-normbag bag distribution observe))
+(require (except-in leftdo/monad/norm))
+(require leftdo/monad/bag)
+(require (except-in leftdo/monad/normbag bag distribution observe))
 (require leftdo/action)
 
 (define (bag-norm-act b f)

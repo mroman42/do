@@ -34,6 +34,5 @@
          bag-join
          bag->list
          bag
-         multiset
-         )
+         multiset)
 
