@@ -3,10 +3,11 @@
 (require leftdo/leftdo)
 (require leftdo/monad-norm)
 
+;; This is the example using urns.
+
 (define prior
   (distribution
    ['red 1/5] ['blue 1/5] ['green 1/5] ['yellow 2/5]))
-
 
 (define/match (shade c)
   [('red)     (uniform 'bright)]
@@ -29,4 +30,5 @@
        s <- (shade c)
        '() <- (observe s r)
        return c))
+
 

@@ -8,6 +8,7 @@
 (require racket/struct)
 (require rackunit)
 (require leftdo/monad)
+(require rosette)
 
 (struct subdistribution (results))
 (define (pair x y) (list x y))
@@ -87,9 +88,6 @@
 (define dist-void (list))
 
 
-(define Subd
-  (monad dist-return dist-bind dist-map))
-
 (define-syntax distribution
   (syntax-rules ()
     [(_ [x v] rest ...)  (cons (pair x v) (distribution rest ...))]
@@ -160,6 +158,7 @@
          dist-void
          dist-normalize
          dist-uniform
+         weight-of-point
          uniform)
-(provide Subd)
+;(provide Subd)
 (provide distribution)

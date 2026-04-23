@@ -11,8 +11,7 @@
 (define (testing patient)
   (match patient
     ['ill      (distribution ['positive 90/100] ['negative 10/100])]
-    ['healthy  (distribution ['positive  5/100] ['negative 95/100])]
-    ))
+    ['healthy  (distribution ['positive  5/100] ['negative 95/100])]))
 
 (actDo BagNorm
        p <- (distribution ['ill 5/100] ['healthy 95/100])
