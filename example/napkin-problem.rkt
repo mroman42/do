@@ -2,7 +2,7 @@
 
 (require leftdo/left-do)
 (require leftdo/monad)
-(require leftdo/monad-norm)
+(require leftdo/monad/norm)
 
 ;; Dummy data for the napkin problem.
 (define sigma1
@@ -53,7 +53,8 @@
      x <- (h u1 z)
      y <- (k u2 x)
      return (list w z x y)))
-  
+
+(display "actual intervention")
 (lDo Norm
      u1 <- sigma1
      u2 <- sigma2

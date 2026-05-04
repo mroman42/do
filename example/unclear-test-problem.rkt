@@ -15,9 +15,10 @@
 ;; REFERENCES.
 ;;  - https://arxiv.org/pdf/1807.05609
 
-(require leftdo/monad-norm)
+(require leftdo/monad/norm)
 (require leftdo/leftdo-left)
 (require leftdo/do-do)
+
 
 ;; This is the example in the original paper (https://arxiv.org/pdf/1807.05609).
 
@@ -67,9 +68,9 @@
     ['healthy  (distribution ['positive 1/2] ['negative 1/2])]))
 
 (leftDo Norm
+     result <- uncertainty
      patient <- prevalence
      test <- (channel patient)
-     result <- uncertainty
      '() <- (observe test result) 
      return patient)
 
@@ -81,6 +82,24 @@
         '() <- (observe test result)
         return patient)
      return patient)
+
+(leftDo Norm
+     patient <- prevalence
+     test <- (channel patient)
+     patient <- (leftDo Norm
+        result <- uncertainty
+        '() <- (observe test result)
+        return patient)
+     return patient)
+
+(do Norm
+    result <- uncertainty
+    patient <- prevalence
+    test <- (channel patient)
+    '() <- (observe test result)
+     return patient)
+
+
 
 
 

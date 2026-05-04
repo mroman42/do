@@ -12,7 +12,7 @@
 
 (require leftdo/left-do)
 (require leftdo/monad)
-(require leftdo/monad-norm)
+(require leftdo/monad/norm)
 (require leftdo/leftdo-left)
 
 (define survey

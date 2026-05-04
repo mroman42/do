@@ -10,6 +10,14 @@
     [(rDo m return value)
      ((monad-return m) value)]))
 
+(define-syntax rightDo
+  (syntax-rules (<- return)
+    [(rDo m var <- mexp rest ...)
+     ((monad-bind m) mexp (match-lambda [var (rDo m rest ...)]))]
+    [(rDo m return value)
+     ((monad-return m) value)]))
+
+
 ;; Auxiliary accumulating do-notation.
 (define-syntax accDo
   (syntax-rules (<- return)
@@ -38,4 +46,5 @@
 
 
 (provide rDo
-         lDo)
+         lDo
+         rightDo)

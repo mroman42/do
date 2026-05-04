@@ -10,9 +10,10 @@
 ;; REFERENCES.
 ;;  - https://arxiv.org/pdf/1807.05609
 
-(require (except-in leftdo/monad-norm observe))
+(require (except-in leftdo/monad/norm observe))
 (require leftdo/leftdo-left)
 (require leftdo/do-do)
+(require leftdo/leftdo)
 
 
 (define prevalence

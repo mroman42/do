@@ -12,7 +12,7 @@
              y <- g
              rest ...)
      (leftDo m
-             (list x y) <- (rDo m
+             (list x y) <- (rightDo m
                                 x <- f
                                 y <- g
                                 return (list x y))
@@ -22,14 +22,14 @@
     [(leftDo m
              x <- f
              return v)
-     (rDo m
+     (rightDo m
           x <- f
           return v)
     ]
 
     [(leftDo m
              return v)
-     (rDo m
+     (rightDo m
           return v)]
     
     ))
