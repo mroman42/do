@@ -9,10 +9,11 @@
 ;; 1. Parsing the syntax into a structure.
 (define (doParse stx)
   (syntax-case stx ()
-    [(_ m return v)  (doReturn #'m #'v)]
+    [(_ m return v)
+     (doReturn #'m #'v)]
     [(_ m x <- e rest ...)
      (doStatement #'m #'x #'e
-                  (doParse #'(do m rest ...)))]))
+                  (doParse #'(dummyDo m rest ...)))]))
 
 (provide doParse)
 
@@ -50,10 +51,3 @@
 
 (provide doReify)
 
-
-;(displayln (syntax->datum (doReify (doParse #'(lDo Norm x <- (uniform 3) return x)))))
-
-
-;(provide doParse)
-;(provide reverseDo)
-;(provide doReify)

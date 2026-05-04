@@ -1,14 +1,6 @@
 #lang racket
 
-{
- begin-for-syntax
-
- (require racket/match syntax/parse)
- (require leftdo/syntax/do)
-
- ;; 3. Reifying the syntax.
-
-}
+{require {for-syntax leftdo/syntax/do}}
 
 (require leftdo/leftdo)
 (require leftdo/leftdo-left)
@@ -17,11 +9,9 @@
 
 
 ;; 4. Macro, with syntax.
-{
- define-syntax (reversedDo stx)
+{define-syntax (reversedDo stx)
   (with-syntax ([stx-transformed (doReify #'lDo (doReverse (doParse stx)))])
-    #'stx-transformed)
-}
+    #'stx-transformed)}
 
 
 (lDo Norm
