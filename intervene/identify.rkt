@@ -26,7 +26,7 @@
   ;;   (syntax-conditioning (list v)
   ;;                        naturals-before-in-component
   ;;                        naturals-in-component
-  ;;                        identify-until)
+  ;;                        identify-until))
 
   d)
 
