@@ -15,6 +15,7 @@
     ['() next]))
 
 
-;(display-program (normObservations '(x y z) '(a b c) (normReturn '(x))))
+; EXAMPLES
+;(normProgram (normObservations '(x y z) '(a b c) (normReturn '(x))))
 
 (provide normObservations)

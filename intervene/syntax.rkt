@@ -1,41 +1,49 @@
 #lang racket
 
 (struct normReturn (vars) #:transparent)
-(struct normPrimitive (var label next) #:transparent)
 (struct normObservation (var ovar next) #:transparent)
-(struct normExpression (vars expr next) #:transparent)
+(struct normStatement (vars expr next) #:transparent)
+
 (provide (struct-out normReturn))
-(provide (struct-out normPrimitive))
 (provide (struct-out normObservation))
-(provide (struct-out normExpression))
+(provide (struct-out normStatement))
 
 
 
-(define (show-program indent p)
-  (match p
+(struct normProgram (program)
+  #:transparent
+  #:methods gen:custom-write
+  ((define (show-statements indent p)
+     (match p
 
-    [(normReturn vars)
-     (format "~areturn ~v" (make-string indent #\space) vars)]
+       [(normReturn vars)
+        (format "~areturn ~v" (make-string indent #\space) vars)]
 
-    [(normPrimitive var prim next)
-     (format "~a~v <- ~v\n~a" (make-string indent #\space)
-                           var prim (show-program indent next))]
+       [(normObservation var ovar next)
+        (format "~a'() <- (observe ~v ~v)\n~a"
+                (make-string indent #\space)
+                var ovar (show-statements indent next))]
 
-    [(normObservation var ovar next)
-     (format "~a'() <- (observe ~v ~v)\n~a"
-             (make-string indent #\space)
-             var ovar (show-program indent next))]
+       [(normStatement vars expr next)
+        (format "~a~v <- ~a\n~a"
+                (make-string indent #\space)
+                vars (show-program (+ 4 indent) expr) (show-statements indent next))]))
 
-    [(normExpression vars expr next)
-     (format "~a~v <- (lDo Norm\n~a)\n~a"
-             (make-string indent #\space)
-             vars (show-program (+ 4 indent) expr) (show-program indent next))]
+   (define (show-program indent p)
+     (define program (normProgram-program p))
+     (if (or (normReturn? program) (normObservation? program) (normStatement? program))
+           (string-append "(lDo Norm\n" (show-statements (+ 4 indent) program) ")")
+           (format "~v" program)))
 
-    ))
+   (define (write-proc program port mode)
+     (fprintf port (show-program 0 program)))))
 
-(define (display-program p)
-  (fprintf (current-output-port) (string-append "(lDo Norm\n" (show-program 4 p) ")")))
+; EXAMPLES
+;; (normProgram
+;;  (normStatement 'x (normProgram (normReturn 'x))
+;;                 (normStatement 'y (normProgram (normStatement 'z (normProgram (normReturn 'x)) (normReturn 'z)))
+;;                 (normObservation 'x 'y (normReturn '(y))))))
+;(normProgram (normReturn '(y)))
+;(normProgram 'p)
 
-
-
-(provide display-program)
+(provide (struct-out normProgram))

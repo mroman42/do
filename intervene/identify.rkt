@@ -15,8 +15,11 @@
 
   ;; #1. Ancestors of the identified variables in the intervened graph.
   (define d
-    (dag-topological-sort-of 
-     (dag-visible-ancestors sv (dag-remove tv g)) g))
+    (dag-topological-sort-of ;; topologically sorted 
+     (dag-visible-ancestors  ;; ancestors
+      sv                     ;; of the identified variables
+      (dag-remove tv g))     ;; in the intervened graph
+     g))
 
   ;; #2. Writes down the line of v.
   ;; (define (line-of v)
@@ -29,6 +32,8 @@
   ;;                        identify-until))
 
   d)
+
+
 
 
 

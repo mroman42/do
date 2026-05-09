@@ -4,6 +4,10 @@
 (require do/intervene/syntax-observations)
 
 ;; NORMCONDITIONAL
+;; lDo Norm
+;;     vs{temporary} <- p
+;;     observe bs bs{temporary}
+;;     return as
 (define (normConditional as bs vs p)
   
   (define temporary-variables
@@ -19,9 +23,11 @@
   (define (temporaries xs)
     (map (lambda (x) (temporary x)) xs))
   
-  (normExpression temporary-variables p
+  (normStatement temporary-variables (normProgram 'p)
                   (normObservations bs (temporaries bs)
-                                    (normReturn as))))
+                                    (normReturn (temporaries as)))))
+
+;(normProgram (normConditional '(x y) '(u v w) '(x y u v w z) (normProgram 'p)))
 
 
 (provide normConditional)
