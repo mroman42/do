@@ -1,10 +1,10 @@
 #lang racket
 
-(require leftdo/monad)
-(require (except-in leftdo/monad/norm))
-(require leftdo/monad/bag)
-(require (except-in leftdo/monad/normbag bag distribution observe))
-(require leftdo/action)
+(require do/monad)
+(require (except-in do/monad/norm))
+(require do/monad/bag)
+(require (except-in do/monad/normbag bag distribution observe))
+(require do/action)
 
 (define (bag-norm-act b f)
   (frequentist 

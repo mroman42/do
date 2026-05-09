@@ -1,7 +1,7 @@
 #lang racket
 
-(require leftdo/leftdo)
-(require leftdo/monad-norm)
+(require do/leftdo)
+(require do/monad/norm)
 
 ;; This is the example using urns.
 

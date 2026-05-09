@@ -1,8 +1,8 @@
 #lang racket
 
-(require leftdo/left-do)
-(require leftdo/monad)
-(require leftdo/monad/norm)
+(require do/leftdo)
+(require do/monad)
+(require do/monad/norm)
 
 ;; Dummy data for the napkin problem.
 (define sigma1
@@ -136,6 +136,33 @@
                         return (list x y))
      '() <- (observe x 'p)
      return y)
+
+(display "My solution.")
+(lDo Norm
+     y <- (lDo Norm
+               (list x1 y) <- (lDo Norm
+                                   w <- (lDo Norm
+                                             (list w z x y) <- p
+                                             return w)                   
+                                   z <- (lDo Norm
+                                             (list w z x y) <- p
+                                             return z)
+                                   x1 <- (lDo Norm
+                                              (list w0 z0 x y) <- p
+                                              '() <- (observe w w0)
+                                              '() <- (observe z z0)
+                                              return x)
+                                   y <- (lDo Norm
+                                             (list w0 z0 x0 y) <- p
+                                             '() <- (observe w w0)
+                                             '() <- (observe z z0)
+                                             '() <- (observe 'p x0)
+                                             return y)
+                                   return (list x1 y))
+               '() <- (observe x1 'p)
+               return y)
+     return y)
+
 
 (display "Non-solution.")
 (lDo Norm

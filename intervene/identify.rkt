@@ -1,7 +1,7 @@
 #lang racket
 
 (require rebellion/collection/multiset)
-(require do/dag)
+(require do/intervene/dag)
 (require do/monad)
 (require do/monad/norm)
 (require do/leftdo)
@@ -13,23 +13,24 @@
 ;; p : distribution
 (define (id-algorithm sv tv g p)
 
-  ;; #1. Computes the ancestors of the identified variables.
-  ;; Each one of these ancestors will occupy a line.
+  ;; #1. Ancestors of the identified variables in the intervened graph.
   (define d
     (dag-topological-sort-of 
      (dag-visible-ancestors sv (dag-remove tv g)) g))
 
   ;; #2. Writes down the line of v.
-  (define (line-of v)
-    (define naturals-before-in-component '())
-    (define naturals-until-in-component '())
-    (define identify-until '())
-    (syntax-conditioning (list v)
-                         naturals-before-in-component
-                         naturals-in-component
-                         identify-until)
+  ;; (define (line-of v)
+  ;;   (define naturals-before-in-component '())
+  ;;   (define naturals-until-in-component '())
+  ;;   (define identify-until '())
+  ;;   (syntax-conditioning (list v)
+  ;;                        naturals-before-in-component
+  ;;                        naturals-in-component
+  ;;                        identify-until)
 
   d)
+
+
 
 (id-algorithm '(y) '(x)
               (Dag

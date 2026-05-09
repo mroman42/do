@@ -1,9 +1,9 @@
 #lang racket
 
-(require leftdo/monad)
-(require leftdo/normalized-distributions)
-(require leftdo/normalization-almost-monad)
-(require leftdo/leftdo)
+(require do/monad)
+(require do/monad/norm)
+(require do/monad/list)
+(require do/leftdo)
 
 
 

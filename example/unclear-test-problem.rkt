@@ -15,9 +15,9 @@
 ;; REFERENCES.
 ;;  - https://arxiv.org/pdf/1807.05609
 
-(require leftdo/monad/norm)
-(require leftdo/leftdo-left)
-(require leftdo/do-do)
+(require do/monad/norm)
+(require do/notation/leftdo)
+(require do/do-do)
 
 
 ;; This is the example in the original paper (https://arxiv.org/pdf/1807.05609).

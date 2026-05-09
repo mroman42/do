@@ -1,9 +1,9 @@
 #lang racket
 
-(require leftdo/struct-slide)
-(require leftdo/monad/norm)
-(require leftdo/monad/bag)
-(require (only-in leftdo/monad/normbag normbag-bind))
+(require do/struct-slide)
+(require do/monad/norm)
+(require do/monad/bag)
+(require (only-in do/monad/normbag normbag-bind))
 
 (define (bag-norm-distribute b f)
   (normbag-bind (dist-return b)

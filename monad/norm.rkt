@@ -1,7 +1,7 @@
 #lang racket
 
-(require leftdo/monad)
-(require leftdo/normalized)
+(require do/monad)
+(require do/normalized)
 
 
 (define norm-return dist-return)
@@ -25,10 +25,11 @@
       (uniform '())
       (uniform)))
 
-(provide Norm
-         norm-return
-         norm-bind
-         norm-map
-         norm-join
-         observe
-         (all-from-out leftdo/normalized))
+(provide
+ Norm
+ norm-return
+ norm-bind
+ norm-map
+ norm-join
+ observe
+ (all-from-out do/normalized))

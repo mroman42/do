@@ -1,6 +1,6 @@
 #lang racket
 
-(require leftdo/monad)
+(require do/monad)
 
 ;; Right associative do-notation.
 (define-syntax rDo

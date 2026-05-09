@@ -1,8 +1,8 @@
 #lang racket
 
-(require leftdo/monad)
-(require leftdo/leftdo)
-(require leftdo/struct-slide)
+(require do/monad)
+(require do/leftdo)
+(require do/struct-slide)
 
 ;; Right-sliding do-notation.
 (define-syntax slideDo

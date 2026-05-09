@@ -1,7 +1,7 @@
 #lang racket
 
-(require leftdo/monad)
-(require leftdo/leftdo)
+(require do/monad)
+(require do/leftdo)
 (require rebellion/collection/multiset)
 
 
@@ -21,11 +21,17 @@
 (define Bag
   (monad bag-return bag-bind bag-map))
 
-(define bag-join (monad-join Bag))
+(define bag-join
+  (monad-join Bag))
 
-(define (bag->list b) (multiset->list b))
+(define (bag->list b)
+  (multiset->list b))
 
-(define bag multiset)
+(define bag
+  multiset)
+
+(define (list->multiset l)
+  (apply multiset l))
 
 (provide Bag
          bag-map
@@ -34,5 +40,6 @@
          bag-join
          bag->list
          bag
+         list->multiset
          multiset)
 

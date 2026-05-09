@@ -1,9 +1,9 @@
 #lang racket
 
-(require leftdo/monad)
-(require leftdo/leftdo)
-(require leftdo/monad/norm)
-(require leftdo/monad/bag)
+(require do/monad)
+(require do/leftdo)
+(require do/monad/norm)
+(require do/monad/bag)
 
 
 

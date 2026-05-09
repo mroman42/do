@@ -10,10 +10,10 @@
 ;; Causal Inference in Statistics: A Primer -- Pearl, Glymour, and Jewell.
 
 
-(require leftdo/left-do)
-(require leftdo/monad)
-(require leftdo/monad/norm)
-(require leftdo/leftdo-left)
+(require do/notation/leftdo)
+(require do/monad)
+(require do/monad/norm)
+(require do/leftdo)
 
 (define survey
   (distribution
@@ -44,6 +44,30 @@
 
 (estimate-intervention 'smoker)
 (estimate-intervention 'nonsmoker)
+
+
+(define (estimate-intervention2 i)
+  (leftDo Norm
+    zp <- (leftDo Norm
+               (list x z y) <- survey
+               '() <- (observe i x)
+               return z)
+    ;; Identify {X,Y} in {X,Y}
+    y <- (leftDo Norm
+                            xp <- (leftDo Norm
+                                          (list x z y) <- survey
+                                          return x)
+                            y  <- (leftDo Norm
+                                          (list x z y) <- survey
+                                          '() <- (observe x xp)
+                                          '() <- (observe z zp)
+                                          return y)
+                            return y)
+    return y))
+
+(estimate-intervention2 'smoker)
+(estimate-intervention2 'nonsmoker)
+
 
 ;; Dummy data.
 (define dummydata
