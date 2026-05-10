@@ -11,7 +11,7 @@
    (list->set bs)))
 
 
-
+;; Output is a program.
 (define (sce ys xs g p)
   
   (define vs (dag-visibles g))
@@ -32,14 +32,15 @@
                (acc-sce (cons u as) ys xs h)) ;; intervened
 
            ;; #2. Visible non-intervening variables are conditioned upon.
-           (normStatement (list u) (normProgram (normConditional (list u) as vs p))
+           (normStatement u (normProgram (normConditional u as vs p))
                           (acc-sce (cons u as) ys xs h)))]
       
       [(dagVisible vs) (normReturn ys)]))
   
   (normProgram (acc-sce '() ys xs g)))
 
-(sce '(y) '(x)
+(define example
+  (sce '(y) '(x)
               (Dag
                 'u1 <- '()
                 'u2 <- '()
@@ -48,7 +49,8 @@
                 'z <- '(x)
                 'y <- '(z u2)
                 visible '(w x z y))
-              (normProgram 'p))
+              (normProgram 'p)))
+
 
 
 
@@ -64,14 +66,16 @@
   
   ;; #2. If A = C, then output the marginal.
   (if (equal-sets? a cs)
-      (normConditional cs '() ts q)
+      (normConditionals cs '() ts q)
 
       ;; #3. If A = T, then output failure.
       (if (equal-sets? a ts)
           (error "non identifiable")
 
-          ;; #4. In any other case, we will need a recursive call. 
-          (let* ([t-new (dag-c-component-of cs (dag-restricted a g))]
+          ;; #4. In any other case, we will need a recursive call. TODO: that
+          ;; (first cs) is a bit ugly; I think I rely on the assumption that it
+          ;; is one component. TODO: Also, rename variables!
+          (let* ([t-new (dag-c-component-of (first cs) (dag-restricted a g))]
                  [r-new (filter (lambda (x) (not (member x t-new))) a)]
                  [q-new (sce t-new r-new (dag-restricted ts g) q)])
             (identify-algorithm cs t-new q-new (dag-restricted t-new g))))))
@@ -79,4 +83,6 @@
 
 
 
+(provide sce)
 (provide identify-algorithm)
+

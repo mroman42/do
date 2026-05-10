@@ -66,6 +66,7 @@
 
 (define (dag-restricted cs g)
   (match g
+
     [(dagDependency a bs h)
      (if (or (member a cs) (member a (dag-hidden g)))
          (dagDependency a bs (dag-restricted cs h))
@@ -163,7 +164,7 @@
   (define (find-in-partition x p)
     (match p
       [(cons u p)  (if (member x u) u (find-in-partition x p))]
-      ['()         (error "not here")]))
+      ['()         (error "dag-c-component-of not here" graph v (dag-c-components graph))]))
 
   (dag-topological-sort-of (find-in-partition v (dag-c-components graph)) graph))
 
