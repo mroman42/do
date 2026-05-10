@@ -180,6 +180,38 @@
  ; => answer 
   '(x y w))
 
+(define (dag-c-component-until v g)
+  (define (until v l)
+    (match l
+      [(cons x l)
+       (if (equal? v x)
+           (list v)
+           (cons x (until v l)))]
+      ['() '()])
+    )
+  (until v (dag-topological-sort-of (dag-c-component-of (list v) g) g)))
+
+;; (dag-c-component-until 'w
+;;   (Dag
+;;     'z <- '()
+;;     'w <- '(z)
+;;     'y <- '(z w)
+;;     'x <- '(z)
+;;     visible '(x y w)))
+
+;; (check-equal-sets? 
+;;  ; => example
+;;  (dag-c-component-until 'y
+;;   (Dag
+;;     'z <- '()
+;;     'w <- '(z)
+;;     'y <- '(z w)
+;;     'x <- '(z)
+;;     visible '(x y w))) 
+;;  ; => answer 
+;;   '(x y w))
+
+
 
 (provide (struct-out dagDependency))
 (provide (struct-out dagVisible))
@@ -192,4 +224,5 @@
 (provide dag-visible-ancestors)
 (provide dag-c-components)
 (provide dag-c-component-of)
+(provide dag-c-component-until)
 (provide dag-topological-sort-of)

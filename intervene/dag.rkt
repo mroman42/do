@@ -245,4 +245,5 @@
 (provide dag-visible-ancestors)
 (provide dag-c-components)
 (provide dag-c-component-of)
+(provide dag-c-component-until)
 (provide dag-topological-sort-of)

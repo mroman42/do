@@ -1,12 +1,36 @@
 #lang racket
 
+{require {for-syntax do/intervene/id-algorithm}}
+{require {for-syntax do/intervene/syntax}}
+
+;; (define (Identify y x g p)
+;;   (normReify (normProgram (id-algorithm y x g (normProgram p)))))
+
+;; Here is where it becomes important to use syntax on our algorithm.
+;; The dream is to do the following.
+;; (WithModel
+;;   u <- ()
+;;   x <- (x y)
+;;   (visible x y w)
+;; Identify x -> y In p)
+;; 
+{define-syntax (Identify stx)
+  (syntax-case stx ()
+    [(_ y x g p)
+     (with-syntax ([stx-transformed (normReify (normProgram (id-algorithm #'y #'x #'g (normProgram #'p))))])
+       #'stx-transformed)])}
+  ;(normReify (normProgram (id-algorithm y x g (normProgram p))))}
+
+;; {define-syntax-rule (Identify stx)
+;;   (with-syntax* ([(Identify y x g p) stx]
+;;                 [stx-transformed (normReify (normProgram (id-algorithm y x g (normProgram p))))])
+;;     #'stx-transformed)}
+
 (require do/intervene/dag)
-(require do/monad)
+(require do/intervene/syntax)
+(require do/intervene/id-algorithm)
 (require do/monad/norm)
 (require do/leftdo)
-(require do/intervene/syntax-identify-algorithm)
-(require do/intervene/syntax)
-
 
 (define sigma1
   (distribution ['a 1/2] ['b 1/2]))
@@ -57,6 +81,8 @@
      y <- (k u2 x)
      return (list w z x y)))
 
+
+
 (define napkin
   (Dag
    'u1 <- '()
@@ -67,27 +93,4 @@
    'y <- '(x u2)
    visible '(w z x y)))
 
-
-(define (line-of v g p)
-  (let* ([us (dag-c-component-until v g)]
-         [qs (sce us (filter (lambda (x) (not (member x us))) (dag-visibles g)) g p)])
-    (identify-algorithm (list v) us qs g)))
-
-;; ID-ALGORITHM
-(define (id-algorithm sv tv g p)
-  
-  (define (acc-id-algorithm sv tv vv g p)
-    (match vv
-      [(cons v vv)
-       (if (member v tv)
-           (acc-id-algorithm sv tv vv g p)
-           (normStatement (list v) (normProgram (line-of v g p))
-                          (acc-id-algorithm sv tv vv g p)))]
-      ['()  (normReturn sv)]))
-
-  (acc-id-algorithm sv tv (dag-visibles g) g p))
-
-;(normProgram (line-of 'z napkin (normProgram 'p)))
-;(normReify (normProgram (id-algorithm '(y) '(x) napkin (normProgram 'p))))
-
-(provide id-algorithm)
+(Identify '(y) '(x) napkin 'p)

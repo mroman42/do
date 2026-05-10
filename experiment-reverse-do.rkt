@@ -1,11 +1,10 @@
 #lang racket
 
-{require {for-syntax leftdo/syntax/do}}
+{require {for-syntax do/syntax/do}}
 
-(require leftdo/leftdo)
-(require leftdo/leftdo-left)
-(require leftdo/monad)
-(require leftdo/monad/norm)
+(require do/leftdo)
+(require do/monad)
+(require do/monad/norm)
 
 
 ;; 4. Macro, with syntax.
