@@ -39,6 +39,33 @@
   
   (normProgram (acc-sce '() ys xs g)))
 
+(define (sce-until ys xs g p v)
+  
+  (define vs (dag-visibles g))
+
+  (precondition (subset? (list->set xs) (list->set vs))
+   'separated-component "intervention variables ~v must be visible variables ~v" xs vs)
+  (precondition (subset? (list->set ys) (list->set vs))
+   'separated-component "output variables ~v must be visible variables ~v" ys vs)
+
+  (define (acc-sce as ys xs g)
+    (match g
+      [(dagDependency u _ h)
+       (if (or (member u xs) (not (member u vs)))
+
+           ;; #1. Intervened and hidden variables do not appear.
+           (if (not (member u vs))
+               (acc-sce as ys xs h) ;; hidden
+               (acc-sce (cons u as) ys xs h)) ;; intervened
+
+           ;; #2. Visible non-intervening variables are conditioned upon.
+           (normStatement u (normProgram (normConditional u as vs p))
+                          (acc-sce (cons u as) ys xs h)))]
+      
+      [(dagVisible vs) (normReturn ys)]))
+  
+  (normProgram (acc-sce '() ys xs g)))
+
 (define example
   (sce '(y) '(x)
               (Dag
