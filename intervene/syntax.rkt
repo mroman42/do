@@ -9,7 +9,6 @@
 (provide (struct-out normStatement))
 
 (require do/intervene/syntax-helpers)
-(require do/leftdo)
 {require (for-syntax do/leftdo)}
 {require (for-syntax racket/base)}
 {require (for-syntax racket/list)}
@@ -116,9 +115,6 @@
 
 (define (example p)
   (normReify #'lDo #'Norm #'list (normProgram
-     (normStatement 'x (normProgram
-                        (normStatement 'x p (normReturn 'x)))
-                    (normStatement 'y (normProgram (normStatement 'z (normProgram (normReturn 'x)) (normReturn 'z)))
-                                   (normObservation 'x 'y (normReturn '(y))))))))
+     (normStatement 'x p (normReturn 'x)))))
 
 (provide example)

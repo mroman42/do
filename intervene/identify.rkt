@@ -32,7 +32,7 @@
 ;(Macro (list 'x 'y))
 (Macro2 '(x y))
 
-(define p 'a)
+
 
 ;; The problem is that the dag should be defined for-syntax.
 ;; But I would like to use the dag to 
@@ -61,8 +61,11 @@
 ;;            y <- (x u2)
 ;;            visible (w z x y)))
 
+(define p (uniform 'a 'b))
+
 (define-syntax (EXAMPLE stx)
   (syntax-case stx ()
-    [(EXAMPLE p) (example #'p)]))
+    [(EXAMPLE p)
+     (with-syntax ([stx-tr (example #'p)]) #'stx-tr)]))
 
-(EXAMPLE #'p)
+(EXAMPLE p)
