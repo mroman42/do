@@ -3,6 +3,11 @@
 (define (syntaxSymbol->string x)
   (symbol->string (syntax->datum x)))
 
+(define (symbols->string xs)
+  (match xs
+    [(cons x xs) (string-append (symbol->string x) " " (symbols->string xs))]
+    ['() ""]))
+
 (define (syntaxVars->string vs)
   (define (go vs)
     (match vs
@@ -13,14 +18,23 @@
 (define (equalDatum? x y)
   (equal? (syntax->datum x) (syntax->datum y)))
 
-(define (syntax->datums xs)
+(define (syntax->data xs)
   (map (lambda (x) (syntax->datum x)) xs))
 
+(define (symbols->listString xs)
+  (define (go xs)
+    (match xs
+      [(cons x xs) (string-append " " (symbol->string x) (go xs))]
+      ['() ""]))
+  (string-append "(list" (go xs) ")"))
+
 (define (memberDatum? x xs)
-  (member (syntax->datum x) (syntax->datums xs)))
+  (member (syntax->datum x) (syntax->data xs)))
 
 (provide syntaxSymbol->string)
 (provide syntaxVars->string)
-(provide syntax->datums)
+(provide syntax->data)
 (provide equalDatum?)
 (provide memberDatum?)
+(provide symbols->string)
+(provide symbols->listString)

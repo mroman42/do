@@ -1,3 +1,4 @@
+
 #lang racket
 
 (require do/intervene/syntax)
@@ -16,6 +17,11 @@
 
 
 ; EXAMPLES
-;(normProgram (normObservations '(x y z) '(a b c) (normReturn '(x))))
+(define example
+  (normProgram
+   (normObservations
+    (list #'x #'y #'z)
+    (list #'a #'b #'c)
+    (normReturn (list #'x)))))
 
 (provide normObservations)

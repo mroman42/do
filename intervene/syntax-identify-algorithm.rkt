@@ -4,6 +4,7 @@
 (require do/intervene/syntax)
 (require do/intervene/syntax-conditional)
 (require do/precondition)
+(require do/intervene/syntax-helpers)
 
 (define (equal-sets? as bs)
   (equal?
@@ -18,8 +19,8 @@
 
   (precondition (subset? (list->set xs) (list->set vs))
    'separated-component "intervention variables ~v must be visible variables ~v" xs vs)
-  (precondition (subset? (list->set ys) (list->set vs))
-   'separated-component "output variables ~v must be visible variables ~v" ys vs)
+  ;(precondition (subset? (list->set ys) (list->set vs))
+  ; 'separated-component "output variables ~v must be visible variables ~v" ys vs)
 
   (define (acc-sce as ys xs g)
     (match g
@@ -32,7 +33,7 @@
                (acc-sce (cons u as) ys xs h)) ;; intervened
 
            ;; #2. Visible non-intervening variables are conditioned upon.
-           (normStatement u (normProgram (normConditional u as vs p))
+           (normStatement (list u) (normProgram (normConditional u as vs p))
                           (acc-sce (cons u as) ys xs h)))]
       
       [(dagVisible vs) (normReturn ys)]))
@@ -59,7 +60,7 @@
                (acc-sce (cons u as) ys xs h)) ;; intervened
 
            ;; #2. Visible non-intervening variables are conditioned upon.
-           (normStatement u (normProgram (normConditional u as vs p))
+           (normStatement (list u) (normProgram (normConditional u as vs p))
                           (acc-sce (cons u as) ys xs h)))]
       
       [(dagVisible vs) (normReturn ys)]))
@@ -68,15 +69,15 @@
 
 (define example
   (sce '(y) '(x)
-              (Dag
-                'u1 <- '()
-                'u2 <- '()
-                'w <- '(u1 u2)
-                'x <- '(w u1)
-                'z <- '(x)
-                'y <- '(z u2)
-                visible '(w x z y))
-              (normProgram 'p)))
+       (Dag
+        'u1 <- (list)
+        'u2 <- (list)
+        'w <- (list 'u1 'u2)
+        'x <- (list 'w 'u1)
+        'z <- (list 'x)
+        'y <- (list 'z 'u2)
+        visible (list 'w 'x 'z 'y))
+       (normProgram #'p)))
 
 
 

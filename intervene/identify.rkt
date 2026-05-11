@@ -1,18 +1,23 @@
 #lang racket
 
-(require do/intervene/dag)
+(require do/monad/norm)
+(require do/leftdo)
 
-(define-syntax DagSyntax
-  (syntax-rules (<-)
-    [(Dag o <- is more ...)  (dagDependency #'o #'is (Dag more ...))]
-    [(Dag visible xs)        (dagVisible #'xs)]))
+(define-syntax (Macro stx)
+  (syntax-case stx ()
+    [(Identify (quote qx) )
+       #`(lDo Norm
+              qx <- (uniform 2 3 4)
+              return qx)]))
+
+(Macro 'x)
 
 
-(Dag
-   u1 <- (list)
-   u2 <- (list)
-   w <- (list u1 u2)
-   z <- (list w)
-   x <- (list z u1)
-   y <- (list x u2)
-   visible (list w z x y))
+(define-syntax (Macro2 stx)
+  (syntax-case stx ()
+    [(Identify (list (quote qs) ...))
+       #`(lDo Norm
+              (list qs ...) <- (uniform (list 2 2) (list 3 4) (list 4 5))
+              return (list qs ...))]))
+
+(Macro2 (list 'x 'y))

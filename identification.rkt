@@ -12,7 +12,7 @@
 ;;   u <- ()
 ;;   x <- (x y)
 ;;   (visible x y w)
-;; Identify x -> y In p)
+;; Identify x -> y In p) x
 ;; 
 {define-syntax (Identify stx)
   (syntax-case stx ()
