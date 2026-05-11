@@ -2,10 +2,19 @@
 
 (require do/monad/norm)
 (require do/leftdo)
+(require racket/list)
+(require do/intervene/syntax)
+
+{require (for-syntax racket/base)}
+{require (for-syntax racket/list)}
+{require (for-syntax do/intervene/syntax)}
+{require (for-syntax do/intervene/id-algorithm)}
+{require (for-syntax do/intervene/dag)}
+{require (for-syntax do/leftdo)}
 
 (define-syntax (Macro stx)
   (syntax-case stx ()
-    [(Identify (quote qx) )
+    [(Identify (_ qx) )
        #`(lDo Norm
               qx <- (uniform 2 3 4)
               return qx)]))
@@ -15,9 +24,45 @@
 
 (define-syntax (Macro2 stx)
   (syntax-case stx ()
-    [(Identify (list (quote qs) ...))
+    [(Identify (_ (x ...)))
        #`(lDo Norm
-              (list qs ...) <- (uniform (list 2 2) (list 3 4) (list 4 5))
-              return (list qs ...))]))
+              (list x ...) <- (uniform (list 2 2) (list 3 4) (list 4 5))
+              return (list x ...))]))
 
-(Macro2 (list 'x 'y))
+;(Macro (list 'x 'y))
+(Macro2 '(x y))
+
+(define p 'a)
+
+;; The problem is that the dag should be defined for-syntax.
+;; But I would like to use the dag to 
+
+(define-syntax (Identify stx)
+  (syntax-case stx ()
+    [(Identify p
+               (y ...)
+               (x ...) g)
+     (with-syntax ([stx-transformed
+                    (normReify #'lDo #'Norm #'list (normProgram
+                                (id-algorithm
+                                 (syntax->datum #'(y ...))
+                                 (syntax->datum #'(x ...))
+                                 (dagParse #'g)
+                                 #'p)))])
+       #'stx-transformed)]))
+
+;; (Identify p (y) (x)
+;;           (Dag
+;;            u1 <- ()
+;;            u2 <- ()
+;;            w <- (u1 u2)
+;;            z <- (w)
+;;            x <- (z u1)
+;;            y <- (x u2)
+;;            visible (w z x y)))
+
+(define-syntax (EXAMPLE stx)
+  (syntax-case stx ()
+    [(EXAMPLE p) (example #'p)]))
+
+(EXAMPLE #'p)

@@ -48,7 +48,7 @@
           ['p (distribution ['p 1/9] ['q 8/9])]
           ['q (distribution ['p 1/3] ['q 2/3])])]))
 
-(define (p)
+(define p
   (lDo Norm
      u1 <- sigma1
      u2 <- sigma2
@@ -60,18 +60,18 @@
 
 (define napkin
   (Dag
-   #'u1 <- (list )
-   #'u2 <- (list )
-   #'w <- (list #'u1 #'u2)
-   #'z <- (list #'w)
-   #'x <- (list #'z #'u1)
-   #'y <- (list #'x #'u2)
-   visible (list #'w #'z #'x #'y)))
+   'u1 <- (list )
+   'u2 <- (list )
+   'w <- (list 'u1 'u2)
+   'z <- (list 'w)
+   'x <- (list 'z 'u1)
+   'y <- (list 'x 'u2)
+   visible (list 'w 'z 'x 'y)))
 
 
 (define (line-of v g p)
   (let* ([us (dag-c-component-until v g)]
-         [qs (sce us (filter (lambda (x) (not (memberDatum? x us))) (dag-visibles g)) g p)])
+         [qs (sce us (filter (lambda (x) (not (member x us))) (dag-visibles g)) g p)])
     (identify-algorithm (list v) us qs g)))
 
 ;; ID-ALGORITHM
@@ -80,7 +80,7 @@
   (define (acc-id-algorithm sv tv vv g p)
     (match vv
       [(cons v vv)
-       (if (memberDatum? v tv)
+       (if (member v tv)
            (acc-id-algorithm sv tv vv g p)
            (normStatement (list v) (normProgram (line-of v g p))
                           (acc-id-algorithm sv tv vv g p)))]
@@ -90,10 +90,6 @@
 
 ;(normProgram (line-of 'z napkin (normProgram 'p)))
 (normProgram
- (id-algorithm
-  (list (syntax y))
-  (list (syntax x))
-  napkin
-  (normProgram (syntax p))))
+ (id-algorithm '(y) '(x) napkin (normProgram #'p)))
 
 (provide id-algorithm)

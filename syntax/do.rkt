@@ -34,6 +34,7 @@
 
 (provide doReverse)
 
+;; 3. Reifying the structure
 (define (doReify d s)
    (define (doReifyList s)
      (match s
