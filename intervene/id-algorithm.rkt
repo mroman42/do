@@ -89,7 +89,9 @@
   (acc-id-algorithm sv tv (dag-visibles g) g p))
 
 ;(normProgram (line-of 'z napkin (normProgram 'p)))
-(normProgram
- (id-algorithm '(y) '(x) napkin (normProgram #'p)))
+
+(define example
+  (normProgram
+ (id-algorithm '(y) '(x) napkin (normProgram #'p))))
 
 (provide id-algorithm)

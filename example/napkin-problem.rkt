@@ -54,7 +54,8 @@
      y <- (k u2 x)
      return (list w z x y)))
 
-(display "actual intervention")
+
+(define actual-intervention
 (lDo Norm
      u1 <- sigma1
      u2 <- sigma2
@@ -65,11 +66,11 @@
                '() <- (observe x 'p)
                return x)
      y <- (k u2 x)
-     return y)
+     return y))
 
 
 
-(display "Jacobs' solution.")
+(define jacobs-solution
 (lDo Norm
      w <- (lDo Norm
                (list w z x y) <- p
@@ -83,7 +84,7 @@
                '() <- (observe z z0)
                return (list x y))
      '() <- (observe x 'p)
-     return y)
+     return y))
 
 
 (define jacobs-non-solution
@@ -119,7 +120,7 @@
      '() <- (observe x 'p) 
      return y))
 
-(display "Modified solution.")
+(define modified-solution
 (lDo Norm
      (list x y) <- (lDo Norm
                         w <- (lDo Norm
@@ -135,7 +136,7 @@
                                            return (list x y))
                         return (list x y))
      '() <- (observe x 'p)
-     return y)
+     return y))
 
 (define my-solution
 (lDo Norm
@@ -163,7 +164,7 @@
                return y)
      return y))
 
-(display "My other solution.")
+(define my-other-solution
 (lDo Norm
      ;; ID(Y <- X; WZXY)
      ;; IDENTIFY(W; WXY)
@@ -212,10 +213,10 @@
                          return y)
                '() <- (observe x1 'p)
                return y)
-     return y)
+     return y))
 
 
-(display "Automatic solution.")
+(define automatic-solution
 (lDo Norm
      ;; ID(Y <- X; WZXY)
 
@@ -241,7 +242,7 @@
                          '() <- (observe w w1997)
                          return y1999)
                return y)
-     return y)
+     return y))
 
 
 

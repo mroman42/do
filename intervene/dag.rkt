@@ -8,10 +8,17 @@
   (check-equal? (list->set a) (list->set b)))
 
 (define (dagParse stx)
-  (syntax-case stx (visible)
+  (syntax-case stx ()
     [(_ o <- is more ...)
      (dagDependency (syntax->datum #'o) (syntax->datum #'is) (dagParse #'(dummyDag more ...)))]
     [(_ visible xs) (dagVisible (syntax->datum #'xs))]))
+
+(define (dagParseVisibles stx)
+  (syntax-case stx ()
+    [(_ o <- is more ...)
+     (dagParseVisibles #'(dummyDag more ...))]
+    [(_ visible xs) #'xs]))
+
 
 (define-syntax Dag
   (syntax-rules (<-)
@@ -253,3 +260,4 @@
 (provide dag-c-component-until)
 (provide dag-topological-sort-of)
 (provide dagParse)
+(provide dagParseVisibles)
