@@ -12,6 +12,8 @@
 {require (for-syntax do/intervene/dag)}
 {require (for-syntax do/leftdo)}
 
+(require do/example/napkin-problem)
+
 (define-syntax (Macro stx)
   (syntax-case stx ()
     [(Identify (_ qx) )
@@ -37,13 +39,25 @@
 ;; The problem is that the dag should be defined for-syntax.
 ;; But I would like to use the dag to 
 
+{begin-for-syntax
+
+  (define (lambda-interventions xs program)
+    #`(lambda #,xs #,program))
+  
+}
+
+(define (lambda-interventions xs program)
+  #`(lambda #,xs #,program))
+
+
 (define-syntax (Identify stx)
   (syntax-case stx ()
     [(Identify p
                (y ...)
                (x ...) g)
      (with-syntax ([stx-transformed
-                    (normReify #'lDo #'Norm #'list (normProgram
+                    (normReifyWithLambda (syntax->datum #'(x ...))
+                               (normProgram
                                 (id-algorithm
                                  (syntax->datum #'(y ...))
                                  (syntax->datum #'(x ...))
@@ -51,21 +65,14 @@
                                  #'p)))])
        #'stx-transformed)]))
 
-;; (Identify p (y) (x)
-;;           (Dag
-;;            u1 <- ()
-;;            u2 <- ()
-;;            w <- (u1 u2)
-;;            z <- (w)
-;;            x <- (z u1)
-;;            y <- (x u2)
-;;            visible (w z x y)))
 
-(define p (uniform 'a 'b))
 
-(define-syntax (EXAMPLE stx)
-  (syntax-case stx ()
-    [(EXAMPLE p)
-     (with-syntax ([stx-tr (example #'p)]) #'stx-tr)]))
 
-(EXAMPLE p)
+((Identify p (y) (x)
+     (Dag u1 <- ()
+          u2 <- ()
+          w <- (u1 u2)
+          z <- (w)
+          x <- (z u1)
+          y <- (x u2)
+          visible (w z x y))) 'p)

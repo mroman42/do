@@ -253,3 +253,5 @@
      '() <- (observe x 'p)
      return y))
 
+
+(provide p)

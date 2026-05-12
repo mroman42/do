@@ -7,8 +7,8 @@
 (provide (struct-out normReturn))
 (provide (struct-out normObservation))
 (provide (struct-out normStatement))
-
 (require do/intervene/syntax-helpers)
+
 {require (for-syntax do/leftdo)}
 {require (for-syntax racket/base)}
 {require (for-syntax racket/list)}
@@ -74,47 +74,66 @@
              (match (generate-temporaries (list x))
                [(list x) (syntax->datum x)]))))
 
-(define (vars-to-syntax LIST vs)
+(define temporary-name-stx
+  (memoize (lambda (x)
+             (match (generate-temporaries (list x))
+               [(list x) x]))))
+
+(define (vars-to-syntax vs)
   (with-syntax
-    ([(items ...) (cons LIST (map (lambda (v) (temporary-name v)) vs))])
+    ([(items ...) (cons #'list (map (lambda (v) (temporary-name-stx v)) vs))])
     #'(items ...)))
 
-(define (temporary-case LIST vs)
-  (if (list? vs)
-      (vars-to-syntax LIST vs)
-      (temporary-name vs)))
+(define (temporary-vars vs)
+  (with-syntax
+    ([(items ...) (map (lambda (v) (temporary-name-stx v)) vs)])
+    #'(items ...)))
 
-(define (normReify lDo Norm LIST s)
+
+(define (temporary-case vs)
+  (if (list? vs)
+      (vars-to-syntax vs)
+      (temporary-name-stx vs)))
+
+(define (normReify s)
    (define (normReifyList s)
      (match s
        [(normProgram s)
           (if (or (normReturn? s)
                   (normObservation? s)
                   (normStatement? s))
-           (append (list lDo Norm) (normReifyList s))
+           (append (list #'lDo #'Norm) (normReifyList s))
            (list s))]
        [(normReturn vs)
         (if (list? vs)
-            (list #'return (vars-to-syntax LIST vs))
-            (list #'return (temporary-name vs)))]
+            (list #'return (vars-to-syntax vs))
+            (list #'return (temporary-name-stx vs)))]
        [(normObservation x y next)
-        (append (list (temporary-case LIST 'obs) #'<- #`(observe #,(temporary-name x) #,(temporary-name y)))
+        (append (list (temporary-case 'obs) #'<- #`(observe #,(temporary-name-stx x) #,(temporary-name-stx y)))
                 (normReifyList next))]
        [(normStatement x e next)
         (if (normProgram? e)
-            (append (list (temporary-case LIST x) #'<- (normReify lDo Norm LIST e))  
+            (append (list (temporary-case x) #'<- (normReify e))  
                     (normReifyList next))
-            (append (list (temporary-case LIST x) #'<- e)
+            (append (list (temporary-case x) #'<- e)
                     (normReifyList next)))]
        [p (list p)]))
   (with-syntax ([(items ...) (normReifyList s)])
      #'(items ...)))
 
+(define (normReifyWithLambda xs s)
+  #`(lambda #,(temporary-vars xs) #,(normReify s)))
 
 (provide normReify)
+(provide normReifyWithLambda)
 
 (define (example p)
-  (normReify #'lDo #'Norm #'list (normProgram
+  (normReify (normProgram
      (normStatement 'x p (normReturn 'x)))))
+
+(define (example2 p)
+  (normReifyWithLambda (syntax->datum #'(y)) (normProgram
+     (normStatement 'x p (normReturn 'y)))))
+
 
 (provide example)
