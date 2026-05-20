@@ -10,30 +10,21 @@
 ;; REFERENCES.
 ;;  - https://arxiv.org/pdf/1807.05609
 
-(require (except-in do/monad/norm observe))
-(require do/notation/leftdo)
-(require do/do-do)
+(require do/monad/norm)
+(require do/notation/unbias/leftDo)
 
 
 (define prevalence
-  (distribution ['ill 1/3] ['healthy 2/3]))
+  (distribution ['(ill) 1/3] ['(healthy) 2/3]))
 
 (define (channel patient)
   (match patient
-    ['ill      (distribution ['positive 3/4] ['negative 1/4])]
-    ['healthy  (distribution ['positive 1/2] ['negative 1/2])]))
-
-(define (observe x y)
-  (match (equal? x y)
-    [#t  (distribution ['() 1])]
-    [#f  (distribution)]))
+    ['ill      (distribution ['(positive) 3/4] ['(negative) 1/4])]
+    ['healthy  (distribution ['(positive) 1/2] ['(negative) 1/2])]))
 
 
-(leftDo Norm
-    patient <- prevalence
-    test <- (channel patient)
-    '() <- (observe 'positive test) 
-    return patient)
-
-
-
+(do Norm
+    (patient) <- prevalence
+    (test) <- (channel patient)
+    () <- (observe 'positive test)
+    return (patient))

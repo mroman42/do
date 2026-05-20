@@ -5,10 +5,11 @@
 (require do/intervene/syntax-observations)
 
 ;; NORMCONDITIONAL
-;; lDo Norm
+;; (lDo Norm
 ;;     vs{temporary} <- p
 ;;     observe bs bs{temporary}
-;;     return as
+;;     return as)
+
 (define (normConditionals as bs vs p)
   (define temporary-variables
     (map (lambda (x) (syntax->datum x)) (generate-temporaries vs)))

@@ -7,11 +7,12 @@
 (provide (struct-out normReturn))
 (provide (struct-out normObservation))
 (provide (struct-out normStatement))
+
 (require do/intervene/syntax-helpers)
 
-{require (for-syntax do/leftdo)}
-{require (for-syntax racket/base)}
-{require (for-syntax racket/list)}
+;{require (for-syntax do/leftdo)}
+;{require (for-syntax racket/base)}
+;{require (for-syntax racket/list)}
 {require (for-template do/leftdo)}
 {require (for-template do/monad/norm)}
 {require (for-template racket/base)}

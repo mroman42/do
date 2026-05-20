@@ -1,21 +1,7 @@
 #lang racket
 
 (require do/monad)
-
-;; Right associative do-notation.
-(define-syntax rDo
-  (syntax-rules (<- return)
-    [(rDo m var <- mexp rest ...)
-     ((monad-bind m) mexp (match-lambda [var (rDo m rest ...)]))]
-    [(rDo m return value)
-     ((monad-return m) value)]))
-
-(define-syntax rightDo
-  (syntax-rules (<- return)
-    [(rDo m var <- mexp rest ...)
-     ((monad-bind m) mexp (match-lambda [var (rDo m rest ...)]))]
-    [(rDo m return value)
-     ((monad-return m) value)]))
+(require do/notation/rightDo)
 
 
 ;; Auxiliary accumulating do-notation.
@@ -45,6 +31,6 @@
      (accDo m (rDo m return (list)) (list) rest ...)]))
 
 
-(provide rDo
-         lDo
-         rightDo)
+(provide lDo)
+(provide (all-from-out do/monad))
+(provide (all-from-out do/notation/rightDo))
