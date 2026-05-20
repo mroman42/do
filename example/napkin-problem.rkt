@@ -54,9 +54,30 @@
      y <- (k u2 x)
      return (list w z x y)))
 
+(define (recover-p)
+  (lDo Norm
+       w <- (lDo Norm
+                 (list w z x y) <- p
+                 return w)
+       z <- (lDo Norm
+                 (list w0 z x y) <- p
+                 '() <- (observe w w0)
+                 return z)
+       x <- (lDo Norm
+                 (list w0 z0 x y) <- p
+                 '() <- (observe w w0)
+                 '() <- (observe z z0)
+                 return x)
+       y <- (lDo Norm
+                 (list w0 z0 x0 y) <- p
+                 '() <- (observe w w0)
+                 ;'() <- (observe z z0)
+                 '() <- (observe x x0)
+                 return y)
+       return (list w z x y)))
 
 (define actual-intervention
-(lDo Norm
+  (lDo Norm
      u1 <- sigma1
      u2 <- sigma2
      w <- (f u1 u2)
@@ -71,12 +92,12 @@
 
 
 (define jacobs-solution
-(lDo Norm
+  (lDo Norm
      w <- (lDo Norm
                (list w z x y) <- p
                return w)
      z <- (lDo Norm
-               (list w z x y) <- p
+               (list w0 z x y) <- p
                return z)
      (list x y) <- (lDo Norm
                (list w0 z0 x y) <- p
@@ -88,7 +109,7 @@
 
 
 (define jacobs-non-solution
-(lDo Norm
+  (lDo Norm
      w <- (lDo Norm
                (list w z x y) <- p
                return w)

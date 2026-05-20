@@ -14,6 +14,7 @@
 (require do/monad)
 (require do/monad/norm)
 (require do/leftdo)
+(require do/intervene/rewrite-conditional)
 
 (define survey
   (distribution

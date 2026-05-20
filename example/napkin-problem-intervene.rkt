@@ -172,6 +172,7 @@
                   Setting (smoking) To (habits))
        return cancer)
 
+
 ;; (lDo Norm
 ;;      ;; Given this survey.
 ;;      survey <- (pure (distribution
