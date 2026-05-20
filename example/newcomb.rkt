@@ -1,13 +1,14 @@
 #lang racket
 
-(require leftdo/monad)
-(require leftdo/monad-norm)
-(require leftdo/leftdo)
+(require do/monad/norm)
+(require do/notation/unbias/leftDo)
+
+;; This file formalizes Newcomb's problem.
 
 (define (newcomb x)
-  (lDo Norm
-       action <- (uniform 'oneBox 'twoBox)
-       '() <- (observe action x)
-       prediction <- (uniform 'oneBox 'twoBox)
-       '() <- (observe action prediction)
-       return (list action prediction)))
+  (do Norm
+       (action) <- (uniform 'oneBox 'twoBox)
+       () <- (observe action x)
+       (prediction) <- (uniform 'oneBox 'twoBox)
+       () <- (observe action prediction)
+       return (action prediction)))
