@@ -32,8 +32,8 @@
           ['u (distribution ['p 1/7] ['q 6/7])]
           ['v (distribution ['p 1/3] ['q 2/3])])]
     ['b (match z
-          ['u (distribution ['p 1/7] ['q 6/7])]
-          ['v (distribution ['p 1/3] ['q 2/3])])]))
+          ['u (distribution ['p 1/4] ['q 3/4])]
+          ['v (distribution ['p 2/5] ['q 3/5])])]))
 
 (define (k u2 x)
   (match u2
@@ -41,7 +41,7 @@
           ['p (distribution ['p 1/4] ['q 3/4])]
           ['q (distribution ['p 2/5] ['q 3/5])])]
     ['b (match x
-          ['p (distribution ['p 1/9] ['q 8/9])]
+          ['p (distribution ['p 1/8] ['q 7/8])]
           ['q (distribution ['p 1/3] ['q 2/3])])]))
 
 (define p
@@ -138,7 +138,7 @@
      '() <- (observe x 'p)
      return y))
 
-(define my-solution
+(define (my-solution)
 (lDo Norm
      z <- (lDo Norm
                (list w0 z x y) <- p
@@ -164,7 +164,7 @@
                return y)
      return y))
 
-(define my-other-solution
+(define (my-other-solution)
 (lDo Norm
      ;; ID(Y <- X; WZXY)
      ;; IDENTIFY(W; WXY)
@@ -216,7 +216,7 @@
      return y))
 
 
-(define automatic-solution
+(define automatic-non-solution
 (lDo Norm
      ;; ID(Y <- X; WZXY)
 
@@ -227,15 +227,15 @@
 
      ;; IDENTIFY(Z; Z), input on w
      z <- (lDo Norm
-               (list w1 z1 x1 y1) <- p
-               '() <- (observe w1 w)
-               return z1)
+                (list w1 z1 x1 y1) <- p
+                '() <- (observe w1 w)
+                return z1)
 
      ;; IDENTIFY(Y; WXY), input on z; intervention on x
      y <- (lDo Norm
                w <- (lDo Norm
-                         (list w1994 z x1995 y1996) <- p
-                         return w1994)
+                          (list w1994 z x1995 y1996) <- p
+                          return w1994)
                y <- (lDo Norm
                          (list w1997 z x1998 y1999) <- p
                          '() <- (observe 'p x1998)

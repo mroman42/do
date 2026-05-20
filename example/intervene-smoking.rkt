@@ -27,4 +27,4 @@
                                 return (smoking tar cancer))
                   Setting (smoking) To (smokingHabits))
 
-       return (list smoking cancer))
+       return cancer)
