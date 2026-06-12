@@ -7,8 +7,8 @@
 
 (define (newcomb x)
   (do Norm
-       (action) <- (uniform 'oneBox 'twoBox)
+       (action) <- (uniform '(oneBox) '(twoBox))
        () <- (observe action x)
-       (prediction) <- (uniform 'oneBox 'twoBox)
+       (prediction) <- (uniform '(oneBox) '(twoBox))
        () <- (observe action prediction)
        return (action prediction)))
