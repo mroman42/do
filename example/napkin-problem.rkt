@@ -96,8 +96,21 @@
      z <- (lDo Norm
                (list w0 z x y) <- p
                return z)
-     y <- (lDo Norm
-               (list x1 y) <- (lDo Norm
+
+     w <- (lDo Norm
+               w <- (lDo Norm
+                         (list w z x y) <- p
+                         return w)                   
+               x1 <- (lDo Norm
+                          (list w0 z0 x y) <- p
+                          '() <- (observe w w0)
+                          '() <- (observe z z0)
+                          return x)
+               '() <- (observe x1 'p)
+               return w)
+     
+     (list y w2) <- (lDo Norm
+               (list w1 x1 y) <- (lDo Norm
                                    w <- (lDo Norm
                                              (list w z x y) <- p
                                              return w)                   
@@ -112,10 +125,12 @@
                                              '() <- (observe z z0)
                                              '() <- (observe 'p x0)
                                              return y)
-                                   return (list x1 y))
+                                   return (list w x1 y))
                '() <- (observe x1 'p)
-               return y)
+               '() <- (observe w1 w)
+               return (list y w1))
      return y))
+(my-solution)
 
 (define (my-other-solution)
 (lDo Norm
