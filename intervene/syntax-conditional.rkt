@@ -11,6 +11,7 @@
 ;;     return as)
 
 (define (normConditionals as bs vs p)
+
   (define temporary-variables
     (map (lambda (x) (syntax->datum x)) (generate-temporaries vs)))
 
@@ -26,8 +27,8 @@
     (map (lambda (x) (temporary x)) xs))
   
   (normStatement temporary-variables p
-                  (normObservations bs (temporaries bs)
-                                    (normReturn (temporaries as)))))
+  (normObservations bs (temporaries bs)
+  (normReturn (temporaries as)))))
 
 (define (normConditional a bs vs p)
   (define temporary-variables
