@@ -51,7 +51,6 @@
  (list 'z 'w))
 
 
-
 ;; Removes completely all of the occurrences of a list of variables on the
 ;; graph.
 (define (dag-remove ws g)
