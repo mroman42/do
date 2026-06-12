@@ -10,9 +10,16 @@
     [(do m return (var ...))
      ((monad-return m) (list var ...))]))
 
+;; (define-syntax rightDo
+;;   (syntax-rules (<- return)
+;;     [(rightDo i ...) (do i ...)]))
+
 (define-syntax rightDo
   (syntax-rules (<- return)
-    [(rightDo i ...) (do i ...)]))
+    [(rightDo m (var ...) <- mexp rest ...)
+     ((monad-bind m) mexp (match-lambda [(list var ...) (rightDo m rest ...)]))]
+    [(rightDo m return (var ...))
+     ((monad-return m) (list var ...))]))
 
 (provide do)
 (provide rightDo)
