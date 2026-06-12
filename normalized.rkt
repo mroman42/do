@@ -1,14 +1,14 @@
 #lang racket
 
-;; subdistributions.rkt
+;; NORMALIZED DISTRIBUTIONS.
 ;;
-;; This file implements the subdistribution monad as a list of pairs
-;; element/probability.
+;; This file implements normalized distributions and
+;; subdistributions using a standard encoding as
+;; lists of pairs element/probability.
 
 (require racket/struct)
 (require rackunit)
 (require do/monad)
-(require rosette)
 
 (struct subdistribution (results))
 (define (pair x y) (list x y))
@@ -160,5 +160,5 @@
          dist-uniform
          weight-of-point
          uniform)
-;(provide Subd)
+
 (provide distribution)
