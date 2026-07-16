@@ -8,31 +8,35 @@
   (syntax-rules (<- return)
 
     [(leftDo m
-             x <- f
-             y <- g
+             (x ...) <- m1
+             (y ...) <- m2
              rest ...)
      (leftDo m
-             (list x y) <- (rightDo m
-                                x <- f
-                                y <- g
-                                return (list x y))
+             (x ... y ...) <- (rightDo m
+                                (x ...) <- m1
+                                (y ...) <- m2
+                                return (x ... y ...))
              rest ...)
      ]
 
     [(leftDo m
-             x <- f
-             return v)
+             (x ...) <- f
+             return (v ...))
      (rightDo m
-          x <- f
-          return v)
+          (x ...) <- f
+          return (v ...))
     ]
 
-    [(leftDo m return v)
-     (rightDo m return v)]
+    [(leftDo m return (v ...))
+     (rightDo m return (v ...))]
     
     ))
 
+(define-syntax do
+  (syntax-rules (<- return)
+    [(do i ...) (leftDo i ...)]))
 
-(provide leftDo)
+
+(provide leftDo do)
 (provide (all-from-out do/monad))
 (provide (all-from-out do/notation/rightDo))

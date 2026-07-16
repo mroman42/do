@@ -2,20 +2,19 @@
 
 (require do/monad)
 
-;; Right associative do-notation.
-(define-syntax rDo
+(define-syntax do
   (syntax-rules (<- return)
-    [(rDo m var <- mexp rest ...)
-     ((monad-bind m) mexp (match-lambda [var (rDo m rest ...)]))]
-    [(rDo m return value)
-     ((monad-return m) value)]))
+    [(do m (var ...) <- mexp rest ...)
+     ((monad-bind m) mexp (match-lambda [(list var ...) (do m rest ...)]))]
+    [(do m return (var ...))
+     ((monad-return m) (list var ...))]))
 
 (define-syntax rightDo
   (syntax-rules (<- return)
-    [(rDo m var <- mexp rest ...)
-     ((monad-bind m) mexp (match-lambda [var (rDo m rest ...)]))]
-    [(rDo m return value)
-     ((monad-return m) value)]))
+    [(rightDo m (var ...) <- mexp rest ...)
+     ((monad-bind m) mexp (match-lambda [(list var ...) (rightDo m rest ...)]))]
+    [(rightDo m return (var ...))
+     ((monad-return m) (list var ...))]))
 
-
-(provide rDo rightDo)
+(provide do)
+(provide rightDo)
