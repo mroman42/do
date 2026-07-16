@@ -8,13 +8,13 @@
   (syntax-rules (<- return)
 
     [(leftDo m
-             (x ...) <- f
-             (y ...) <- g
+             (x ...) <- m1
+             (y ...) <- m2
              rest ...)
      (leftDo m
              (x ... y ...) <- (rightDo m
-                                (x ...) <- f
-                                (y ...) <- g
+                                (x ...) <- m1
+                                (y ...) <- m2
                                 return (x ... y ...))
              rest ...)
      ]

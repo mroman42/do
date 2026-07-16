@@ -14,7 +14,7 @@
 (require do/monad/norm)
 
 
-;; DESCRIPTION.
+;; DESCRIPTION.2
 
 ;; We are in a game show, and a prize (a car, in the
 ;; original is hidden behind one of three doors (left,
