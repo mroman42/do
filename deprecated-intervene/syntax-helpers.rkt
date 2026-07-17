@@ -13,7 +13,7 @@
     (match vs
       [(cons v vs) (string-append " " (syntaxSymbol->string v) (go vs))]
       ['() ""]))
-  (string-append "(" (go vs) ")"))
+  (string-append "(list" (go vs) ")"))
 
 (define (equalDatum? x y)
   (equal? (syntax->datum x) (syntax->datum y)))
@@ -26,9 +26,7 @@
     (match xs
       [(cons x xs) (string-append " " (symbol->string x) (go xs))]
       ['() ""]))
-  (match xs
-    [(cons x xs) (string-append "(" (symbol->string x) (go xs) ")")]
-    ['() "()"]))
+  (string-append "(list" (go xs) ")"))
 
 (define (memberDatum? x xs)
   (member (syntax->datum x) (syntax->data xs)))
