@@ -1,5 +1,10 @@
 #lang racket
 
+(define (equal-sets? as bs)
+  (equal?
+   (list->set as)
+   (list->set bs)))
+
 (define (syntaxSymbol->string x)
   (symbol->string (syntax->datum x)))
 
@@ -40,3 +45,4 @@
 (provide memberDatum?)
 (provide symbols->string)
 (provide symbols->listString)
+(provide equal-sets?)

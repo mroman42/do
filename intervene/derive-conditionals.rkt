@@ -44,3 +44,9 @@ It uses the algebraic disintegration axiom. |#
   (normReturn (temporaries as))))))
 
 (provide normConditional)
+
+
+(define (normMarginal p vs as)
+  (normConditional p vs as '()))
+
+(provide normMarginal)
