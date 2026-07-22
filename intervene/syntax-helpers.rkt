@@ -45,6 +45,15 @@
           [(cons y lr) (if (equal? x y) (append acc (list x)) (go (append acc (list y)) x lr))]))
       (go '() x l))
 
+(define (list-before x l)
+  (define (go acc x l)
+        (match l
+          ['() acc]
+          [(cons y lr) (if (equal? x y) acc (go (append acc (list y)) x lr))]))
+      (go '() x l))
+
+(define (intersect-list p q)
+  (filter (lambda (x) (member x q)) p))
 
 (provide syntaxSymbol->string)
 (provide syntaxVars->string)
@@ -55,3 +64,5 @@
 (provide symbols->listString)
 (provide equal-sets?)
 (provide until)
+(provide intersect-list)
+(provide list-before)

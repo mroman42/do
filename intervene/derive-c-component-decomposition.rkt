@@ -34,9 +34,8 @@ until now and all of the variables that we still need to explore. |#
            (normStatement (list a) (normConditional P A (list a) acc)
                           (go (cons a acc) vars-rest))
            (go (cons a acc) vars-rest)) ]
-
       ['() (normReturn S)]))
-
+  
   (normProgram (go '() A)))
 
 (provide c-component-decomposition)

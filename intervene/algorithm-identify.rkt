@@ -14,18 +14,18 @@ We assume that Q has output variables in Ts.
 The graph is used only for computing ancestors.
 
 |#
-(define (algorithm-identify q g ts cs)
+(define (algorithm-identify q g T C)
 
   ;; #1. Compute A = An(C){G{T}}, the ancestors of C in G{T}.
   (define ancestors
-    (dag-visible-ancestors cs (dag-restricted ts g)))
+    (dag-visible-ancestors C (dag-restricted T g)))
 
   ;; 2. If A = C, then output the marginal.
-  (if (equal-sets? ancestors cs)
-      (normMarginal q ts cs)
+  (if (equal-sets? ancestors C)
+      (normMarginal q T C)
       
       ;; #3. If A = T but A /= C, then output failure
-      (if (equal-sets? ancestors ts)
+      (if (equal-sets? ancestors T)
           (error "non-identifiable")
 
           ;; #4. In any other case, we use a recursive call.
@@ -33,9 +33,9 @@ The graph is used only for computing ancestors.
           ;; 4.2. Compute the marginal q[ancestors].
           ;; 4.3. Compute q[t-new] by c-component decomposition, from q[ancestors].
           ;; 4.4. Output IDENTIFY(C,t-new,q[t-new]).
-          (let* ([t-new  (dag-c-component-of (first cs) (dag-restricted ancestors g))]
-                 [q-new  (c-component-decomposition (normMarginal q ts ancestors) ancestors t-new)])
-            (algorithm-identify q-new (dag-restricted t-new g) t-new cs)))))
+          (let* ([t-new  (dag-c-component-of (first C) (dag-restricted ancestors g))]
+                 [q-new  (c-component-decomposition (normMarginal q T ancestors) ancestors t-new)])
+            (algorithm-identify q-new (dag-restricted t-new g) t-new C)))))
 
 (provide algorithm-identify)
 
@@ -53,11 +53,11 @@ The graph is used only for computing ancestors.
        visible '(x y z))
     '(x y z) '(x y)))
 
-(define (example-back-door)
-  (algorithm-identify
-   (normProgram #'p)
-   (Dag 'gender <- '()
-        'drug <- '(gender)
-        'heart <- '(gender drug)
-        visible '(gender drug heart)))
-  '())
+;; (define (example-back-door)
+;;   (algorithm-identify
+;;    (normProgram #'p)
+;;    (Dag 'gender <- '()
+;;         'drug <- '(gender)
+;;         'heart <- '(gender drug)
+;;         visible '(gender drug heart)))
+;;   '())

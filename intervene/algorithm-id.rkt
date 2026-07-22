@@ -9,40 +9,6 @@
 (require do/intervene/algorithm-identify)
 
 
-;; (define (filter-program p dc ds)
-;;   (define (go q)
-;;     (match q
-;;        [(normStatement xs m q)
-;;         (match xs
-;;           [(list x) (if (member x ds)
-;;                         (normStatement xs m (go q))
-;;                         (go q))])]
-;;        [(normObservation x y q)
-;;         (if (and (or (member x ds) (not (member x dc)))
-;;                  (or (member y ds) (not (member y dc))))
-;;             (normObservation x y (go q))
-;;             (go q))]
-;;        [(normReturn vs)
-;;         (normReturn (filter (lambda (x) (member x ds)) vs))]))
-  
-;;   (match p
-;;     [(normProgram p) (normProgram (go p))]
-;;     [q q]))
-
-;; (define (example-filter-program)
-;;   (filter-program
-;;    (normProgram
-;;     (normStatement '(x) (normProgram #'p)
-;;     (normStatement '(z) (normProgram #'p)
-;;     (normStatement '(y) (normProgram #'p)
-;;     (normObservation 'z 's1
-;;     (normObservation 'x 's2
-;;     (normObservation 'y 'z
-;;     (normObservation 'x 'y
-;;     (normReturn '(x y z))))))))))
-;;    '(x y z) '(x y)))
-
-
 #| ID ALGORITHM (Tian and Shpitser, 2009)
 
 S and T are disjoint.
