@@ -41,6 +41,7 @@ The graph is used only for computing ancestors.
                  [q-new  (c-component-decomposition (normMarginal q T A) A T-new)])
             (algorithm-identify-until q-new (dag-restricted T-new G) T-new C x)))))
 
+(provide algorithm-identify-until)
 
 (define (example)
   (algorithm-identify-until

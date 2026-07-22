@@ -7,7 +7,8 @@
 (require do/intervene/derive-conditionals)
 (require do/intervene/derive-c-component-decomposition)
 (require do/intervene/algorithm-identify)
-
+(require do/intervene/algorithm-identify-until)
+(require do/notation/normDo)
 
 #| ID ALGORITHM (Tian and Shpitser, 2009)
 
@@ -15,51 +16,52 @@ S and T are disjoint.
 G outputs variables in V.
 
 |#
-(define (algorithm-id p g ts ss)
+(define (algorithm-id p G T S)
   
   ; Visible variables in G.
-  (define vs (dag-visibles g))
+  (define V (dag-visibles G))
   
   ; Ancestors of S in the graph G{V-T}. These are the D variables in the
   ; algorithm
-  (define ds
-    (dag-visible-ancestors ss (dag-remove ts g)))
+  (define D
+    (dag-visible-ancestors S (dag-remove T G)))
 
+  ; Statement associated to a variable.
+  (define (statement-of x)
+    (let* ([Sj (dag-c-component-of-vars (list x) G)]
+           [Di (dag-c-component-of-vars (list x) (dag-restricted D G))]
+           [QSj (c-component-decomposition p V Sj)])
+      (algorithm-identify-until QSj G Sj Di x)))
+
+  ; List all statements.
+  (define (go vars)
+    (match vars
+      [(cons x vars) (normStatement (list x) (statement-of x) (go vars))]
+      ['() (normReturn S)]))
+
+  (normProgram (go D)))
+  
   ; Statement associated to a c-component of D.
-  (define (statement-of dc)
-    (printf "called ~a\n" g)
-    ; sc: component of Dc in the total graph.
-    ; qs: identification of the component sc.
-    (let* ([sc  (dag-c-component-of-vars dc g)]
-           [qs  (c-component-decomposition p vs sc)])
-      (algorithm-identify qs g sc dc)))
+  ;; (define (statement-of dc)
+  ;;   (printf "called ~a\n" G)
+  ;;   ; sc: component of Dc in the total graph.
+  ;;   ; qs: identification of the component sc.
+  ;;   (let* ([sc  (dag-c-component-of-vars dc G)]
+  ;;          [qs  (c-component-decomposition p V sc)])
+  ;;     (algorithm-identify qs G sc dc)))
 
-  (define (statement-components dcs)
-    (match dcs
-      ['() (normReturn ss)]
-      [(cons dc dcs) (normStatement dc (statement-of dc) (statement-components dcs))]))
+  ;; (define (statement-components dcs)
+  ;;   (match dcs
+  ;;     ['() (normReturn S)]
+  ;;     [(cons dc dcs) (normStatement dc (statement-of dc) (statement-components dcs))]))
   
-  (normProgram (statement-components (dag-c-components (dag-remove ts g)))))
+  ;(normProgram (statement-components (dag-c-components (dag-remove T G)))))
 
-  ;; ; Statement associated to a variable d.
-  ;; (define (statement-until dc d)
-  ;;   (let* ([sc  (dag-c-component-of (first ds) g)]
-  ;;          [qs  (c-component-decomposition p vs sc)]
-  ;;          [dpast (until dc d)])
-  ;;     (filter-program (algorithm-identify qs g sc dc) dc dpast)))
-
-  ;; ; Statements missing.
-  ;; (define (go dm)
-  ;;   (match dm
-  ;;     [(cons d dm) (normStatement (list d) (statement-until ds d) (go dm))]
-  ;;     ['() (normReturn ss)]))
-  
-  ;; (normProgram (go ds))
-  
-  
 
 ; Example
 (require do/example/data-napkin)
+(require do/monad/norm)
+(require do/intervene/simplify-unitality)
 
 (define napkin
   (Dag
@@ -72,4 +74,4 @@ G outputs variables in V.
    visible '(w z x y)))
 
 (define (example-napkin)
-   (algorithm-id (normProgram #'p) napkin '(z) '(y)))
+   (algorithm-id (normProgram #'p) napkin '(x) '(y)))
