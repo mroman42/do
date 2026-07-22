@@ -58,7 +58,7 @@ G outputs variables in V.
   ;(normProgram (statement-components (dag-c-components (dag-remove T G)))))
 
 
-; Example
+; Example Napkin
 (require do/example/data-napkin)
 (require do/monad/norm)
 (require do/intervene/simplify-unitality)
@@ -75,3 +75,5 @@ G outputs variables in V.
 
 (define (example-napkin)
    (algorithm-id (normProgram #'p) napkin '(x) '(y)))
+
+; Example Frontdoor
