@@ -77,3 +77,15 @@ G outputs variables in V.
    (algorithm-id (normProgram #'p) napkin '(x) '(y)))
 
 ; Example Frontdoor
+(require do/example/frontdoor-smoking)
+
+(define smoking
+  (Dag
+   'g <- '()
+   's <- '(g)
+   't <- '(s)
+   'c <- '(g t)
+   visible '(s t c)))
+
+(define (example-smoking)
+  (algorithm-id (normProgram #'survey) smoking '(s) '(c)))
