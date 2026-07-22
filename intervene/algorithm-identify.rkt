@@ -9,6 +9,9 @@
 #| IDENTIFY ALGORITHM.
 
 We assume that Ts and Cs have both a single component.
+We assume that Cs is in Ts.
+We assume that Q has output variables in Ts.
+The graph is used only for computing ancestors.
 
 |#
 (define (algorithm-identify q g ts cs)
@@ -20,8 +23,8 @@ We assume that Ts and Cs have both a single component.
   ;; 2. If A = C, then output the marginal.
   (if (equal-sets? ancestors cs)
       (normMarginal q ts cs)
-
-      ;; #3. If A = T, then output failure
+      
+      ;; #3. If A = T but A /= C, then output failure
       (if (equal-sets? ancestors ts)
           (error "non-identifiable")
 
@@ -33,3 +36,28 @@ We assume that Ts and Cs have both a single component.
           (let* ([t-new  (dag-c-component-of (first cs) (dag-restricted ancestors g))]
                  [q-new  (c-component-decomposition (normMarginal q ts ancestors) ancestors t-new)])
             (algorithm-identify q-new (dag-restricted t-new g) t-new cs)))))
+
+(provide algorithm-identify)
+
+
+#| EXAMPLE |#
+
+(define (example)
+  (algorithm-identify
+    (normProgram #'p)
+    (Dag
+       'z <- '()
+       'w <- '(z)
+       'y <- '()
+       'x <- '(y z)
+       visible '(x y z))
+    '(x y z) '(x y)))
+
+(define (example-back-door)
+  (algorithm-identify
+   (normProgram #'p)
+   (Dag 'gender <- '()
+        'drug <- '(gender)
+        'heart <- '(gender drug)
+        visible '(gender drug heart)))
+  '())

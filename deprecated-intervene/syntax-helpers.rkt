@@ -21,6 +21,13 @@
 (define (syntax->data xs)
   (map (lambda (x) (syntax->datum x)) xs))
 
+(define (until l x)
+      (define (go acc x l)
+        (match l
+          ['() acc]
+          [(cons y lr) (if (equal? x y) (append acc (list x)) (go (append acc (list y)) x lr))]))
+      (go '() x l))
+
 (define (symbols->listString xs)
   (define (go xs)
     (match xs

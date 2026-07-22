@@ -67,13 +67,14 @@
     [(dagVisible vs)
      (dagVisible (list-remove-vars vs))]))
 
-;; EXAMPLE
-;; (dag-remove (list 'y)
-;;   (Dag
-;;    'z <- (list)
-;;    'y <- (list)
-;;    'x <- (list 'y 'z)
-;;    visible (list 'x 'y)))
+(define (example-dag-remove)
+  (dag-remove (list 'y)
+   (Dag
+    'z <- (list)
+    'y <- (list)
+    'x <- (list 'y 'z)
+    visible (list 'x 'y))))
+
 
 (define (dag-restricted cs g)
   (match g

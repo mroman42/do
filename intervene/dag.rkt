@@ -169,14 +169,14 @@
  ; => answer
  '((w2) (x w1 y)))
 
+(define (find-in-partition x p)
+    (match p
+      [(cons u p)  (if (member x u) u (find-in-partition x p))]
+      ['()         (error "(dag-c-component-of) error! not here" p)]))
+
 ;; DAG-C-COMPONENT-OF.
 ;; In a semimarkovian `graph`, pick the c-component of a variable `v`.
 (define (dag-c-component-of v graph)
-  (define (find-in-partition x p)
-    (match p
-      [(cons u p)  (if (member x u) u (find-in-partition x p))]
-      ['()         (error "dag-c-component-of not here" graph v (dag-c-components graph))]))
-
   (dag-topological-sort-of (find-in-partition v (dag-c-components graph)) graph))
 
 (check-equal?
@@ -232,6 +232,7 @@
 
   (find-in-partition (first cs) (dag-c-components g)))
 
+
 (check-equal-sets? 
  ; => example
  (dag-c-component-of-vars '(x y)
@@ -247,7 +248,12 @@
 
 (provide (struct-out dagDependency))
 (provide (struct-out dagVisible))
+
 (provide Dag)
+
+(provide dagParse)
+(provide dagParseVisibles)
+
 (provide dag-visibles)
 (provide dag-hidden)
 (provide dag-remove)
@@ -256,7 +262,6 @@
 (provide dag-visible-ancestors)
 (provide dag-c-components)
 (provide dag-c-component-of)
+(provide dag-c-component-of-vars)
 (provide dag-c-component-until)
 (provide dag-topological-sort-of)
-(provide dagParse)
-(provide dagParseVisibles)

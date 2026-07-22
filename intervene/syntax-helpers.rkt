@@ -38,6 +38,14 @@
 (define (memberDatum? x xs)
   (member (syntax->datum x) (syntax->data xs)))
 
+(define (until l x)
+      (define (go acc x l)
+        (match l
+          ['() acc]
+          [(cons y lr) (if (equal? x y) (append acc (list x)) (go (append acc (list y)) x lr))]))
+      (go '() x l))
+
+
 (provide syntaxSymbol->string)
 (provide syntaxVars->string)
 (provide syntax->data)
@@ -46,3 +54,4 @@
 (provide symbols->string)
 (provide symbols->listString)
 (provide equal-sets?)
+(provide until)

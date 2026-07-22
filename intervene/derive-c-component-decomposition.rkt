@@ -22,20 +22,28 @@ We expect the p to output variables in as. We expect ss to be a subset of the
 as. We use an accumulator function that has all of the variables that appeared
 until now and all of the variables that we still need to explore. |#
 
-(define (c-component-decomposition p as ss)
+(define (c-component-decomposition P A S)
+  ; We will traverse A. Every time we pick a variable a in A, we see if it is in
+  ; S. If it is in S, then we compute a conditional with all previous variables.
+  ; If it is not, we attach it to the accumulator. We return S
 
   (define (go acc vars)
     (match vars
-      [(cons u vars-rest)
-       (if (member u ss)
-           (normStatement (list u) (normConditional p as (list u) acc)
-                          (go (cons u acc) vars-rest))
-           (if (member u vars)
-               (go (cons u acc) vars-rest)
-               (go acc vars-rest))) ]
+      [(cons a vars-rest)
+       (if (member a S)
+           (normStatement (list a) (normConditional P A (list a) acc)
+                          (go (cons a acc) vars-rest))
+           (go (cons a acc) vars-rest)) ]
 
-      ['() (normReturn ss)]))
+      ['() (normReturn S)]))
 
-  (normProgram (go '() as)))
+  (normProgram (go '() A)))
 
 (provide c-component-decomposition)
+
+
+; EXAMPLE
+(define (example)
+  (c-component-decomposition (normProgram #'p)
+                             '(x y z a b c)
+                             '(x a c)))
