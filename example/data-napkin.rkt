@@ -24,8 +24,8 @@
 
 (define (g w)
   (match w
-    ['x (distribution ['(u) 1/2] ['(v) 1/2])]
-    ['y (distribution ['(u) 1/9] ['(v) 8/9])]
+    ['x (distribution ['(u) 4/5] ['(v) 1/5])]
+    ['y (distribution ['(u) 2/9] ['(v) 7/9])]
     ['z (distribution ['(u) 1/2] ['(v) 1/2])]))
 
 (define (h u1 z)
@@ -34,17 +34,17 @@
           ['u (distribution ['(p) 1/7] ['(q) 6/7])]
           ['v (distribution ['(p) 1/3] ['(q) 2/3])])]
     ['b (match z
-          ['u (distribution ['(p) 1/4] ['(q) 3/4])]
+          ['u (distribution ['(p) 1/2] ['(q) 1/2])]
           ['v (distribution ['(p) 2/5] ['(q) 3/5])])]))
 
 (define (k u2 x)
   (match u2
     ['a (match x
-          ['p (distribution ['(p) 1/4] ['(q) 3/4])]
-          ['q (distribution ['(p) 2/5] ['(q) 3/5])])]
+          ['p (distribution ['(p) 2/5] ['(q) 3/5])]
+          ['q (distribution ['(p) 3/5] ['(q) 2/5])])]
     ['b (match x
-          ['p (distribution ['(p) 1/8] ['(q) 7/8])]
-          ['q (distribution ['(p) 1/3] ['(q) 2/3])])]))
+          ['p (distribution ['(p) 1/7] ['(q) 6/7])]
+          ['q (distribution ['(p) 1/4] ['(q) 3/4])])]))
 
 (define p
   (do Norm
