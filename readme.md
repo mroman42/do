@@ -13,26 +13,24 @@ that the host announces the middle door. If we associate to the left, we obtain
 the usual solution.
 
 ``` Racket
-(ldo Norm
-       car <- (uniform (list 'left 'middle 'right))
-       choice <- (uniform (list 'left 'middle 'right))
-       announce <- (host car choice)
-       o1 <- (observe choice 'left)
-       o2 <- (observe announce 'middle)
-       pure car)
+(do (car) <- (uniform (list 'left 'middle 'right))
+    (choice) <- (uniform (list 'left 'middle 'right))
+    (announce) <- (host car choice)
+    () <- (observe choice 'left)
+    () <- (observe announce 'middle)
+    return (car))
 >>> '((left 1/3) (right 2/3))
 ```
 
 However, if we associate to the right, we obtain the solution that assumes that the host intervenes in the program.
 
 ``` Racket
-(rdo Norm
-       car <- (uniform (list 'left 'middle 'right))
-       choice <- (uniform (list 'left 'middle 'right))
-       announce <- (host car choice)
-       o1 <- (observe choice 'left)
-       o2 <- (observe announce 'middle)
-       pure car)
+(do (car) <- (uniform (list 'left 'middle 'right))
+    (choice) <- (uniform (list 'left 'middle 'right))
+    (announce) <- (host car choice)
+    () <- (observe choice 'left)
+    () <- (observe announce 'middle)
+    return (car))
 >>> '((left 1/2) (right 1/2))
 ```
 
@@ -40,5 +38,5 @@ In recent joint work with Di Lavore and Széles, we show how this normalization
 "almost-moand" arises as a "distributive sesquilaw". If you want other examples of
 magmoid and are comfortable with category theory, I highly recommend the work on duploids linked below.
 
- - [Accepting Normalization via Markov Magmoids.](https://arxiv.org/pdf/2510.01131)
- - [Classical notions of computation and the Hasegawa-Thielecke theorem](https://arxiv.org/abs/2502.13033)
+ - [The Magmoid of Normalized Stochastic Kernels.](https://arxiv.org/pdf/2510.01131)
+ - [Classical notions of computation and the Hasegawa-Thielecke theorem.](https://arxiv.org/abs/2502.13033)
