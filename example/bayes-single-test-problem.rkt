@@ -11,7 +11,7 @@
 ;;  - https://arxiv.org/pdf/1807.05609
 
 (require do/monad/norm)
-(require do/notation/unbias/leftDo)
+(require do/notation/leftDo)
 
 
 (define prevalence
@@ -22,9 +22,11 @@
     ['ill      (distribution ['(positive) 3/4] ['(negative) 1/4])]
     ['healthy  (distribution ['(positive) 1/2] ['(negative) 1/2])]))
 
+(define (single-test-problem)
+  (do Norm
+      (patient) <- prevalence
+      (test) <- (channel patient)
+      () <- (observe 'positive test)
+      return (patient)))
 
-(do Norm
-    (patient) <- prevalence
-    (test) <- (channel patient)
-    () <- (observe 'positive test)
-    return (patient))
+(single-test-problem)

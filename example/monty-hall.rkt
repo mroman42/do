@@ -9,12 +9,12 @@
 ;;  Letters to the Editor. American Statistician.
 ;;  Steve Selvin, 1975.
 
-(require (except-in do/notation/unbias/leftDo do))
-(require do/notation/unbias/rightDo)
+(require (except-in do/notation/leftDo do))
+(require do/notation/rightDo)
 (require do/monad/norm)
 
 
-;; DESCRIPTION.2
+;; DESCRIPTION.
 
 ;; We are in a game show, and a prize (a car, in the
 ;; original is hidden behind one of three doors (left,
@@ -27,6 +27,8 @@
 ;; change doors and pick the other one that remains
 ;; closed. Should we change doors?
 
+(define uniformDoor (uniform '(L) '(M) '(R)))
+
 ;; HOST.
 ;; Let us first formalize the behaviour of the host: it
 ;; picks randomly and uniformly among the doors that have
@@ -34,15 +36,15 @@
 ;; car.
 (define (host car choice)
   (match (cons car choice)
-    [(cons 'left   'left)   (uniform '(middle) '(right))]
-    [(cons 'left   'middle) (uniform '(right))]
-    [(cons 'left   'right)  (uniform '(left))]
-    [(cons 'middle 'left)   (uniform '(right))]
-    [(cons 'middle 'middle) (uniform '(left) '(right))]
-    [(cons 'middle 'right)  (uniform '(left))]
-    [(cons 'right  'left)   (uniform '(middle))]
-    [(cons 'right  'middle) (uniform '(left))]
-    [(cons 'right  'right)  (uniform '(left) '(middle))]))
+    [(cons 'L 'L)  (uniform '(M) '(R))]
+    [(cons 'L 'M)  (uniform '(R))]
+    [(cons 'L 'R)  (uniform '(L))]
+    [(cons 'M 'L)  (uniform '(R))]
+    [(cons 'M 'M)  (uniform '(L) '(R))]
+    [(cons 'M 'R)  (uniform '(L))]
+    [(cons 'R 'L)  (uniform '(M))]
+    [(cons 'R 'M)  (uniform '(L))]
+    [(cons 'R 'R)  (uniform '(L) '(M))]))
 
 ;; FORMULATION.
 
@@ -59,17 +61,20 @@
 ;;
 ;; What is the probability distribution of the car?
 
-(define l-monty-hall
+(define (l-monty-hall)
   (leftDo Norm
-    (car) <- (uniform '(left) '(middle) '(right))
-    (door) <- (host car 'middle)
-    () <- (observe door 'left)
-    return (car)))
+    (prize) <- uniformDoor
+    (door) <- (host prize 'M)
+    () <- (observe door 'L)
+    return (prize)))
 
-(define r-monty-hall
+(define (r-monty-hall)
   (rightDo Norm
-    (car) <- (uniform '(left) '(middle) '(right))
-    (door) <- (host car 'middle)
-    () <- (observe door 'left)
-    return (car)))
+    (prize) <- uniformDoor
+    (door) <- (host prize 'M)
+    () <- (observe door 'L)
+    return (prize)))
+
+(l-monty-hall)
+(r-monty-hall)
 

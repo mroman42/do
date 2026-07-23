@@ -9,12 +9,8 @@
 ;; Reference.
 ;; Causal Inference in Statistics: A Primer -- Pearl, Glymour, and Jewell.
 
+(require do/notation/normDo)
 
-(require do/notation/unbias/leftDo)
-(require do/monad)
-(require do/monad/norm)
-(require do/leftdo)
-(require do/intervene/rewrite-conditional)
 
 (define survey
   (distribution
@@ -29,15 +25,15 @@
 
 
 (define (estimate-intervention i)
-  (do Norm
-      (zp) <- (do Norm
+  (do 
+      (zp) <- (do 
                   (x z y) <- survey
                   () <- (observe i x)
                   return (z))
-      (xp) <- (do Norm
+      (xp) <- (do 
                   (x z y) <- survey
                   return (x))
-      (y)  <- (do Norm
+      (y)  <- (do 
                   (x z y) <- survey
                   () <- (observe x xp)
                   () <- (observe z zp)
@@ -45,6 +41,7 @@
       return (y)))
 
 
-(estimate-intervention 'smoker)
-(estimate-intervention 'nonsmoker)
+;(estimate-intervention 'smoker)
+;(estimate-intervention 'nonsmoker)
 
+(provide survey)
