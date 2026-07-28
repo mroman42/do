@@ -6,7 +6,7 @@
 (require do/intervene/syntax-helpers)
 (require do/intervene/derive-conditionals)
 (require do/intervene/derive-c-component-decomposition)
-(require do/intervene/algorithm-identify)
+;(require do/intervene/algorithm-identify)
 (require do/intervene/algorithm-identify-until)
 (require do/notation/normDo)
 
