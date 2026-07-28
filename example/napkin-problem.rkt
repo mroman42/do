@@ -5,6 +5,9 @@
 (require do/monad/norm)
 (require do/notation/normDo)
 (require do/example/data-napkin)
+(require do/intervene/dag)
+(require do/intervene/algorithm-id)
+(require do/intervene/syntax)
 
 
 ;; This file contains a collection of solutions and non-solutions to the napkin
@@ -21,6 +24,62 @@
                  return (x))
       (y) <- (k u2 x)
       return (y)))
+
+(require do/example/data-napkin)
+(require do/monad/norm)
+(require do/intervene/simplify-unitality)
+(require do/intervene/derive-interventions)
+
+(define napkin
+  (Dag
+   'u1 <- '()
+   'u2 <- '() 
+   'w <- '(u1 u2)
+   'z <- '(w)
+   'x <- '(z u1)
+   'y <- '(x u2)
+   visible '(w z x y)))
+
+(InterveneStx p
+  WithModel (do
+                u1 <- ()
+                u2 <- ()
+                w <- (u1 u2)
+                z <- (w)
+                x <- (z u1)
+                y <- (x u2)
+                visible (w z x y))
+  Setting (x) To ('p) In (y))
+
+(define (example-napkin)
+   (algorithm-id (normProgram #'p) napkin '(x) '(y)))
+
+(define (solution)
+  (define z 'u)
+  (define x 'p)
+  (do 
+    (x52 y53) <- (do 
+            (x49 w50 y51) <- (do 
+                    (w) <- (do 
+                            (w37 z38 x39 y40) <- p
+                            return (w37))
+                    (x) <- (do 
+                            (w41 z42 x43 y44) <- p
+                            () <- (observe z z42)
+                            () <- (observe w w41)
+                            return (x43))
+                    (y) <- (do 
+                            (w45 z46 x47 y48) <- p
+                            () <- (observe x x47)
+                            () <- (observe z z46)
+                            () <- (observe w w45)
+                            return (y48))
+                    return (x w y))
+            return (x49 y51))
+    () <- (observe x x52)
+    return (y53)))
+
+
 
 ;; (define (jacobs-solution)
 ;;   (lDo Norm

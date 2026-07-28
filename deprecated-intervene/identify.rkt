@@ -65,7 +65,7 @@
 
 (define-syntax (Intervene stx)
   (syntax-case stx ()
-    [(_ p _ g _ (x ...) _ (i ...) )
+    [(_ p _ g _ (x ...) (y ...) _ (i ...) )
      (with-syntax ([stx-transformed
                     #`(#,(normReifyWithLambda (syntax->datum #'(x ...))
                                (normProgram

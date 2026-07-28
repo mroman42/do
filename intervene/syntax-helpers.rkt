@@ -6,7 +6,8 @@
    (list->set bs)))
 
 (define (syntaxSymbol->string x)
-  (symbol->string (syntax->datum x)))
+  ;(symbol->string (syntax->datum x)))
+  (format "~a" (syntax->datum x)))
 
 (define (symbols->string xs)
   (match xs

@@ -10,6 +10,7 @@
 ;; Causal Inference in Statistics: A Primer -- Pearl, Glymour, and Jewell.
 
 (require do/notation/normDo)
+(require do/intervene/derive-interventions)
 
 
 (define survey
@@ -40,6 +41,15 @@
                   return (y))
       return (y)))
 
+
+(Intervene survey
+  WithModel (do
+    gene <- ()
+    smoking <- (gene)
+    tar <- (smoking)
+    cancer <- (gene tar)
+    visibles (smoking tar cancer))
+  Setting (smoking) To ('nonsmoker) In (cancer))
 
 ;(estimate-intervention 'smoker)
 ;(estimate-intervention 'nonsmoker)
