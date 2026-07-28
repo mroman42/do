@@ -7,6 +7,7 @@
 (require (for-syntax do/intervene/syntax))
 (require (for-syntax do/intervene/dag))
 (require (for-syntax do/intervene/reify))
+(require (for-syntax do/intervene/simplify-unitality))
 
 
 (define-syntax (InterveneStx stx)
@@ -14,11 +15,11 @@
     [(_ p _ g _ (x ...) _ (i ...) _ (y ...))
      (with-syntax
        ([stx-transformed
-           #`(display #,(algorithm-id
+           #`(display #,(simplify-unitality (algorithm-id
                  (normProgram #'p)
                  (dagParse #'g)
                  (syntax->datum #'(x ...))
-                 (syntax->datum #'(y ...))))])
+                 (syntax->datum #'(y ...)))))])
        #'stx-transformed)]))
 
 (define-syntax (Intervene2 stx)
@@ -33,7 +34,7 @@
                  (syntax->datum #'(y ...)))))])
        #'stx-transformed)]))
 
-(define-syntax (InterveneT stx)
+(define-syntax (Intervene stx)
   (syntax-case stx ()
     [(_ p _ g _ (x ...) _ (i ...) _ (y ...))
      (with-syntax
@@ -48,7 +49,7 @@
             (first (first p)))])
        #'stx-transformed)]))
 
-(define-syntax (Intervene stx)
+(define-syntax (InterveneT stx)
   (syntax-case stx ()
     [(_ p _ g _ (x ...) _ (i ...) _ (y ...))
      (with-syntax

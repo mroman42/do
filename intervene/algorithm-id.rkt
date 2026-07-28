@@ -61,60 +61,19 @@ G outputs variables in V.
 
 
 ; Example Napkin
-(require do/example/data-napkin)
-(require do/monad/norm)
-(require do/intervene/simplify-unitality)
-
-(define napkin
-  (Dag
-   'u1 <- '()
-   'u2 <- '() 
-   'w <- '(u1 u2)
-   'z <- '(w)
-   'x <- '(z u1)
-   'y <- '(x u2)
-   visible '(w z x y)))
-
-(define (example-napkin)
-   (algorithm-id (normProgram #'p) napkin '(x) '(y)))
-
-(define (solution)
-  (define z 'u)
-  (define x 'p)
-  (do 
-    (x52 y53) <- (do 
-            (x49 w50 y51) <- (do 
-                    (w) <- (do 
-                            (w37 z38 x39 y40) <- p
-                            return (w37))
-                    (x) <- (do 
-                            (w41 z42 x43 y44) <- p
-                            () <- (observe z z42)
-                            () <- (observe w w41)
-                            return (x43))
-                    (y) <- (do 
-                            (w45 z46 x47 y48) <- p
-                            () <- (observe x x47)
-                            () <- (observe z z46)
-                            () <- (observe w w45)
-                            return (y48))
-                    return (x w y))
-            return (x49 y51))
-    () <- (observe x x52)
-    return (y53)))
 
 ; Example Frontdoor
-(require do/example/frontdoor-smoking)
+;; (require do/example/frontdoor-smoking)
 
-(define smoking
-  (Dag
-   'g <- '()
-   's <- '(g)
-   't <- '(s)
-   'c <- '(g t)
-   visible '(s t c)))
+;; (define smoking
+;;   (Dag
+;;    'g <- '()
+;;    's <- '(g)
+;;    't <- '(s)
+;;    'c <- '(g t)
+;;    visible '(s t c)))
 
-(define (example-smoking)
-  (algorithm-id (normProgram #'survey) smoking '(s) '(c)))
+;; (define (example-smoking)
+;;   (algorithm-id (normProgram #'survey) smoking '(s) '(c)))
 
 
