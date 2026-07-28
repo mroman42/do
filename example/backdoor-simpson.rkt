@@ -19,6 +19,11 @@
      ['(male treatment attack)    8/120]
      ['(male treatment benign)   12/120]))
 
+(define (estimate-observation a)
+  (do (g d s) <- observational
+      () <- (observe s a)
+      return (y))
+
 (define (estimate-intervention a)
   (do 
       (u x1 y1) <- observational
@@ -48,7 +53,7 @@
 (define (example-simpson)
   (algorithm-id (normProgram #'observational) simpson '(drug) '(heart)))
 
-(InterveneT observational           
+(Intervene observational           
  WithModel (do
    gender <- ()
    drug <- (gender)
