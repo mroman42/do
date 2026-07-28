@@ -1,12 +1,15 @@
-# Left-do
+# A Magmadic Metalanguage for Causal Inference
 
-Haskell's bind is left-associative, but Haskell's do-notation (Kleisli
-composition) is right-associative.  This is an implementation of both
-left and right do-notation for arbitrary monad-like constructions in Racket.
+Monadic bind is usually left-associative, but do-notations (e.g., Haskell's)
+are right-associative. This is an implementation of both left and right
+do-notation for arbitrary monad-like constructions in Racket. 
 
 Of course, left and right-associative do-notation coincide for any monad, but
 there are some constructions -- like probabilistic normalization -- that do not
-form a monad but only a non-associative monad. For these, we can modulate the semantics of a do-notation block by changing how statements associate.
+form a monad but only a non-associative monad. For these, we can modulate the
+semantics of a do-notation block by changing how statements associate.
+
+## Causal inference
 
 An example is the Monty Hall problem. Let us assume we pick the left door and
 that the host announces the middle door. If we associate to the left, we obtain
@@ -35,8 +38,9 @@ However, if we associate to the right, we obtain the solution that assumes that 
 ```
 
 In recent joint work with Di Lavore and Széles, we show how this normalization
-"almost-moand" arises as a "distributive sesquilaw". If you want other examples of
-magmoid and are comfortable with category theory, I highly recommend the work on duploids linked below.
+magmad arises as an incomplete distributive law. If you want other examples of
+magmoid and are comfortable with category theory, I highly recommend the work on
+duploids linked below.
 
  - [The Magmoid of Normalized Stochastic Kernels.](https://arxiv.org/pdf/2510.01131)
  - [Classical notions of computation and the Hasegawa-Thielecke theorem.](https://arxiv.org/abs/2502.13033)
