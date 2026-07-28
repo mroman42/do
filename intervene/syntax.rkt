@@ -12,7 +12,7 @@
 
 (require do/intervene/syntax-helpers)
 
-{require (for-template do/leftdo)}
+{require (for-template do/notation/normDo)}
 {require (for-template do/monad/norm)}
 {require (except-in (for-template racket/base) do)}
 
@@ -42,13 +42,13 @@
         (format "~a~a <- ~a\n~a"
                 (make-string indent #\space)
                 (symbols->listString vars)
-                (show-program (+ 4 indent) expr)
+                (show-program (+ 2 indent) expr)
                 (show-statements indent next))]))
 
    (define (show-program indent p)
      (define program (normProgram-program p))
      (if (or (normReturn? program) (normObservation? program) (normStatement? program))
-           (string-append "(do \n" (show-statements (+ 4 indent) program) ")")
+           (string-append "(do \n" (show-statements (+ 2 indent) program) ")")
            (format "~a" (syntaxSymbol->string program))))
 
    (define (write-proc program port mode)

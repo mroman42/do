@@ -40,7 +40,9 @@ G outputs variables in V.
       ['() (normReturn S)]))
 
   (normProgram (go D)))
-  
+
+(provide algorithm-id)
+
   ; Statement associated to a c-component of D.
   ;; (define (statement-of dc)
   ;;   (printf "called ~a\n" G)
@@ -114,3 +116,5 @@ G outputs variables in V.
 
 (define (example-smoking)
   (algorithm-id (normProgram #'survey) smoking '(s) '(c)))
+
+

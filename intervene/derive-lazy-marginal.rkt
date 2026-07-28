@@ -24,12 +24,11 @@
   (match P [(normProgram P) (normProgram (go P))]))
 
 (define (example-variables)
-(get-useful-variables
- (normProgram
-   (normStatement '(x y) (normProgram #'p)
-                  (normObservation 'u 'v
-                                   (normReturn '(x))))) '(x))
-)
+  (get-useful-variables
+   (normProgram
+    (normStatement '(x y) (normProgram #'p)
+       (normObservation 'u 'v
+          (normReturn '(x))))) '(x)))
 
 (define (example-data-marginal)
   (normProgram
