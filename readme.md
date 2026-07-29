@@ -9,12 +9,6 @@ there are some constructions -- like probabilistic normalization -- that do not
 form a monad but only a non-associative monad. For these, we can modulate the
 semantics of a do-notation block by changing how statements associate.
 
-In recent joint work with Di Lavore and Széles, we show how this normalization
-magmad arises as an incomplete distributive law.
-
- - [The Magmoid of Normalized Stochastic Kernels.](https://arxiv.org/pdf/2510.01131)
-
-## Causal inference
 
 #### Monty Hall problem
 In the Monty Hall problem, let us assume we pick the left door and
@@ -43,8 +37,15 @@ However, if we associate to the right, we obtain the solution that assumes that 
 >>> '((left 1/2) (right 1/2))
 ```
 
+In recent joint work with Di Lavore and Széles, we show how this normalization
+magmad arises as an incomplete distributive law.
 
-#### Simpson's paradox
+ - [The Magmoid of Normalized Stochastic Kernels.](https://arxiv.org/pdf/2510.01131)
+
+## Causal inference
+
+
+#### Simpson's paradox (simplified backdoor criterion)
 
 Imagine we have observational data for a drug and a side effect we want to
 avoid. We have a table recording whether a patient was being treated or not and
@@ -86,4 +87,55 @@ These estimators are difficult to find manually, so we provide an implementation
    return (gender drug heart))
  Setting (drug) To ('treatment)
  In (heart))
+```
+
+#### Smoking causes cancer (frontdoor criterion)
+
+This is the paradigmatic problem of causal inference. Given observational data
+tracking the smoking habits, the accumulation of tar in the lungs and the
+incidence of cancer: can we prove that smoking causes cancer? In particular, can
+we prove this even if we assume that there may be some gene that both
+predisposes people to smoke and to develop cancer?
+
+``` Racket
+(define survey
+  (distribution
+     ['(smoker tar nocancer)    323/800]
+     ['(smoker tar cancer)       57/800]
+     ['(nonsmoker tar nocancer)    1/800]
+     ['(nonsmoker tar cancer)     19/800]
+     ['(smoker notar nocancer)   18/800]
+     ['(smoker notar cancer)      2/800]
+     ['(nonsmoker notar nocancer) 38/800]
+     ['(nonsmoker notar cancer)  342/800]))
+     
+(Intervene survey
+  WithModel (do
+    gene <- ()
+    smoking <- (gene)
+    tar <- (smoking)
+    cancer <- (gene tar)
+    visibles (smoking tar cancer))
+  Setting (smoking) To ('nonsmoker) In (cancer))
+```
+
+The intervention expands to the following code. Note however that we do not need
+to reason manually: we use an internal implementation of the identifiability
+algorithm.
+
+``` Racket
+(do 
+      (zp) <- (do 
+                  (x z y) <- survey
+                  () <- (observe i x)
+                  return (z))
+      (xp) <- (do 
+                  (x z y) <- survey
+                  return (x))
+      (y)  <- (do 
+                  (x z y) <- survey
+                  () <- (observe x xp)
+                  () <- (observe z zp)
+                  return (y))
+      return (y))
 ```
