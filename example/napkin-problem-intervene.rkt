@@ -39,7 +39,7 @@
      (y) <- (k u2 x)
      return (w z x y))))
 
-(Intervene p
+(InterveneStx p
   WithModel (do
                 u1 <- ()
                 u2 <- ()

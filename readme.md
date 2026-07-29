@@ -1,4 +1,4 @@
-# A Magmadic Metalanguage for Causal Inference
+# A Magmadic Metalanguage for Probabilistic and Causal Inference
 
 Monadic bind is usually left-associative, but do-notations (e.g., Haskell's)
 are right-associative. This is an implementation of both left and right
@@ -138,4 +138,51 @@ algorithm.
                   () <- (observe z zp)
                   return (y))
       return (y))
+```
+
+
+#### Napkin problem
+
+This last problem is another classic of causal inference that illustrates a
+less-trivial case for the identifiability algorithm. It is usually presented
+without an explanation.
+
+``` Racket
+(Intervene p
+  WithModel (do
+                u1 <- ()
+                u2 <- ()
+                w <- (u1 u2)
+                z <- (w)
+                x <- (z u1)
+                y <- (x u2)
+                visible (w z x y))
+  Setting (x) To ('p) In (y))
+```
+
+This code models a four-variable distribution and derives the effect of the
+variable X on the variable Y. It yields the following code.
+
+``` Racket
+(do 
+  (x16 y17) <- (do 
+      (x13 w14 y15) <- (do 
+          (w) <- (do 
+              (w1 z2 x3 y4) <- p
+              return (w1))
+          (x) <- (do 
+              (w5 z6 x7 y8) <- p
+              () <- (observe z z6)
+              () <- (observe w w5)
+              return (x7))
+          (y) <- (do 
+              (w9 z10 x11 y12) <- p
+              () <- (observe x x11)
+              () <- (observe z z10)
+              () <- (observe w w9)
+              return (y12))
+          return (x w y))
+      return (x13 y15))
+  () <- (observe x x16)
+  return (y17))
 ```
