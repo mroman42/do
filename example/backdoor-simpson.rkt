@@ -21,8 +21,8 @@
 
 (define (estimate-observation a)
   (do (g d s) <- observational
-      () <- (observe s a)
-      return (y))
+      () <- (observe d a)
+      return (s)))
 
 (define (estimate-intervention a)
   (do 
@@ -53,11 +53,11 @@
 (define (example-simpson)
   (algorithm-id (normProgram #'observational) simpson '(drug) '(heart)))
 
-(Intervene observational           
- WithModel (do
-   gender <- ()
-   drug <- (gender)
-   heart <- (gender drug)
-   return (gender drug heart))
- Setting (drug) To ('treatment)
- In (heart))
+(InterveneStx
+   observational           
+ WithModel (do gender <- ()
+               drug <- (gender)
+               heart <- (gender drug)
+               return (gender drug heart))
+ Setting (drug) To ('treatment) In (heart))
+

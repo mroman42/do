@@ -52,3 +52,15 @@ The graph is used only for computing ancestors.
        'x <- '(u)
        visible '(x y))
     '(x y) '(x y) 'x))
+
+(define (example2)
+  (algorithm-identify-until
+   (normProgram #'p)
+   (Dag
+      'u1 <- '()
+      'u2 <- '()
+      'w <- '(u1 u2)
+      'x <- '(u1)
+      'z <- '(x u2)
+      visible '(w x z))
+   '(w x z) '(z) 'z))

@@ -40,7 +40,8 @@
      (with-syntax
        ([stx-transformed
          #`((match-lambda [#,(temporary-vars-list (syntax->datum (dagParseVisibles #'g)))
-              #,(withBinding (temporary-vars (syntax->datum #'(x ...))) (syntax->datum #'(i ...))
+              #,(withBinding (temporary-vars (syntax->datum #'(x ...))) #'(i ...)
+                             ;; why this? (syntax->datum #'(i ...))
                                       (normReify (algorithm-id
                                        (normProgram #'p)
                                        (dagParse #'g)

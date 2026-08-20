@@ -13,6 +13,7 @@
      (dagDependency (syntax->datum #'o) (syntax->datum #'is) (dagParse #'(dummyDag more ...)))]
     [(_ visible xs) (dagVisible (syntax->datum #'xs))]))
 
+
 (define (dagParseVisibles stx)
   (syntax-case stx ()
     [(_ o <- is more ...)
@@ -24,6 +25,12 @@
   (syntax-rules (<-)
     [(Dag o <- is more ...)  (dagDependency o is (Dag more ...))]
     [(Dag visible xs)        (dagVisible xs)]))
+
+(define-syntax dag-input
+  (syntax-rules (<-)
+    [(dag-input o <- (i ...) more ...)  (dagDependency o (list i ...) (dag-input more ...))]
+    [(dag-input visible (x ...))        (dagVisible (list x ...))]))
+
 
 (define (dag-visibles g)
   (match g
@@ -250,6 +257,7 @@
 (provide (struct-out dagVisible))
 
 (provide Dag)
+(provide dag-input)
 
 (provide dagParse)
 (provide dagParseVisibles)
