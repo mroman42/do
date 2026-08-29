@@ -10,7 +10,7 @@
 (require (for-syntax do/intervene/simplify-unitality))
 
 
-(define-syntax (InterveneStx stx)
+(define-syntax (interveneStx stx)
   (syntax-case stx ()
     [(_ p _ g _ (x ...) _ (i ...) _ (y ...))
      (with-syntax
@@ -34,7 +34,7 @@
                  (syntax->datum #'(y ...)))))])
        #'stx-transformed)]))
 
-(define-syntax (Intervene stx)
+(define-syntax (intervene stx)
   (syntax-case stx ()
     [(_ p _ g _ (x ...) _ (i ...) _ (y ...))
      (with-syntax
@@ -50,19 +50,18 @@
             (first (first p)))])
        #'stx-transformed)]))
 
-(define-syntax (InterveneT stx)
-  (syntax-case stx ()
-    [(_ p _ g _ (x ...) _ (i ...) _ (y ...))
-     (with-syntax
-       ([stx-transformed
-              (withBinding (temporary-vars (syntax->datum #'(x ...))) (syntax->datum #'(i ...))
-                                      (normReify (algorithm-id
-                                       (normProgram #'p)
-                                       (dagParse #'g)
-                                       (syntax->datum #'(x ...))
-                                       (syntax->datum #'(y ...)))))])
-       #'stx-transformed)]))
+;; (define-syntax (InterveneT stx)
+;;   (syntax-case stx ()
+;;     [(_ p _ g _ (x ...) _ (i ...) _ (y ...))
+;;      (with-syntax
+;;        ([stx-transformed
+;;               (withBinding (temporary-vars (syntax->datum #'(x ...))) (syntax->datum #'(i ...))
+;;                                       (normReify (algorithm-id
+;;                                        (normProgram #'p)
+;;                                        (dagParse #'g)
+;;                                        (syntax->datum #'(x ...))
+;;                                        (syntax->datum #'(y ...)))))])
+;;        #'stx-transformed)]))
 
-(provide InterveneStx)
-(provide Intervene)
-(provide InterveneT)
+(provide interveneStx)
+(provide intervene)

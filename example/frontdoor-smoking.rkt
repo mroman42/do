@@ -14,15 +14,34 @@
 
 
 (define survey
-  (distribution
-     ['(smoker tar nocancer)    323/800]
-     ['(smoker tar cancer)       57/800]
-     ['(nonsmoker tar nocancer)    1/800]
-     ['(nonsmoker tar cancer)     19/800]
-     ['(smoker notar nocancer)   18/800]
-     ['(smoker notar cancer)      2/800]
-     ['(nonsmoker notar nocancer) 38/800]
-     ['(nonsmoker notar cancer)  342/800]))
+  (distribution-table
+     ['(smoker tar nocancer)     323]
+     ['(smoker tar cancer)        57]
+     ['(nonsmoker tar nocancer)    1]
+     ['(nonsmoker tar cancer)     19]
+     ['(smoker notar nocancer)    18]
+     ['(smoker notar cancer)       2]
+     ['(nonsmoker notar nocancer) 38]
+     ['(nonsmoker notar cancer)  342]))
+
+;; What would be the incidence if only the 5% of the population were to smoke?
+
+(define (incidence-from-habits habits)
+  (Intervene survey
+   WithModel (do
+      gene <- ()
+      smoking <- (gene)
+      tar <- (smoking)
+      cancer <- (gene tar)
+      visibles (smoking tar cancer))
+   Setting (smoking) To (smoking-habits)
+   In (cancer)))
+
+(do (smoking-habits) <- (distribution
+                          ['(smoker)     5/100]
+                          ['(nonsmoker) 95/100])
+    (incidence) <- (incidence-from-habits smoking-habits)  
+    return (incidence))
 
 
 (define (estimate-intervention i)

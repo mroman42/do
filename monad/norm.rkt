@@ -32,4 +32,5 @@
  norm-map
  norm-join
  observe
+ from-table
  (all-from-out do/normalized))

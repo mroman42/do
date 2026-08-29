@@ -15,4 +15,3 @@
 (provide (struct-out monad))
 (provide monad-join)
 
-

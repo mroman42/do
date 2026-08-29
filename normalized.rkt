@@ -52,6 +52,11 @@
    (let ([w   (+ v (weight-of-point x ys))])
      (cons (list x w) (reweight (dist-remove x ys))))])
      
+(define (from-table l)
+  (dist-map-values (lambda (v) (/ v (validity l))) l))
+  
+
+
 
 ;; Condensing a distribution into a valid distribution.
 (define (condense xs)
@@ -92,6 +97,13 @@
   (syntax-rules ()
     [(_ [x v] rest ...)  (cons (pair x v) (distribution rest ...))]
     [(_)                 (list)]))
+
+
+
+(define-syntax distribution-table
+  (syntax-rules ()
+    [(_ rest ...)  (from-table (distribution rest ...))]))
+
 
 (define-syntax uniform
   (syntax-rules ()
@@ -161,4 +173,6 @@
          weight-of-point
          uniform)
 
-(provide distribution)
+(provide distribution
+         distribution-table
+         from-table)

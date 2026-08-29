@@ -47,7 +47,7 @@
                 z <- (w)
                 x <- (z u1)
                 y <- (x u2)
-                visible (w z x y))
+                return (w z x y))
   Setting (x) To ('p) In (y))
 
 
