@@ -164,15 +164,15 @@
 
 
 
-(provide dist-bind
-         dist-return
-         dist-map
-         dist-void
-         dist-normalize
-         dist-uniform
-         weight-of-point
-         uniform)
-
-(provide distribution
-         distribution-table
-         from-table)
+(provide
+ dist-bind
+ dist-return
+ dist-map
+ dist-void
+ dist-normalize
+ dist-uniform
+ weight-of-point
+ uniform
+ distribution
+ distribution-table
+ from-table)

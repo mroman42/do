@@ -41,7 +41,7 @@
 ;; But what we really need to ask is what would happen if we were not to
 ;; vaccinate. Here we get 4000/1000000 deaths, while our original vaccination
 ;; plan yields 139/1000000 deaths.
-(Intervene (do (vaccinationStatus) <- vaccination
+(intervene (do (vaccinationStatus) <- vaccination
                (reaction) <- (reactogenicity vaccinationStatus)
                (smallpox) <- (incidence vaccinationStatus)
                (death) <- (mortality smallpox reaction)

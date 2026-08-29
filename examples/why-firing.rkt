@@ -18,7 +18,7 @@
 
 ;; Causal intervention.
 (do
-    (a b) <- (Intervene data
+    (a b) <- (intervene data
                 WithModel (do
                     order <- ()
                     captain <- (order)

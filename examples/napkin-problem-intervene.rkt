@@ -39,8 +39,8 @@
      (y) <- (k u2 x)
      return (w z x y))))
 
-(InterveneStx p
-  WithModel (do
+(interveneStx p
+  withModel (do
                 u1 <- ()
                 u2 <- ()
                 w <- (u1 u2)
@@ -48,7 +48,7 @@
                 x <- (z u1)
                 y <- (x u2)
                 return (w z x y))
-  Setting (x) To ('p) In (y))
+  setting (x) to ('p) in (y))
 
 
 

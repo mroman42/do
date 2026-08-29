@@ -48,8 +48,6 @@
     () <- (observe treatment 'B)
     return (outcome))
 
-
-
 (displayln "Variant distribution")
 (do (variant treatment outcome) <- data
     return (variant))
