@@ -109,6 +109,9 @@
   (syntax-rules ()
     [(_ x ...) (dist-uniform (list x ...))])) 
 
+(define-syntax define/table
+  (syntax-rules ()
+    [(_ name (x ...)) (define name (distribution-table x ...))]))
 
 
 (check-equal?
@@ -175,4 +178,5 @@
  uniform
  distribution
  distribution-table
+ define/table
  from-table)

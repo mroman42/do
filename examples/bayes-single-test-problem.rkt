@@ -10,12 +10,13 @@
 ;; REFERENCES.
 ;;  - https://arxiv.org/pdf/1807.05609
 
-(require do/monad/norm)
-(require do/notation/leftDo)
 
+(require do/notation/normDo)
+(require do/intervene/intervene)
 
 (define prevalence
-  (distribution ['(ill) 1/3] ['(healthy) 2/3]))
+  (distribution ['(ill) 1/3]
+                ['(healthy) 2/3]))
 
 (define (channel patient)
   (match patient
@@ -23,10 +24,38 @@
     ['healthy  (distribution ['(positive) 1/2] ['(negative) 1/2])]))
 
 (define (single-test-problem)
-  (do Norm
+  (do
       (patient) <- prevalence
       (test) <- (channel patient)
       () <- (observe 'positive test)
       return (patient)))
 
-(single-test-problem)
+
+(define uncertainty
+  (distribution ['(positive) 3/4]
+                ['(negative) 1/4]))
+
+(define (unclear-test-problem)
+  (do 
+      (result) <- uncertainty
+      (patient) <- (do 
+          (patient) <- prevalence
+          (test) <- (channel patient)
+          () <- (observe test result)
+          return (patient))
+      return (patient)))
+
+(define (unclear-test-problem-2)
+  (do
+      (seen-result) <- uncertainty
+      (patient) <- (intervene (do (result) <- uncertainty
+                                  (patient) <- prevalence
+                                  (test) <- (channel patient)
+                                  return (patient test result))
+                    withModel (do patient <- ()
+                                  test <- (patient)
+                                  result <- (test)
+                                  return (patient test result))
+                    setting (result) to (seen-result) int (patient))
+      return (patient)))
+

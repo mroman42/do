@@ -23,6 +23,19 @@
                  (syntax->datum #'(y ...)))))])
        #'stx-transformed)]))
 
+(define-syntax (intervene-showSyntax stx)
+  (syntax-case stx ()
+    [(_ p _ g _ (x ...) _ (i ...) _ (y ...))
+     (with-syntax
+       ([stx-transformed
+           #`(display #,(simplify-unitality (algorithm-id
+                 (normProgram #'p)
+                 (dagParse #'g)
+                 (syntax->datum #'(x ...))
+                 (syntax->datum #'(y ...)))))])
+       #'stx-transformed)]))
+
+
 (define-syntax (intervene stx)
   (syntax-case stx ()
     [(_ p _ g _ (x ...) _ (i ...) _ (y ...))
@@ -41,4 +54,5 @@
 
 
 (provide interveneStx)
+(provide intervene-showSyntax)
 (provide intervene)

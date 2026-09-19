@@ -1,8 +1,12 @@
 #lang racket
 
+(require do/normalized)
 (require do/notation/normDo)
 (require do/intervene/derive-interventions)
 
-(provide (all-from-out do/notation/normDo))
+(provide do)
+(provide observe)
 (provide intervene)
+(provide define/table)
 (provide interveneStx)
+(provide intervene-showSyntax)
