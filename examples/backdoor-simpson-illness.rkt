@@ -1,22 +1,17 @@
 #lang racket
 
-(require do/notation/normDo)
-(require do/intervene/derive-interventions)
-(require do/intervene/syntax)
-(require do/intervene/dag)
-(require do/intervene/algorithm-id)
+(require do/intervene/intervene)
 
 
-(define data
-  (distribution-table
-     ['(X1 A remission)  28]
-     ['(X1 A failure)     2]
-     ['(X1 B remission)  78]
-     ['(X1 B failure)    12]
-     ['(X2 A remission)  33]
-     ['(X2 A failure)    12]
-     ['(X2 B remission)  10]
-     ['(X2 B failure)     5]))
+(define/table data
+  (['(X1 A remission)  28]
+   ['(X1 A failure)     2]
+   ['(X1 B remission)  78]
+   ['(X1 B failure)    12]
+   ['(X2 A remission)  33]
+   ['(X2 A failure)    12]
+   ['(X2 B remission)  10]
+   ['(X2 B failure)     5]))
 
 
 
