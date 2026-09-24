@@ -1,6 +1,5 @@
 #lang racket
 
-(require do/normalized)
 (require do/notation/normDo)
 (require do/intervene/derive-interventions)
 

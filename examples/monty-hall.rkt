@@ -11,7 +11,7 @@
 
 (require (except-in do/notation/leftDo do))
 (require do/notation/rightDo)
-(require do/monad/norm)
+(require do/monad/norm-v2)
 
 
 ;; DESCRIPTION.

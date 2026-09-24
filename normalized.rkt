@@ -98,8 +98,6 @@
     [(_ [x v] rest ...)  (cons (pair x v) (distribution rest ...))]
     [(_)                 (list)]))
 
-
-
 (define-syntax distribution-table
   (syntax-rules ()
     [(_ rest ...)  (from-table (distribution rest ...))]))
