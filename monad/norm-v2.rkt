@@ -4,7 +4,7 @@
 
 (define rationals (ring 0 1 + * zero? /))
 
-(provide-distributions-with-ring rationals)
+(provide-distributions-over-ring rationals)
 
 
 

@@ -4,21 +4,20 @@
 (require do/monad)
 (require (for-syntax racket/syntax syntax/parse))
 
-;; This module implements distributions and the normalized distribution monad
-;; over a ring.
+;; This parameterized macro module implements distributions and the normalized
+;; distribution monad over a ring.
 
-(define-syntax (provide-distributions-with-ring stx)
+(define-syntax (provide-distributions-over-ring stx)
   (syntax-parse stx
     [(_ R)
      #:with validity (datum->syntax stx 'validity)
      #:with dist-map (datum->syntax stx 'dist-map)
      #:with distribution (datum->syntax stx 'distribution)
-     #:with Norm (datum->syntax stx 'norm)
+     #:with Norm (datum->syntax stx 'Norm)
      #:with observe (datum->syntax stx 'observe)
      #:with uniform (datum->syntax stx 'uniform)
      #:with define/table (datum->syntax stx 'define/table)
-             
-     
+    
      #'(begin
          (define R0 (ring-zero R))
          (define R1 (ring-one R))
@@ -27,7 +26,6 @@
          (define Rinv? (ring-invertible? R))
          (define R/ (ring-div R))
 
-         ;(struct subdistribution (results))
          (define (pair x y) (list x y))
          
          (define (validity xs)
@@ -112,6 +110,11 @@
            (syntax-rules ()
              [(_ x (... ...)) (dist-uniform (list x (... ...)))])) 
 
+         (define-syntax distribution-table
+           (syntax-rules ()
+             [(_ rest (... ...))  (from-table (distribution rest (... ...)))]))
+
+         
          (define-syntax define/table
            (syntax-rules ()
              [(_ name (x (... ...))) (define name (distribution-table x (... ...)))]))
@@ -137,18 +140,16 @@
                (uniform)))
 
          
-         (provide
-          map
-          dist-uniform
-          dist-map
-          distribution
-          Norm
-          norm-bind
-          observe
-          uniform
-          define/table
-          ))]))
+         (provide map
+                  dist-uniform
+                  dist-map
+                  distribution
+                  Norm
+                  norm-bind
+                  observe
+                  uniform
+                  define/table))]))
 
 
 (provide (struct-out ring)
-         provide-distributions-with-ring)
+         provide-distributions-over-ring)

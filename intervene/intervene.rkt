@@ -6,6 +6,7 @@
 (provide do)
 (provide observe)
 (provide intervene)
+(provide uniform)
 (provide define/table)
 (provide interveneStx)
 (provide intervene-showSyntax)
