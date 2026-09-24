@@ -1,11 +1,11 @@
 #lang racket
 
 (require do/intervene/syntax)
-(require do/precondition)
+;(require do/precondition)
 
 (define (normObservations vs ws next)
-  (precondition (equal? (length vs) (length ws))
-                'normObservations "observation lists of different length ~v ~v" vs ws)
+  ;(precondition (equal? (length vs) (length ws))
+  ;              'normObservations "observation lists of different length ~v ~v" vs ws)
   
   (match vs
     [(cons v vs)

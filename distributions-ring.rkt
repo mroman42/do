@@ -2,7 +2,7 @@
 
 (require do/monad)
 
-(struct ring (zero one plus mult invertible? div))
+(struct ring (zero one plus mult ninv? div))
 
 
 (struct dist (validity normalize return bind join map))
@@ -13,7 +13,7 @@
     (define R1 (ring-one R))
     (define R+ (ring-plus R))
     (define R* (ring-mult R))
-    (define Rinv? (ring-invertible? R))
+    (define Rinv? (ring-ninv? R))
     (define R/ (ring-div R))
 
     (struct measure (elements) #:transparent)

@@ -11,7 +11,7 @@
 
 (require (except-in do/notation/leftDo do))
 (require do/notation/rightDo)
-(require do/monad/norm-v2)
+(require do/monad/norm)
 
 
 ;; DESCRIPTION.
@@ -28,6 +28,7 @@
 ;; closed. Should we change doors?
 
 (define uniformDoor (uniform '(L) '(M) '(R)))
+
 
 ;; HOST.
 ;; Let us first formalize the behaviour of the host: it
@@ -46,8 +47,8 @@
     [(cons 'R 'M)  (uniform '(L))]
     [(cons 'R 'R)  (uniform '(L) '(M))]))
 
-;; FORMULATION.
 
+;; FORMULATION.
 ;; Let us formalize the Monty Hall problem using
 ;; do-notation. We repeat the exact same formalization
 ;; twice: once using right-associating do-notation and
@@ -77,4 +78,3 @@
 
 (l-monty-hall)
 (r-monty-hall)
-
