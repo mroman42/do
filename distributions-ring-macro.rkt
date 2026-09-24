@@ -1,25 +1,25 @@
 #lang racket
 
-
 (require do/ring)
 (require do/monad)
-
 (require (for-syntax racket/syntax syntax/parse))
-(define-syntax provide-distributions-with-ring
-  (syntax-rules ()
-    [(_ R
-        validity
-        map
-        dist-uniform
-        dist-map
-        distribution
-        Norm
-        norm-bind
-        observe
-        uniform
-        define/table)
+
+;; This module implements distributions and the normalized distribution monad
+;; over a ring.
+
+(define-syntax (provide-distributions-with-ring stx)
+  (syntax-parse stx
+    [(_ R)
+     #:with validity (datum->syntax stx 'validity)
+     #:with dist-map (datum->syntax stx 'dist-map)
+     #:with distribution (datum->syntax stx 'distribution)
+     #:with Norm (datum->syntax stx 'norm)
+     #:with observe (datum->syntax stx 'observe)
+     #:with uniform (datum->syntax stx 'uniform)
+     #:with define/table (datum->syntax stx 'define/table)
+             
      
-     (begin
+     #'(begin
          (define R0 (ring-zero R))
          (define R1 (ring-one R))
          (define R+ (ring-plus R))
@@ -138,7 +138,6 @@
 
          
          (provide
-          validity
           map
           dist-uniform
           dist-map
