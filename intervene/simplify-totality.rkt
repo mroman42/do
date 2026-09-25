@@ -5,7 +5,6 @@
 (require do/intervene/syntax)
 (require do/intervene/syntax-helpers)
 
-
 (define (change-return us program)
   (define (go p)
     (match p
@@ -15,8 +14,6 @@
       [q (normStatement us (normProgram q) (normReturn us))]))
   (match program
     [(normProgram p) (normProgram (go p))]))
-  
-
 
 (define (usefulVars program)
   (define (go p)
