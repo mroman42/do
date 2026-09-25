@@ -1,27 +1,14 @@
 #lang racket
 
-(require do/notation/leftDo)
 (require do/intervene/algorithm-id)
 (require do/intervene/dag)
 (require (for-syntax do/intervene/algorithm-id))
 (require (for-syntax do/intervene/syntax))
 (require (for-syntax do/intervene/dag))
-(require (for-syntax do/intervene/reify))
 (require (for-syntax do/intervene/simplify-unitality))
+(require (for-syntax do/intervene/reify))
 
 
-
-(define-syntax (interveneStx stx)
-  (syntax-case stx ()
-    [(_ p _ g _ (x ...) _ (i ...) _ (y ...))
-     (with-syntax
-       ([stx-transformed
-           #`(display #,(simplify-unitality (algorithm-id
-                 (normProgram #'p)
-                 (dagParse #'g)
-                 (syntax->datum #'(x ...))
-                 (syntax->datum #'(y ...)))))])
-       #'stx-transformed)]))
 
 (define-syntax (intervene-showSyntax stx)
   (syntax-case stx ()
@@ -53,6 +40,5 @@
 
 
 
-(provide interveneStx)
 (provide intervene-showSyntax)
 (provide intervene)
