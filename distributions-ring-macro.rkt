@@ -10,12 +10,12 @@
 (define-syntax (provide-distributions-over-ring stx)
   (syntax-parse stx
     [(_ R)
-     #:with validity (datum->syntax stx 'validity)
-     #:with dist-map (datum->syntax stx 'dist-map)
+     #:with validity     (datum->syntax stx 'validity)
+     #:with dist-map     (datum->syntax stx 'dist-map)
      #:with distribution (datum->syntax stx 'distribution)
-     #:with Norm (datum->syntax stx 'Norm)
-     #:with observe (datum->syntax stx 'observe)
-     #:with uniform (datum->syntax stx 'uniform)
+     #:with Norm         (datum->syntax stx 'Norm)
+     #:with observe      (datum->syntax stx 'observe)
+     #:with uniform      (datum->syntax stx 'uniform)
      #:with dist-uniform (datum->syntax stx 'dist-uniform)
      #:with define/table (datum->syntax stx 'define/table)
     
