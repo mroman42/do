@@ -10,8 +10,9 @@
 ;;  Steve Selvin, 1975.
 
 (require "distributions.rkt")
-(require "rightDo.rkt")
+(require (except-in "rightDo.rkt" do))
 (require (except-in "leftDo.rkt" do))
+(require "normDo.rkt")
 
 
 ;; DESCRIPTION.
@@ -76,6 +77,82 @@
     () <- (observe door 'L)
     return (prize)))
 
-(display "Monty Hall problem.")
-(l-monty-hall)
-(r-monty-hall)
+
+;; DISPLAY.
+(displayln "MONTY HALL PROBLEM.\n")
+(displayln "Claim A - Figure 1.")
+(displayln "The two programs for the Monty Hall problem give different solutions.")
+(display "First solution computes as follows:  ") (displaydist (l-monty-hall))
+(display "Second solution computes as follows: ") (displaydist (r-monty-hall))
+(display "\n")
+
+
+;; STEP-BY-STEP COMPUTATIONS.
+(define (monty-hall-1)
+  (do (prize) <- uniformDoor
+      return (prize)))
+
+(define (monty-hall-2)
+  (do (prize) <- uniformDoor
+      (door) <- (host prize 'M)      
+      return (prize door)))
+
+(define (monty-hall-3)
+  (do (prize) <- uniformDoor
+      (door) <- (host prize 'M)
+      () <- (observe door 'L)
+      return (prize door)))
+
+(define (monty-hall-r)
+  (do (prize) <- uniformDoor
+      (door) <- (host prize 'M)
+      () <- (observe door 'L)
+      return (prize)))
+
+(displayln "Claim B - Section 1.1")
+(displayln "The first solution, computed step-by-step:")
+(display "(i)   ") (displaydist (monty-hall-1))
+(display "(ii)  ") (displaydist (monty-hall-2))
+(display "(iii) ") (displaydist (monty-hall-3))
+(display "(r)   ") (displaydist (monty-hall-r))
+(displayln "")
+
+(define (r-monty-hall-1)
+  (do (prize) <- uniformDoor
+      return (prize)))
+
+(define (r-monty-hall-2)
+  (do (prize) <- uniformDoor
+      return (prize (displaydist (do (door) <- (host prize 'M)
+                        return (door))))))
+
+(define (r-monty-hall-3)
+  (do (prize) <- uniformDoor
+      return (prize (displaydist
+                     (do (door) <- (host prize 'M)
+                         () <- (observe door 'L)
+                         return (door))))))
+
+(define (r-monty-hall-r1)
+  (do (prize) <- uniformDoor
+      (door) <- (do (door) <- (host prize 'M)
+                    () <- (observe door 'L)
+                    return (door))
+      return (prize door)))
+
+(define (r-monty-hall-r2)
+  (do (prize) <- uniformDoor
+      (door) <- (do (door) <- (host prize 'M)
+                    () <- (observe door 'L)
+                    return (door))
+      return (prize)))
+
+
+(displayln "Claim C - Section 1.1")
+(displayln "The second solution, computed step-by-step:")
+(display "(i)   ") (displaydist (r-monty-hall-1))
+(display "    (ii)  ") (displaydist (r-monty-hall-2))
+(display "    (iii) ") (displaydist (r-monty-hall-3))
+(display "    (r1)  ") (displaydist (r-monty-hall-r1))
+(display "(r2)  ") (displaydist (r-monty-hall-r2))
+(displayln "")

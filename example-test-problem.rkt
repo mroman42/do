@@ -10,28 +10,27 @@
 ;; REFERENCES.
 ;;  - https://arxiv.org/pdf/1807.05609
 
+(require "distributions.rkt")
 (require "normDo.rkt")
 
 (define prevalence
-  (distribution ['(ill) 1/3]
-                ['(healthy) 2/3]))
+  (distribution ['(I) 1/3] ['(H) 2/3]))
 
 (define (channel patient)
   (match patient
-    ['ill      (distribution ['(positive) 3/4] ['(negative) 1/4])]
-    ['healthy  (distribution ['(positive) 1/2] ['(negative) 1/2])]))
+    ['I  (distribution ['(P) 3/4] ['(N) 1/4])]
+    ['H  (distribution ['(P) 1/2] ['(N) 1/2])]))
 
 (define (single-test-problem)
   (do
       (patient) <- prevalence
       (test) <- (channel patient)
-      () <- (observe 'positive test)
+      () <- (observe 'P test)
       return (patient)))
 
 
 (define uncertainty
-  (distribution ['(positive) 3/4]
-                ['(negative) 1/4]))
+  (distribution ['(P) 3/4] ['(N) 1/4]))
 
 (define (unclear-test-problem)
   (do 
@@ -43,5 +42,5 @@
           return (patient))
       return (patient)))
 
-(display "Single test problem.")  (single-test-problem)
-(display "Unclear test problem.") (unclear-test-problem)
+(display "Single test problem.")  (displaydist (single-test-problem))
+(display "Unclear test problem.") (displaydist (unclear-test-problem))
