@@ -1,6 +1,6 @@
 #lang racket
 
-(require do/monad)
+(require "monad.rkt")
 
 (define-syntax do
   (syntax-rules (<- return)

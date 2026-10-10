@@ -6,8 +6,6 @@
 ;; subdistributions using a standard encoding as
 ;; lists of pairs element/probability.
 
-(require racket/struct)
-(require rackunit)
 (require "monad.rkt")
 
 (struct subdistribution (results))
