@@ -5,7 +5,7 @@
 (require (for-syntax racket/syntax syntax/parse))
 
 ;; This parameterized macro module implements distributions and the normalized
-;; distribution monad over a ring.
+;; distribution monad over a positive semiring.
 
 (define-syntax (provide-distributions-over-ring stx)
   (syntax-parse stx

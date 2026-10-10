@@ -1,7 +1,7 @@
 #lang racket
 
 (require do/monad)
-(require do/notation/rightDo)
+(require do/rightDo)
 
 
 (define-syntax leftDo
@@ -39,4 +39,4 @@
 
 (provide leftDo do)
 (provide (all-from-out do/monad))
-(provide (all-from-out do/notation/rightDo))
+(provide (all-from-out do/rightDo))

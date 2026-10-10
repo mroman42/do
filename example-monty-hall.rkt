@@ -9,9 +9,9 @@
 ;;  Letters to the Editor. American Statistician.
 ;;  Steve Selvin, 1975.
 
-(require (except-in do/notation/leftDo do))
-(require do/notation/rightDo)
-(require do/monad/norm)
+(require do/rightDo)
+(require (except-in do/leftDo do))
+(require do/distributions)
 
 
 ;; DESCRIPTION.
@@ -76,5 +76,6 @@
     () <- (observe door 'L)
     return (prize)))
 
+(display "Monty Hall problem.")
 (l-monty-hall)
 (r-monty-hall)

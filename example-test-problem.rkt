@@ -11,8 +11,7 @@
 ;;  - https://arxiv.org/pdf/1807.05609
 
 
-(require do/notation/normDo)
-(require do/intervene/intervene)
+(require do/normDo)
 
 (define prevalence
   (distribution ['(ill) 1/3]
@@ -45,17 +44,5 @@
           return (patient))
       return (patient)))
 
-(define (unclear-test-problem-2)
-  (do
-      (seen-result) <- uncertainty
-      (patient) <- (intervene (do (result) <- uncertainty
-                                  (patient) <- prevalence
-                                  (test) <- (channel patient)
-                                  return (patient test result))
-                    withModel (do patient <- ()
-                                  test <- (patient)
-                                  result <- (test)
-                                  return (patient test result))
-                    setting (result) to (seen-result) int (patient))
-      return (patient)))
-
+(display "Single test problem.")  (single-test-problem)
+(display "Unclear test problem.") (unclear-test-problem)

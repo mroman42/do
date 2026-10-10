@@ -1,8 +1,8 @@
 #lang racket
 
 (require do/monad)
-(require do/monad/norm)
-(require (except-in do/notation/leftDo do))
+(require do/distributions)
+(require (except-in do/leftDo do))
 
 (define-syntax do
   (syntax-rules (<- return)
@@ -10,5 +10,5 @@
 
 (provide do)
 (provide (all-from-out do/monad))
-(provide (all-from-out do/monad/norm))
+(provide (all-from-out do/distributions))
 
