@@ -11,7 +11,7 @@
 ;;  - https://arxiv.org/pdf/1807.05609
 
 
-(require do/normDo)
+(require "normDo.rkt")
 
 (define prevalence
   (distribution ['(ill) 1/3]

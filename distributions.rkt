@@ -1,12 +1,9 @@
 #lang racket
 
-
-(require do/monad)
-(require (for-syntax racket/syntax syntax/parse))
+(require "monad.rkt")
 
 ;; This parameterized macro module implements distributions and the normalized
-;; distribution monad over a positive semiring.
-
+;; distribution magmad.
 
 (define R0 0)
 (define R1 1)

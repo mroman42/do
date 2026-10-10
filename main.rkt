@@ -1,4 +1,4 @@
 #lang racket
 
-(require do/example-monty-hall)
-(require do/example-test-problem)
+(require "example-monty-hall.rkt")
+(require "example-test-problem.rkt")

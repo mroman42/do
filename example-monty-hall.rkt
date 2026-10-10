@@ -9,9 +9,9 @@
 ;;  Letters to the Editor. American Statistician.
 ;;  Steve Selvin, 1975.
 
-(require do/rightDo)
-(require (except-in do/leftDo do))
-(require do/distributions)
+(require "distributions.rkt")
+(require "rightDo.rkt")
+(require (except-in "leftDo.rkt" do))
 
 
 ;; DESCRIPTION.
