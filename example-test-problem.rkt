@@ -10,7 +10,6 @@
 ;; REFERENCES.
 ;;  - https://arxiv.org/pdf/1807.05609
 
-
 (require "normDo.rkt")
 
 (define prevalence
