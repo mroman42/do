@@ -53,16 +53,14 @@
       () <- (observe 'P test)
       return (patient)))
 
-
-
 (printf "SINGLE TEST PROBLEM.~n~n")
 (printf "Claim D - Section 1.2.~n")
-(printf "The solution of the single test problem is: ~a~n" (displaydist (single-test-problem)))
+(printf "The solution of the single test problem is: ~a~n" (single-test-problem))
 (printf "We present the solution, computed step-by-step:~n")
-(printf "(i)   ~a~n" (displaydist (single-test-problem-1)))
-(printf "(ii)  ~a~n" (displaydist (single-test-problem-2)))
-(printf "(iii) ~a~n" (displaydist (single-test-problem-3)))
-(printf "(r)   ~a~n" (displaydist (single-test-problem-r)))
+(printf "(i)   ~a~n" (single-test-problem-1))
+(printf "(ii)  ~a~n" (single-test-problem-2))
+(printf "(iii) ~a~n" (single-test-problem-3))
+(printf "(r)   ~a~n" (single-test-problem-r))
 (printf "~n~n")
 
 
@@ -96,8 +94,8 @@
 (printf "Claim E - Figure 2.~n")
 (printf "The unclear test problem has two solutions, depending on associativity.~n")
 (printf "These are called Pearl's update and Jeffrey's update.~n")
-(printf "Pearl's update computes as follows:   ~a~n" (displaydist (unclear-test-problem-pearl)))
-(printf "Jeffrey's update computes as follows: ~a~n" (displaydist (unclear-test-problem-jeffrey)))
+(printf "Pearl's update computes as follows:   ~a~n" (unclear-test-problem-pearl))
+(printf "Jeffrey's update computes as follows: ~a~n" (unclear-test-problem-jeffrey))
 (printf "~n~n")
 
 ;; Step-by-step computations follow.
@@ -138,11 +136,11 @@
 
 (displayln "Claim F - Section 1.2")
 (displayln "Pearl's update, computed step-by-step:")
-(printf "(i)   ~a~n" (displaydist (unclear-test-problem-pearl-1)))
-(printf "(ii)  ~a~n" (displaydist (unclear-test-problem-pearl-2)))
-(printf "(iii) ~a~n" (displaydist (unclear-test-problem-pearl-3)))
-(printf "(iv)  ~a~n" (displaydist (unclear-test-problem-pearl-4)))
-(printf "(r)   ~a~n" (displaydist (unclear-test-problem-pearl-r)))
+(printf "(i)   ~a~n" (unclear-test-problem-pearl-1))
+(printf "(ii)  ~a~n" (unclear-test-problem-pearl-2))
+(printf "(iii) ~a~n" (unclear-test-problem-pearl-3))
+(printf "(iv)  ~a~n" (unclear-test-problem-pearl-4))
+(printf "(r)   ~a~n" (unclear-test-problem-pearl-r))
 (displayln "")
 
 
@@ -156,26 +154,23 @@
 (define (unclear-test-problem-jeffrey-2)
   (do 
       (result) <- uncertainty
-      return (result (displaydist
-                      (do (patient) <- prevalence
-                          return (patient))))))
+      return (result (do (patient) <- prevalence
+                          return (patient)))))
 
 (define (unclear-test-problem-jeffrey-3)
   (do 
       (result) <- uncertainty
-      return (result (displaydist
-                      (do (patient) <- prevalence
+      return (result (do (patient) <- prevalence
                           (test) <- (channel patient)
-                          return (patient test))))))
+                          return (patient test)))))
 
 (define (unclear-test-problem-jeffrey-4)
   (do 
       (result) <- uncertainty
-      return (result (displaydist
-                      (do (patient) <- prevalence
+      return (result (do (patient) <- prevalence
                           (test) <- (channel patient)
                           () <- (observe test result)
-                          return (patient test))))))
+                          return (patient test)))))
 
 (define (unclear-test-problem-jeffrey-r1)
   (do 
@@ -199,10 +194,10 @@
 
 (displayln "Claim G - Section 1.2")
 (displayln "Jeffreys's update, computed step-by-step:")
-(printf "(i)   ~a~n"     (displaydist (unclear-test-problem-jeffrey-1)))
-(printf "    (ii)  ~a~n" (displaydist (unclear-test-problem-jeffrey-2)))
-(printf "    (iii) ~a~n" (displaydist (unclear-test-problem-jeffrey-3)))
-(printf "    (iv)  ~a~n" (displaydist (unclear-test-problem-jeffrey-4)))
-(printf "    (r1)  ~a~n" (displaydist (unclear-test-problem-jeffrey-r1)))
-(printf "(r2)  ~a~n"     (displaydist (unclear-test-problem-jeffrey-r2)))
+(printf "(i)   ~a~n"     (unclear-test-problem-jeffrey-1))
+(printf "    (ii)  ~a~n" (unclear-test-problem-jeffrey-2))
+(printf "    (iii) ~a~n" (unclear-test-problem-jeffrey-3))
+(printf "    (iv)  ~a~n" (unclear-test-problem-jeffrey-4))
+(printf "    (r1)  ~a~n" (unclear-test-problem-jeffrey-r1))
+(printf "(r2)  ~a~n"     (unclear-test-problem-jeffrey-r2))
 (displayln "")

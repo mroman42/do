@@ -82,8 +82,8 @@
 (displayln "MONTY HALL PROBLEM.\n")
 (displayln "Claim A - Figure 1.")
 (displayln "The two programs for the Monty Hall problem give different solutions.")
-(printf "First solution computes as follows:  ~a~n" (displaydist (l-monty-hall)))
-(printf "Second solution computes as follows: ~a~n" (displaydist (r-monty-hall)))
+(printf "First solution computes as follows:  ~a~n" (l-monty-hall))
+(printf "Second solution computes as follows: ~a~n" (r-monty-hall))
 (display "\n")
 
 
@@ -111,10 +111,10 @@
 
 (displayln "Claim B - Section 1.1")
 (displayln "The first solution, computed step-by-step:")
-(printf "(i)   ~a~n" (displaydist (monty-hall-1)))
-(printf "(ii)  ~a~n" (displaydist (monty-hall-2)))
-(printf "(iii) ~a~n" (displaydist (monty-hall-3)))
-(printf "(r)   ~a~n" (displaydist (monty-hall-r)))
+(printf "(i)   ~a~n"  (monty-hall-1))
+(printf "(ii)  ~a~n"  (monty-hall-2))
+(printf "(iii) ~a~n"  (monty-hall-3))
+(printf "(r)   ~a~n"  (monty-hall-r))
 (displayln "")
 
 (define (r-monty-hall-1)
@@ -123,15 +123,14 @@
 
 (define (r-monty-hall-2)
   (do (prize) <- uniformDoor
-      return (prize (displaydist (do (door) <- (host prize 'M)
-                        return (door))))))
+      return (prize (do (door) <- (host prize 'M)
+                        return (door)))))
 
 (define (r-monty-hall-3)
   (do (prize) <- uniformDoor
-      return (prize (displaydist
-                     (do (door) <- (host prize 'M)
+      return (prize (do (door) <- (host prize 'M)
                          () <- (observe door 'L)
-                         return (door))))))
+                         return (door)))))
 
 (define (r-monty-hall-r1)
   (do (prize) <- uniformDoor
@@ -150,11 +149,10 @@
 
 (displayln "Claim C - Section 1.1")
 (displayln "The second solution, computed step-by-step:")
-(printf "(i)   ~a~n" (displaydist (r-monty-hall-1)))
-(printf "    (ii)  ~a~n" (displaydist (r-monty-hall-2)))
-(printf "    (iii) ~a~n" (displaydist (r-monty-hall-3)))
-(printf "    (r1)  ~a~n" (displaydist (r-monty-hall-r1)))
-(printf "(r2)  ~a~n" (displaydist (r-monty-hall-r2)))
+(printf "(i)   ~a~n" (r-monty-hall-1))
+(printf "    (ii)  ~a~n" (r-monty-hall-2))
+(printf "    (iii) ~a~n" (r-monty-hall-3))
+(printf "    (r1)  ~a~n" (r-monty-hall-r1))
+(printf "(r2)  ~a~n" (r-monty-hall-r2))
 (displayln "")
-
 (displayln "")

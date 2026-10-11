@@ -56,7 +56,7 @@ magmad using the standard encoding of distributions as formal sums.
 
 ;; Rescale a formal sum by a scalar.
 (define/match (rescale xss)
-  [((list xs v)) (map-on-values (lambda (x) (* v x)) xs)])
+  [((list xs v)) (map-on-values (λ (x) (* v x)) xs)])
 
 
 
@@ -70,9 +70,9 @@ magmad using the standard encoding of distributions as formal sums.
 ;; these combinators for the normalized distribution monad.
 (define Subd
   (monad
-   (lambda (x)    (list (pair x 1)))
-   (lambda (xs f) (condense (apply append (map rescale (formal-map f xs)))))
-   (lambda (f xs) (formal-map f xs))))
+   (λ (x)    (list (pair x 1)))
+   (λ (xs f) (condense (apply append (map rescale (formal-map f xs)))))
+   (λ (f xs) (formal-map f xs))))
 
 (define dist-return (monad-return Subd))
 (define dist-bind   (monad-bind   Subd))
@@ -81,8 +81,8 @@ magmad using the standard encoding of distributions as formal sums.
 ;; Definition of uniform distributions.
 (define (dist-uniform ls)
   (define (dist-length ls)
-    (apply + (map (lambda (x) 1) ls)))
-  (map (lambda (x) (pair x (/ 1 (dist-length ls)))) ls))
+    (apply + (map (λ (x) 1) ls)))
+  (map (λ (x) (pair x (/ 1 (dist-length ls)))) ls))
 
 
 
@@ -91,40 +91,65 @@ magmad using the standard encoding of distributions as formal sums.
 ;; We define normalization.
 (define (normalize xs)
   (condense
-   (map-on-values (lambda (v) (/ v (validity xs))) xs)))
+   (map-on-values (λ (v) (/ v (validity xs))) xs)))
+
 
 ;; The normalized distribution magmad is similar to the subdistribution monad;
 ;; the difference is that binding normalizes.
+(define (norm-return x)  (dist-return x))
+(define (norm-bind xs f) (normalize (dist-bind xs f)))
+(define (norm-map xs f)  (dist-map xs f))
+
+;; We wrap normalized distributions into a structure.
+(struct Normalized (distribution)
+  #:transparent
+   #:methods gen:custom-write
+  [(define (write-proc x port mode)
+     (fprintf port (distribution->string (Normalized-distribution x))))])
+
+(define (wrap x) (Normalized x))
+(define (unwrap x) (Normalized-distribution x))
+
 (define Norm
-   (monad
-    (lambda (x)    (dist-return x))
-    (lambda (xs f) (normalize (dist-bind xs f)))
-    (lambda (f xs) (dist-map xs f))))
+  (monad
+   (λ (x)    (wrap (norm-return x)))
+   (λ (xs f) (wrap (norm-bind (unwrap xs) (λ (x) (unwrap (f x))))))
+   (λ (f xs) (wrap (norm-map (unwrap xs) f)))))
+
+;; The normalized distribution magmad allows uniform distributions.
+(define (norm-uniform l)
+  (wrap (dist-uniform l)))
 
 ;; The normalized distribution magmad allows observations.
 (define (observe x y)
-  (if (equal? x y) (uniform '()) (uniform)))
+  (if (equal? x y)
+      (norm-uniform (list '()))
+      (norm-uniform (list))))
 
 (provide Norm observe)
 
 
-
 ;; AUXILIARY MACROS FOR DEFINING NORMALIZED DISTRIBUTIONS.
+
+(define-syntax distribution-aux
+  (syntax-rules ()
+    [(_ [x v] rest ...)  (cons (pair x v) (distribution-aux rest ...))]
+    [(_)                 (list)]))
+
 (define-syntax distribution
   (syntax-rules ()
-    [(_ [x v] rest ...)  (cons (pair x v) (distribution rest ...))]
-    [(_)           (list)]))
+    [(_ rest ...)  (wrap (distribution-aux rest ...))]))
 
 (define-syntax uniform
   (syntax-rules ()
-    [(_ x ...) (dist-uniform (list x ...))]))
+    [(_ x ...) (norm-uniform (list x ...))]))
 
 (define (from-table l)
-  (map-on-values (lambda (v) (/ v (validity l))) l))
+  (wrap (map-on-values (λ (v) (/ v (validity l))) l)))
 
 (define-syntax distribution-table
   (syntax-rules ()
-    [(_ rest ...)  (from-table (distribution rest ...))]))
+    [(_ rest ...)  (from-table (distribution-aux rest ...))]))
 
 (define-syntax define/table
   (syntax-rules ()
@@ -146,8 +171,6 @@ magmad using the standard encoding of distributions as formal sums.
     ['() "⊥"]
     [(cons (list x v) xs) (string-append (format "<~a[~a]" v (list->string x)) (go xs))]))
 
-;(define (displaydist xs)
-;  (displayln (distribution->string xs)))
 
 (struct displaydist (d)
   #:transparent
