@@ -82,8 +82,8 @@
 (displayln "MONTY HALL PROBLEM.\n")
 (displayln "Claim A - Figure 1.")
 (displayln "The two programs for the Monty Hall problem give different solutions.")
-(display "First solution computes as follows:  ") (displaydist (l-monty-hall))
-(display "Second solution computes as follows: ") (displaydist (r-monty-hall))
+(printf "First solution computes as follows:  ~a~n" (displaydist (l-monty-hall)))
+(printf "Second solution computes as follows: ~a~n" (displaydist (r-monty-hall)))
 (display "\n")
 
 
@@ -111,10 +111,10 @@
 
 (displayln "Claim B - Section 1.1")
 (displayln "The first solution, computed step-by-step:")
-(display "(i)   ") (displaydist (monty-hall-1))
-(display "(ii)  ") (displaydist (monty-hall-2))
-(display "(iii) ") (displaydist (monty-hall-3))
-(display "(r)   ") (displaydist (monty-hall-r))
+(printf "(i)   ~a~n" (displaydist (monty-hall-1)))
+(printf "(ii)  ~a~n" (displaydist (monty-hall-2)))
+(printf "(iii) ~a~n" (displaydist (monty-hall-3)))
+(printf "(r)   ~a~n" (displaydist (monty-hall-r)))
 (displayln "")
 
 (define (r-monty-hall-1)
@@ -150,9 +150,11 @@
 
 (displayln "Claim C - Section 1.1")
 (displayln "The second solution, computed step-by-step:")
-(display "(i)   ") (displaydist (r-monty-hall-1))
-(display "    (ii)  ") (displaydist (r-monty-hall-2))
-(display "    (iii) ") (displaydist (r-monty-hall-3))
-(display "    (r1)  ") (displaydist (r-monty-hall-r1))
-(display "(r2)  ") (displaydist (r-monty-hall-r2))
+(printf "(i)   ~a~n" (displaydist (r-monty-hall-1)))
+(printf "    (ii)  ~a~n" (displaydist (r-monty-hall-2)))
+(printf "    (iii) ~a~n" (displaydist (r-monty-hall-3)))
+(printf "    (r1)  ~a~n" (displaydist (r-monty-hall-r1)))
+(printf "(r2)  ~a~n" (displaydist (r-monty-hall-r2)))
+(displayln "")
+
 (displayln "")

@@ -1,6 +1,6 @@
 #lang racket
 
-;; SINGLE TEST PROBLEM.
+;; TEST PROBLEM.
 ;;
 ;; The single test problem is a basic problem in probabilistic inference.
 ;; Consider an illness with a certain known prevalence, for which we have a test
@@ -28,11 +28,61 @@
       () <- (observe 'P test)
       return (patient)))
 
+(define (single-test-problem-1)
+  (do
+      (patient) <- prevalence
+      return (patient)))
 
+(define (single-test-problem-2)
+  (do
+      (patient) <- prevalence
+      (test) <- (channel patient) 
+      return (patient test)))
+
+(define (single-test-problem-3)
+  (do
+      (patient) <- prevalence
+      (test) <- (channel patient)
+      () <- (observe 'P test)
+      return (patient test)))
+
+(define (single-test-problem-r)
+  (do
+      (patient) <- prevalence
+      (test) <- (channel patient)
+      () <- (observe 'P test)
+      return (patient)))
+
+
+
+(printf "SINGLE TEST PROBLEM.~n~n")
+(printf "Claim D - Section 1.2.~n")
+(printf "The solution of the single test problem is: ~a~n" (displaydist (single-test-problem)))
+(printf "We present the solution, computed step-by-step:~n")
+(printf "(i)   ~a~n" (displaydist (single-test-problem-1)))
+(printf "(ii)  ~a~n" (displaydist (single-test-problem-2)))
+(printf "(iii) ~a~n" (displaydist (single-test-problem-3)))
+(printf "(r)   ~a~n" (displaydist (single-test-problem-r)))
+(printf "~n~n")
+
+
+;; UNCLEAR TEST PROBLEM.
+;;
+;; The unclear test problem is a modification of the test problem where we hold
+;; some uncertainty about the result itself.
 (define uncertainty
   (distribution ['(P) 3/4] ['(N) 1/4]))
 
-(define (unclear-test-problem)
+(define (unclear-test-problem-pearl)
+  (do 
+      (result) <- uncertainty
+      (patient) <- prevalence
+      (test) <- (channel patient)
+      () <- (observe test result)
+      return (patient)))
+
+
+(define (unclear-test-problem-jeffrey)
   (do 
       (result) <- uncertainty
       (patient) <- (do 
@@ -42,5 +92,117 @@
           return (patient))
       return (patient)))
 
-(display "Single test problem.")  (displaydist (single-test-problem))
-(display "Unclear test problem.") (displaydist (unclear-test-problem))
+(printf "UNCLEAR TEST PROBLEM.~n~n")
+(printf "Claim E - Figure 2.~n")
+(printf "The unclear test problem has two solutions, depending on associativity.~n")
+(printf "These are called Pearl's update and Jeffrey's update.~n")
+(printf "Pearl's update computes as follows:   ~a~n" (displaydist (unclear-test-problem-pearl)))
+(printf "Jeffrey's update computes as follows: ~a~n" (displaydist (unclear-test-problem-jeffrey)))
+(printf "~n~n")
+
+;; Step-by-step computations follow.
+(define (unclear-test-problem-pearl-1)
+  (do 
+      (result) <- uncertainty
+      return (result)))
+
+(define (unclear-test-problem-pearl-2)
+  (do 
+      (result) <- uncertainty
+      (patient) <- prevalence
+      return (result patient)))
+
+
+(define (unclear-test-problem-pearl-3)
+  (do 
+      (result) <- uncertainty
+      (patient) <- prevalence
+      (test) <- (channel patient)
+      return (result patient test)))
+
+(define (unclear-test-problem-pearl-4)
+  (do 
+      (result) <- uncertainty
+      (patient) <- prevalence
+      (test) <- (channel patient)
+      () <- (observe test result)
+      return (result patient test)))
+
+(define (unclear-test-problem-pearl-r)
+  (do 
+      (result) <- uncertainty
+      (patient) <- prevalence
+      (test) <- (channel patient)
+      () <- (observe test result)
+      return (patient)))
+
+(displayln "Claim F - Section 1.2")
+(displayln "Pearl's update, computed step-by-step:")
+(printf "(i)   ~a~n" (displaydist (unclear-test-problem-pearl-1)))
+(printf "(ii)  ~a~n" (displaydist (unclear-test-problem-pearl-2)))
+(printf "(iii) ~a~n" (displaydist (unclear-test-problem-pearl-3)))
+(printf "(iv)  ~a~n" (displaydist (unclear-test-problem-pearl-4)))
+(printf "(r)   ~a~n" (displaydist (unclear-test-problem-pearl-r)))
+(displayln "")
+
+
+
+;; Step-by-step: Jeffrey's update.
+(define (unclear-test-problem-jeffrey-1)
+  (do 
+      (result) <- uncertainty
+      return (result)))
+
+(define (unclear-test-problem-jeffrey-2)
+  (do 
+      (result) <- uncertainty
+      return (result (displaydist
+                      (do (patient) <- prevalence
+                          return (patient))))))
+
+(define (unclear-test-problem-jeffrey-3)
+  (do 
+      (result) <- uncertainty
+      return (result (displaydist
+                      (do (patient) <- prevalence
+                          (test) <- (channel patient)
+                          return (patient test))))))
+
+(define (unclear-test-problem-jeffrey-4)
+  (do 
+      (result) <- uncertainty
+      return (result (displaydist
+                      (do (patient) <- prevalence
+                          (test) <- (channel patient)
+                          () <- (observe test result)
+                          return (patient test))))))
+
+(define (unclear-test-problem-jeffrey-r1)
+  (do 
+      (result) <- uncertainty
+      (patient) <- (do (patient) <- prevalence
+                       (test) <- (channel patient)
+                       () <- (observe test result)
+                       return (patient))
+      return (result patient)))
+
+(define (unclear-test-problem-jeffrey-r2)
+  (do 
+      (result) <- uncertainty
+      (patient) <- (do 
+          (patient) <- prevalence
+          (test) <- (channel patient)
+          () <- (observe test result)
+          return (patient))
+      return (patient)))
+
+
+(displayln "Claim G - Section 1.2")
+(displayln "Jeffreys's update, computed step-by-step:")
+(printf "(i)   ~a~n"     (displaydist (unclear-test-problem-jeffrey-1)))
+(printf "    (ii)  ~a~n" (displaydist (unclear-test-problem-jeffrey-2)))
+(printf "    (iii) ~a~n" (displaydist (unclear-test-problem-jeffrey-3)))
+(printf "    (iv)  ~a~n" (displaydist (unclear-test-problem-jeffrey-4)))
+(printf "    (r1)  ~a~n" (displaydist (unclear-test-problem-jeffrey-r1)))
+(printf "(r2)  ~a~n"     (displaydist (unclear-test-problem-jeffrey-r2)))
+(displayln "")

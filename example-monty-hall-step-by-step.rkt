@@ -1,3 +1,4 @@
+
 (displaydist (leftDo Norm
     (prize) <- uniformDoor
     return (prize (displaydist (leftDo Norm
