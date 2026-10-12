@@ -14,18 +14,18 @@
 (require "normDo.rkt")
 
 (define prevalence
-  (distribution ['(I) 1/3] ['(H) 2/3]))
+  (distribution ['(i) 1/3] ['(h) 2/3]))
 
 (define (channel patient)
   (match patient
-    ['I  (distribution ['(P) 3/4] ['(N) 1/4])]
-    ['H  (distribution ['(P) 1/2] ['(N) 1/2])]))
+    ['i  (distribution ['(p) 3/4] ['(n) 1/4])]
+    ['h  (distribution ['(p) 1/2] ['(n) 1/2])]))
 
 (define (single-test-problem)
   (do
       (patient) <- prevalence
       (test) <- (channel patient)
-      () <- (observe 'P test)
+      () <- (observe 'p test)
       return (patient)))
 
 (define (single-test-problem-1)
@@ -43,14 +43,14 @@
   (do
       (patient) <- prevalence
       (test) <- (channel patient)
-      () <- (observe 'P test)
+      () <- (observe 'p test)
       return (patient test)))
 
 (define (single-test-problem-r)
   (do
       (patient) <- prevalence
       (test) <- (channel patient)
-      () <- (observe 'P test)
+      () <- (observe 'p test)
       return (patient)))
 
 (printf "SINGLE TEST PROBLEM.~n~n")
@@ -69,7 +69,7 @@
 ;; The unclear test problem is a modification of the test problem where we hold
 ;; some uncertainty about the result itself.
 (define uncertainty
-  (distribution ['(P) 3/4] ['(N) 1/4]))
+  (distribution ['(p) 3/4] ['(n) 1/4]))
 
 (define (unclear-test-problem-pearl)
   (do 
@@ -232,6 +232,25 @@
 (printf "(i)   ~a~n"     (unclear-test-problem-jeffrey-1))
 (printf "    (ii)  ~a~n" (unclear-test-problem-jeffrey-2))
 (printf "    (iii) ~a~n" (unclear-test-problem-jeffrey-3))
+(printf "    (iv)  ~a~n" (unclear-test-problem-jeffrey-4))
+(printf "    (r1)  ~a~n" (unclear-test-problem-jeffrey-r1))
+(printf "(r2)  ~a~n"     (unclear-test-problem-jeffrey-r2))
+(displayln "")
+
+(define (unclear-test-problem-jeffrey-u2)
+  (do 
+      (result) <- uncertainty
+      return (result (do (patient) <- prevalence
+                          return (patient (do (test) <- (channel patient)
+                                              return (test)))))))
+
+
+(displayln "Claim G - Section 1.2")
+(displayln "Jeffreys's update, computed step-by-step:")
+(printf "(i)   ~a~n"     (unclear-test-problem-jeffrey-1))
+(printf "    (ii)  ~a~n" (unclear-test-problem-jeffrey-2))
+(printf "    (iii) ~a~n" (unclear-test-problem-jeffrey-u2))
+(printf "    (m2)  ~a~n" (unclear-test-problem-jeffrey-3))
 (printf "    (iv)  ~a~n" (unclear-test-problem-jeffrey-4))
 (printf "    (r1)  ~a~n" (unclear-test-problem-jeffrey-r1))
 (printf "(r2)  ~a~n"     (unclear-test-problem-jeffrey-r2))
