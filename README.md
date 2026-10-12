@@ -78,6 +78,16 @@ review.
    the `Norm` magmad is denoted by `MD`.
 
 
+**Part D - Front-door adjustment formula**
+
+ - **Claim D.1 - Theorem 5.17.** The formula in Theorem 5.17 computes the
+   front-door adjustment from the work of Pearl et al. in the example given there.
+   
+   > Causal Inference in Statistics: A Primer
+   > Pearl, Glymour and Jewell.
+   > Table 3.1, page 66 - for the data.
+   > Solution to Study Question 4.3.4 in the Solution Manual.
+
 ### Download, installation, and sanity-testing instructions
 
 #### Download
@@ -147,7 +157,10 @@ The artifact contains 9 Racket source code files.
 
  - `example-test-problem.rkt`: Runs the computations for the Unclear Test
    example in Section 1.2 of the paper.
- 
+
+ - `example-frontdoor.rkt`: Runs the computations for the front-door adjustment
+   formula example.
+
  - `magmad.rkt`: Declares the interface of a magmad (a monad without the
    associativity axiom).
 
