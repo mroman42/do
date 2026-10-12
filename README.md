@@ -163,6 +163,8 @@ The artifact contains 9 Racket source code files.
  - `example-test-problem.rkt`: Runs the computations for the Unclear Test
    example in Section 1.2 of the paper.
 
+ - `example-donotation.rkt`: Prints the list of claims related to do-notation.
+
  - `example-frontdoor.rkt`: Runs the computations for the front-door adjustment
    formula example.
 

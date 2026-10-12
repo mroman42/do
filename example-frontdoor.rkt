@@ -52,8 +52,9 @@
 (displayln "FRONT-DOOR ADJUSTMENT EXAMPLE\n")
 (displayln "Claim D.1 - Theorem 5.17")
 (displayln
-"The formula in Theorem 5.17 computes the front-door adjustment
+ "The formula in Theorem 5.17 computes the front-door adjustment
 from the work of Pearl et al. in the example given there
-(Table 3.1, page 66 - Solution to Study Question 4.3.4).\n")
+(Table 3.1, page 66 - Solution to Study Question 4.3.4). The example
+asks whether smoking causes cancer and provides fictional statistical data.\n")
 (printf "The formula computes as follows: ~a~n" (smoking-solution))
 (printf "Compare with the implementation at `example-frontdoor.rkt`.~n")
