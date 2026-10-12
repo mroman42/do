@@ -1,20 +1,28 @@
 # Normalized Probabilistic Semantics is Not Associative
 
-This code accompanies "Normalized Probabilistic Semantics is Not Associative"
-([arXiv](https://arxiv.org/pdf/2510.01131)). Do-notation is right-associative by
-default (e.g., in Haskell's). This code contains an implementation, in the
-Racket programming language, of both left-associative and right-associative
-do-notation for magmads (monads without the associativity axiom).
+This Racket code accompanies "Normalized Probabilistic Semantics is Not
+Associative".
 
-The magmad exemplifying this implementation is the normalized distribution
-magmad: similar to the monad of subdistributions, but only allowing normalized
-distributions.
+Do-notation is right-associative by default (e.g., in Haskell). This code
+contains an implementation, in the Racket programming language, of both
+left-associative and right-associative do-notation for magmads: monads without
+the associativity axiom. The magmad exemplifying this implementation is the
+normalized distribution magmad: similar to the monad of subdistributions, but
+only allowing normalized distributions.
 
 This implementation provides a calculator using the paper's notation: its
 purpose is to check that the computations in the paper are correct and
 reproducible. The claims relate to the correctness of these computations and are
 modest; the code is not verified nor it formalizes any of the proofs of the
 paper beyond checking its computations.
+
+Finally, note that the reviewers have suggested to change the notation and
+descriptions of the computations for the first version of the article. The
+version of the article that we provide with this submission is the updated
+version: the implementation has been modified so that its notation matches this
+updated version. The public version on the arXiv
+<https://arxiv.org/pdf/2510.01131> contains the previous notation at the time of
+review.
 
 
 ### List of Claims
@@ -51,6 +59,23 @@ paper beyond checking its computations.
  - **Claim B.4 - Section 1.2.** The second program of Figure 2 matches the third
    computation block of Section 1.2. This is claimed at the end of Section 1.2.
 
+
+**Part C - Do-notation**
+
+ - **Claim C.1 - Definition 4.12.** Definition 4.12 coincides exactly with the
+   implementation of `rightDo` (in `rightDo.rkt`). Note that, in the paper,
+   `magmad-bind` is denoted by the greek letter beta and `magmad-return` is
+   denoted by the greek letter eta; note that we use Racket's `match-lambda`
+   instead of a lambda. This is claimed in Remark 4.15, and implicitly for the
+   rest of the claims.
+
+ - **Claim C.2 - Definition 4.13.** Definition 4.13 coincides exactly with the
+   implementation of `leftDo` (in `leftDo.rkt`). This is claimed in Remark 4.15,
+   and implicitly for the rest of the claims.
+
+ - **Claim C.3 - Remark 4.15.** The notation `do` introduced in Remark 4.15
+   coincides with the notation provided by `normDo.rkt`. Note that, in the paper
+   the `Norm` magmad is denoted by `MD`.
 
 
 ### Download, installation, and sanity-testing instructions

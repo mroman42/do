@@ -6,7 +6,12 @@
 
 (define-syntax do
   (syntax-rules (<- return)
-    [(do x ...) (leftDo Norm x ...)]))
+
+    ;; This rule implements Remark 4.15. We use the name Norm, the paper uses
+    ;; the name MD for the normalized distribution magmad.
+    [(do x ...) (leftDo Norm x ...)]
+
+    ))
 
 (provide do)
 (provide (all-from-out "magmad.rkt"))

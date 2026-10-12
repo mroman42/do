@@ -3,32 +3,36 @@
 (require "magmad.rkt")
 (require "rightDo.rkt")
 
-
+;; This is an implementation of Definition 4.13.
 (define-syntax leftDo
   (syntax-rules (<- return)
 
-    [(leftDo m
+    ;; This is clause (i) in Definition 4.13.
+    [
+     (leftDo T
              (x ...) <- m1
              (y ...) <- m2
              rest ...)
-     (leftDo m
-             (x ... y ...) <- (rightDo m
+     (leftDo T
+             (x ... y ...) <- (rightDo T
                                 (x ...) <- m1
                                 (y ...) <- m2
                                 return (x ... y ...))
              rest ...)
      ]
 
-    [(leftDo m
+    ;; This is clause (ii) in Definition 4.13.
+    [(leftDo T
              (x ...) <- f
-             return (v ...))
-     (rightDo m
+             return (y ...))
+     (rightDo T
           (x ...) <- f
-          return (v ...))
+          return (y ...))
     ]
 
-    [(leftDo m return (v ...))
-     (rightDo m return (v ...))]
+    ;; This is clause (iii) in Definition 4.13.
+    [(leftDo T return (y ...))
+     (rightDo T return (y ...))]
     
     ))
 

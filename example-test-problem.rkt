@@ -158,8 +158,8 @@
                                       return ()))))
   
 
-(displayln "Claim B.3 - Section 1.2")
-(displayln "Pearl's update, computed step-by-step..")
+(displayln "Claim B.3 - Section 1.2.")
+(displayln "Pearl's update, computed step-by-step.")
 (printf "(i)   ~a~n" (unclear-test-problem-pearl-1))
 (printf "(ii)  ~a~n" (unclear-test-problem-pearl-u1))
 (printf "(n1)  ~a~n" (unclear-test-problem-pearl-2))
@@ -226,7 +226,7 @@
                                               return (test)))))))
 
 
-(displayln "Claim B.4 - Section 1.2")
+(displayln "Claim B.4 - Section 1.2.")
 (displayln "Jeffreys's update, computed step-by-step:")
 (printf "(i)   ~a~n"     (unclear-test-problem-jeffrey-1))
 (printf "    (ii)  ~a~n" (unclear-test-problem-jeffrey-2))
@@ -235,4 +235,4 @@
 (printf "    (iv)  ~a~n" (unclear-test-problem-jeffrey-4))
 (printf "    (r1)  ~a~n" (unclear-test-problem-jeffrey-r1))
 (printf "(r2)  ~a~n"     (unclear-test-problem-jeffrey-r2))
-(displayln "")
+(printf "~n~n")
