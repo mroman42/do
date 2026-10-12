@@ -28,7 +28,7 @@
 ;; change doors and pick the other one that remains
 ;; closed. Should we change doors?
 
-(define uniformDoor (uniform '(L) '(M) '(R)))
+(define uniformDoor (uniform '(l) '(m) '(r)))
 
 
 ;; HOST.
@@ -38,15 +38,15 @@
 ;; car.
 (define (host car choice)
   (match (cons car choice)
-    [(cons 'L 'L)  (uniform '(M) '(R))]
-    [(cons 'L 'M)  (uniform '(R))]
-    [(cons 'L 'R)  (uniform '(L))]
-    [(cons 'M 'L)  (uniform '(R))]
-    [(cons 'M 'M)  (uniform '(L) '(R))]
-    [(cons 'M 'R)  (uniform '(L))]
-    [(cons 'R 'L)  (uniform '(M))]
-    [(cons 'R 'M)  (uniform '(L))]
-    [(cons 'R 'R)  (uniform '(L) '(M))]))
+    [(cons 'l 'l)  (uniform '(m) '(r))]
+    [(cons 'l 'm)  (uniform '(r))]
+    [(cons 'l 'r)  (uniform '(l))]
+    [(cons 'm 'l)  (uniform '(r))]
+    [(cons 'm 'm)  (uniform '(l) '(r))]
+    [(cons 'm 'r)  (uniform '(l))]
+    [(cons 'r 'l)  (uniform '(m))]
+    [(cons 'r 'm)  (uniform '(l))]
+    [(cons 'r 'r)  (uniform '(l) '(m))]))
 
 
 ;; FORMULATION.
@@ -66,15 +66,15 @@
 (define (l-monty-hall)
   (leftDo Norm
     (prize) <- uniformDoor
-    (door) <- (host prize 'M)
-    () <- (observe door 'L)
+    (door) <- (host prize 'm)
+    () <- (observe door 'l)
     return (prize)))
 
 (define (r-monty-hall)
   (rightDo Norm
     (prize) <- uniformDoor
-    (door) <- (host prize 'M)
-    () <- (observe door 'L)
+    (door) <- (host prize 'm)
+    () <- (observe door 'l)
     return (prize)))
 
 
@@ -94,19 +94,19 @@
 
 (define (monty-hall-2)
   (do (prize) <- uniformDoor
-      (door) <- (host prize 'M)      
+      (door) <- (host prize 'm)      
       return (prize door)))
 
 (define (monty-hall-3)
   (do (prize) <- uniformDoor
-      (door) <- (host prize 'M)
-      () <- (observe door 'L)
+      (door) <- (host prize 'm)
+      () <- (observe door 'l)
       return (prize door)))
 
 (define (monty-hall-r)
   (do (prize) <- uniformDoor
-      (door) <- (host prize 'M)
-      () <- (observe door 'L)
+      (door) <- (host prize 'm)
+      () <- (observe door 'l)
       return (prize)))
 
 (displayln "Claim B - Section 1.1 BINDING STYLE")
@@ -119,13 +119,13 @@
 
 (define (e-monty-hall-2)
   (do (prize) <- uniformDoor
-      return (prize (do (door) <- (host prize 'M)
+      return (prize (do (door) <- (host prize 'm)
                         return (door)))))
 
 (define (e-monty-hall-3)
   (do (prize) <- uniformDoor
-      (door) <- (host prize 'M)
-      return (prize door (do () <- (observe door 'L)
+      (door) <- (host prize 'm)
+      return (prize door (do () <- (observe door 'l)
                         return ()))))
 
 
@@ -147,26 +147,26 @@
 
 (define (r-monty-hall-2)
   (do (prize) <- uniformDoor
-      return (prize (do (door) <- (host prize 'M)
+      return (prize (do (door) <- (host prize 'm)
                         return (door)))))
 
 (define (r-monty-hall-3)
   (do (prize) <- uniformDoor
-      return (prize (do (door) <- (host prize 'M)
-                         () <- (observe door 'L)
+      return (prize (do (door) <- (host prize 'm)
+                         () <- (observe door 'l)
                          return (door)))))
 
 (define (r-monty-hall-r1)
   (do (prize) <- uniformDoor
-      (door) <- (do (door) <- (host prize 'M)
-                    () <- (observe door 'L)
+      (door) <- (do (door) <- (host prize 'm)
+                    () <- (observe door 'l)
                     return (door))
       return (prize door)))
 
 (define (r-monty-hall-r2)
   (do (prize) <- uniformDoor
-      (door) <- (do (door) <- (host prize 'M)
-                    () <- (observe door 'L)
+      (door) <- (do (door) <- (host prize 'm)
+                    () <- (observe door 'l)
                     return (door))
       return (prize)))
 
@@ -182,8 +182,8 @@
 
 (define (a-monty-hall-3)
   (do (prize) <- uniformDoor
-      return (prize (do (door) <- (host prize 'M)
-                         return (door (do () <- (observe door 'L)
+      return (prize (do (door) <- (host prize 'm)
+                         return (door (do () <- (observe door 'l)
                                           return ()))))))
 
 (displayln "Claim C - Section 1.1 MULTIPLICATIVE STYLE")
