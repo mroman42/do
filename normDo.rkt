@@ -1,6 +1,6 @@
 #lang racket
 
-(require "monad.rkt")
+(require "magmad.rkt")
 (require "distributions.rkt")
 (require (except-in "leftDo.rkt" do))
 
@@ -9,6 +9,6 @@
     [(do x ...) (leftDo Norm x ...)]))
 
 (provide do)
-(provide (all-from-out "monad.rkt"))
+(provide (all-from-out "magmad.rkt"))
 (provide (all-from-out "distributions.rkt"))
 

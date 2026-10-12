@@ -1,16 +1,93 @@
-# A Magmadic Metalanguage for Probabilistic and Causal Inference
+# Normalized Probabilistic Semantics is Not Associative
 
-Monadic bind is usually left-associative, but do-notations (e.g., Haskell's)
-are right-associative. This is an implementation of both left and right
-do-notation for arbitrary monad-like constructions in Racket. 
+This code accompanies "Normalized Probabilistic Semantics is Not Associative"
+([arXiv](https://arxiv.org/pdf/2510.01131)). Do-notation is right-associative by
+default (e.g., in Haskell's). This code contains an implementation, in the
+Racket programming language, of both left-associative and right-associative
+do-notation for magmads (monads without the associativity axiom).
 
-Of course, left and right-associative do-notation coincide for any monad, but
-there are some constructions -- like probabilistic normalization -- that do not
-form a monad but only a non-associative monad. For these, we can modulate the
-semantics of a do-notation block by changing how statements associate.
+The magmad exemplifying this implementation is the normalized distribution
+magmad: similar to the monad of subdistributions, but only allowing normalized
+distributions.
+
+This implementation provides a calculator using the paper's notation: its
+purpose is to check that the computations in the paper are correct and
+reproducible. The claims relate to the correctness of these computations and are
+modest; the code is not verified nor it formalizes any of the proofs of the
+paper beyond checking its computations.
+
+
+### List of Claims
+
+**Part A - Monty Hall problem**
+
+ - **Claim A.1 - Example 4.17 and Figure 1.** The two programs (leftDo/rightDo)
+   for the Monty Hall problem yield two different solutions. This is claimed in
+   Example 4.17. Moreover, these correspond to the two programs where the code
+   is manually associated to the left or to the right. This is claimed in Figure
+   1, and marked with an inequality.
+
+ - **Claim A.2 - Section 1.1.** The first program of Figure 1 matches the
+   first computation block of Section 1.1. This is claimed at the end of Section
+   1.1.
+
+ - **Claim A.3 - Section 1.1.** The the second program of Figure 1 matches the
+   second computation block of Section 1.1. This is claimed at the end of
+   Section 1.1.
+
+
+**Part B - Unclear test problem**
+
+ - **Claim B.1 - Section 1.2.** The solution of the single test problem is the
+   one provided at the end of the first computation block of Section 1.2.
+
+ - **Claim B.2 - Figure 2.** The two programs for the Unclear Test problem yield
+   two different solutions. This is claimed in Figure 2 and marked with an
+   inequality; it is also claimed at the end of Section 1.2.
+
+ - **Claim B.3 - Section 1.2.** The first program of Figure 2 matches the second
+   computation block of Section 1.2. This is claimed at the end of Section 1.2.
+   
+ - **Claim B.4 - Section 1.2.** The second program of Figure 2 matches the third
+   computation block of Section 1.2. This is claimed at the end of Section 1.2.
+   
+
+
+### Download, installation, and sanity-testing instructions
+
+
+#### Download
+
+This artifact consists of a single directory of Racket source code.
+
+The Racket platform can be downloaded from the official Racket repository
+<https://download.racket-lang.org/>. Alternatively, a compatible version of
+Racket may be packaged for your OS. The code has been tested with Racket
+v9.3[cs] and Racket v8.10[cs]; we expect all intermediate versions to work. This
+artifact is a zero-dependency library: it does not require any extra library
+beyond the standard installation of Racket and only uses `#lang racket`.
+
+This source code can be downloaded from the following GitHub repository
+<https://github.com/mroman42/do/tree/popl>, specifically, from its "popl"
+branch.
+
+
+#### Installation
+
+The Racket platform can be installed following the instructions at the official
+Racket repository, which vary by OS. The Racket platform provides a `racket`
+command to run the code and a `drracket` command to start a dedicated IDE. No
+further installation is required.
+
+
+#### Sanity-testing instructions
+
+
+
 
 
 #### Monty Hall problem
+
 In the Monty Hall problem, let us assume we pick the left door and
 that the host announces the middle door. If we associate to the left, we obtain
 the usual solution.

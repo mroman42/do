@@ -1,6 +1,6 @@
 #lang racket
 
-(require "monad.rkt")
+(require "magmad.rkt")
 (require "rightDo.rkt")
 
 
@@ -38,5 +38,5 @@
 
 
 (provide leftDo do)
-(provide (all-from-out "monad.rkt"))
+(provide (all-from-out "magmad.rkt"))
 (provide (all-from-out "rightDo.rkt"))

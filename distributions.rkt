@@ -1,6 +1,6 @@
 #lang racket
 
-(require "monad.rkt")
+(require "magmad.rkt")
 
 #| NORMALIZED DISTRIBUTIONS.
 
@@ -60,23 +60,23 @@ magmad using the standard encoding of distributions as formal sums.
 
 
 
-;; SUBDISTRIBUTION MONAD.
+;; SUBDISTRIBUTION MAGMAD.
 ;; Condensing a formal sum into an unnormalized distribution.
 (define (condense xs)
   (reweight
    (remove-zeroes xs)))
 
-;; We implement the combinators for the subdistribution monad; we later use
-;; these combinators for the normalized distribution monad.
+;; We implement the combinators for the subdistribution magmad; we later use
+;; these combinators for the normalized distribution magmad.
 (define Subd
-  (monad
+  (magmad
    (λ (x)    (list (pair x 1)))
    (λ (xs f) (condense (apply append (map rescale (formal-map f xs)))))
    (λ (f xs) (formal-map f xs))))
 
-(define dist-return (monad-return Subd))
-(define dist-bind   (monad-bind   Subd))
-(define dist-map    (monad-map    Subd))
+(define dist-return (magmad-return Subd))
+(define dist-bind   (magmad-bind   Subd))
+(define dist-map    (magmad-map    Subd))
 
 ;; Definition of uniform distributions.
 (define (dist-uniform ls)
@@ -111,7 +111,7 @@ magmad using the standard encoding of distributions as formal sums.
 (define (unwrap x) (Normalized-distribution x))
 
 (define Norm
-  (monad
+  (magmad
    (λ (x)    (wrap (norm-return x)))
    (λ (xs f) (wrap (norm-bind (unwrap xs) (λ (x) (unwrap (f x))))))
    (λ (f xs) (wrap (norm-map (unwrap xs) f)))))
