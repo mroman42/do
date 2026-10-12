@@ -55,7 +55,6 @@ paper beyond checking its computations.
 
 ### Download, installation, and sanity-testing instructions
 
-
 #### Download
 
 This artifact consists of a single directory of Racket source code.
@@ -108,6 +107,9 @@ comes with the Racket platform.
  - You may want to check that the two example files, `example-monty-hall.rkt`
    and `example-test-problem.rkt`, contain the pieces of code described in
    Figures 1 and 2.
+
+
+
 
 ### Additional artifact description
 
