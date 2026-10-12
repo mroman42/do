@@ -80,13 +80,18 @@ review.
 
 **Part D - Front-door adjustment formula**
 
- - **Claim D.1 - Theorem 5.17.** The formula in Theorem 5.17 computes the
-   front-door adjustment from the work of Pearl et al. in the example given there.
+ - **Claim D.1 - Theorem 5.17.** The program in Theorem 5.17 computes the
+   front-door adjustment from the work of Pearl et al. in the example given
+   there.
    
-   > Causal Inference in Statistics: A Primer
-   > Pearl, Glymour and Jewell.
-   > Table 3.1, page 66 - for the data.
+   > Causal Inference in Statistics: A Primer  
+   > Pearl, Glymour and Jewell.  
+   > Table 3.1, page 66 - for the data.  
    > Solution to Study Question 4.3.4 in the Solution Manual.
+
+   Note that a stronger claim is proven in the article: the article provides a
+   proof of correctness. The implementation here only illustrates that the
+   program indeed works correctly in the paradigmatic example.
 
 ### Download, installation, and sanity-testing instructions
 
