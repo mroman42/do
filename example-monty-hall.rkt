@@ -109,13 +109,37 @@
       () <- (observe door 'L)
       return (prize)))
 
-(displayln "Claim B - Section 1.1")
+(displayln "Claim B - Section 1.1 BINDING STYLE")
 (displayln "The first solution, computed step-by-step:")
 (printf "(i)   ~a~n"  (monty-hall-1))
 (printf "(ii)  ~a~n"  (monty-hall-2))
 (printf "(iii) ~a~n"  (monty-hall-3))
 (printf "(r)   ~a~n"  (monty-hall-r))
 (displayln "")
+
+(define (e-monty-hall-2)
+  (do (prize) <- uniformDoor
+      return (prize (do (door) <- (host prize 'M)
+                        return (door)))))
+
+(define (e-monty-hall-3)
+  (do (prize) <- uniformDoor
+      (door) <- (host prize 'M)
+      return (prize door (do () <- (observe door 'L)
+                        return ()))))
+
+
+(displayln "Claim B - Section 1.1 MULTIPLICATIVE STYLE")
+(displayln "The first solution, computed step-by-step:")
+(printf "(i)   ~a~n"  (monty-hall-1))
+(printf "(ii)  ~a~n"  (e-monty-hall-2))
+(printf "(n1)  ~a~n"  (monty-hall-2))
+(printf "(iii) ~a~n"  (e-monty-hall-3))
+(printf "(n2)  ~a~n"  (monty-hall-3))
+(printf "(r)   ~a~n"  (monty-hall-r))
+(displayln "")
+
+
 
 (define (r-monty-hall-1)
   (do (prize) <- uniformDoor
@@ -146,13 +170,29 @@
                     return (door))
       return (prize)))
 
-
-(displayln "Claim C - Section 1.1")
+(displayln "Claim C - Section 1.1 BINDING STYLE")
 (displayln "The second solution, computed step-by-step:")
 (printf "(i)   ~a~n" (r-monty-hall-1))
 (printf "    (ii)  ~a~n" (r-monty-hall-2))
 (printf "    (iii) ~a~n" (r-monty-hall-3))
 (printf "    (r1)  ~a~n" (r-monty-hall-r1))
 (printf "(r2)  ~a~n" (r-monty-hall-r2))
+(displayln "")
+;(displayln "")
+
+(define (a-monty-hall-3)
+  (do (prize) <- uniformDoor
+      return (prize (do (door) <- (host prize 'M)
+                         return (door (do () <- (observe door 'L)
+                                          return ()))))))
+
+(displayln "Claim C - Section 1.1 MULTIPLICATIVE STYLE")
+(displayln "The second solution, computed step-by-step:")
+(printf "(i)   ~a~n" (r-monty-hall-1))
+(printf "    (ii)  ~a~n" (r-monty-hall-2))
+(printf "    (iii) ~a~n" (a-monty-hall-3))
+(printf "    (n1)  ~a~n" (r-monty-hall-3))
+(printf "(n2)  ~a~n" (r-monty-hall-r1))
+(printf "(r)   ~a~n" (r-monty-hall-r2))
 (displayln "")
 (displayln "")

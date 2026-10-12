@@ -158,25 +158,22 @@ magmad using the standard encoding of distributions as formal sums.
 (provide distribution uniform define/table)
 
 
-
 ;; DISPLAYING DISTRIBUTIONS.
+(require "format-strike.rkt")
+
 (define (list->string xs)
-  (apply format (string-join (make-list (length xs) "~a")) xs))
+  (apply format (string-join (make-list (length xs) "~a") "") xs))
+
+(define (term->string x v)
+  (if (member (uniform) x)
+      (strike-ansi (format "~a[~a]" v (list->string x)))
+      (format "~a[~a]" v (list->string x))))
 
 (define (distribution->string xs)
   (define/match (go xs)
     [('()) ">"]
-    [((cons (list x v) xs)) (string-append (format " + ~a[~a]" v (list->string x)) (go xs))])
-  (match xs
-    ['() "⊥"]
-    [(cons (list x v) xs) (string-append (format "<~a[~a]" v (list->string x)) (go xs))]))
-
-
-(struct displaydist (d)
-  #:transparent
-   #:methods gen:custom-write
-  [(define (write-proc x port mode)
-     (fprintf port (distribution->string (displaydist-d x))))])
-
-(provide displaydist)
-
+    [((cons (list x v) xs))
+     (string-append " + " (term->string x v) (go xs))])
+  (match xs ['() "⊥"] [(cons (list x v) xs)
+                       (string-append "<" (term->string x v)
+                                      (go xs))]))

@@ -13,5 +13,4 @@ REPL. Alternatively, `racket main.rkt` executes all of the claims.
 
 (require "example-monty-hall.rkt") 
 (require "example-test-problem.rkt")
-(require "distributions.rkt")
 

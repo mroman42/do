@@ -143,6 +143,41 @@
 (printf "(r)   ~a~n" (unclear-test-problem-pearl-r))
 (displayln "")
 
+(define (unclear-test-problem-pearl-u1)
+  (do 
+      (result) <- uncertainty
+      return (result (do (patient) <- prevalence
+                         return (patient)))))
+
+(define (unclear-test-problem-pearl-u2)
+  (do 
+      (result) <- uncertainty
+      (patient) <- prevalence
+      return (result patient (do (test) <- (channel patient)
+                                 return (test)))))
+
+(define (unclear-test-problem-pearl-u3)
+  (do 
+      (result) <- uncertainty
+      (patient) <- prevalence
+      (test) <- (channel patient)
+      return (result patient test (do () <- (observe test result)
+                                      return ()))))
+  
+
+
+(displayln "Claim F - Section 1.2")
+(displayln "Pearl's update, computed step-by-step: MULTIPLICATIVE STYLE")
+(printf "(i)   ~a~n" (unclear-test-problem-pearl-1))
+(printf "(ii)  ~a~n" (unclear-test-problem-pearl-u1))
+(printf "(n1)  ~a~n" (unclear-test-problem-pearl-2))
+(printf "(iii) ~a~n" (unclear-test-problem-pearl-u2))
+(printf "(n2)  ~a~n" (unclear-test-problem-pearl-3))
+(printf "(iv)  ~a~n" (unclear-test-problem-pearl-u3))
+(printf "(n3)  ~a~n" (unclear-test-problem-pearl-4))
+(printf "(r)   ~a~n" (unclear-test-problem-pearl-r))
+(displayln "")
+
 
 
 ;; Step-by-step: Jeffrey's update.
