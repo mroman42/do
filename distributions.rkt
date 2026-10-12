@@ -138,22 +138,26 @@ magmad using the standard encoding of distributions as formal sums.
 
 (define-syntax distribution
   (syntax-rules ()
-    [(_ rest ...)  (wrap (distribution-aux rest ...))]))
+    [(_ rest ...)
+     (wrap (distribution-aux rest ...))]))
 
 (define-syntax uniform
   (syntax-rules ()
-    [(_ x ...) (norm-uniform (list x ...))]))
+    [(_ x ...)
+     (norm-uniform (list x ...))]))
 
 (define (from-table l)
   (wrap (map-on-values (λ (v) (/ v (validity l))) l)))
 
 (define-syntax distribution-table
   (syntax-rules ()
-    [(_ rest ...)  (from-table (distribution-aux rest ...))]))
+    [(_ rest ...)
+     (from-table (distribution-aux rest ...))]))
 
 (define-syntax define/table
   (syntax-rules ()
-    [(_ name (x ...)) (define name (distribution-table x ...))]))
+    [(_ name (x ...))
+     (define name (distribution-table x ...))]))
 
 (provide distribution uniform define/table)
 
