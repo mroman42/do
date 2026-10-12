@@ -133,10 +133,10 @@
 (displayln "The first solution, computed step-by-step:")
 (printf "(i)   ~a~n"  (monty-hall-1))
 (printf "(ii)  ~a~n"  (e-monty-hall-2))
-(printf "(n1)  ~a~n"  (monty-hall-2))
+(printf "(μ1)  ~a~n"  (monty-hall-2))
 (printf "(iii) ~a~n"  (e-monty-hall-3))
-(printf "(n2)  ~a~n"  (monty-hall-3))
-(printf "(r)   ~a~n"  (monty-hall-r))
+(printf "(μ2)  ~a~n"  (monty-hall-3))
+(printf "(π)   ~a~n"  (monty-hall-r))
 (displayln "")
 
 
