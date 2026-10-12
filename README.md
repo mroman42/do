@@ -90,8 +90,8 @@ review.
    > Solution to Study Question 4.3.4 in the Solution Manual.
 
    Note that a stronger claim is proven in the article: the article provides a
-   proof of correctness. The implementation here only illustrates that the
-   program indeed works correctly in the paradigmatic example.
+   general proof of correctness. The implementation claims only to be able to
+   illustrate this proof of correctness in particular examples.
 
 ### Download, installation, and sanity-testing instructions
 
