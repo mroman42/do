@@ -8,6 +8,7 @@ This file implements normalized distributions and the normalized distribution
 magmad using the standard encoding of distributions as formal sums.
 |#
 
+;; Auxiliary synonym.
 (define (pair x y)
   (list x y))
 
@@ -23,11 +24,11 @@ magmad using the standard encoding of distributions as formal sums.
   [(f  '())                  null]
   [(f  (cons (list x v) ys)) (cons (list x (f v)) (map-on-values f ys))])
 
-;; The validity of a formal sum is the sum of the coefficients.
+;; The validity of a formal sum is the sum of its coefficients.
 (define (validity xs)
   (apply + (map second xs)))
 
-;; Remove zeroes from a formal sum.
+;; Removes zeroes from a formal sum.
 (define/match (remove-zeroes xs)
   [('())  null]
   [((cons (list x v) ys))
@@ -35,7 +36,7 @@ magmad using the standard encoding of distributions as formal sums.
        (remove-zeroes ys)
        (cons (list x v) (remove-zeroes ys)))])
 
-;; Coefficient of an element on a formal sum.
+;; Coefficient of the element of a formal sum.
 (define/match (weight-of-point x xs)
   [(x '()) 0]
   [(x (cons (list x v) ys)) (+ v (weight-of-point x ys))]
@@ -63,16 +64,15 @@ magmad using the standard encoding of distributions as formal sums.
 ;; SUBDISTRIBUTION MAGMAD.
 ;; Condensing a formal sum into an unnormalized distribution.
 (define (condense xs)
-  (reweight
-   (remove-zeroes xs)))
+  (reweight (remove-zeroes xs)))
 
-;; We implement the combinators for the subdistribution magmad; we later use
+;; We implement the combinators for the subdistribution monad; we later use
 ;; these combinators for the normalized distribution magmad.
 (define Subd
   (magmad
    (λ (x)    (list (pair x 1)))
    (λ (xs f) (condense (apply append (map rescale (formal-map f xs)))))
-   (λ (f xs) (formal-map f xs))))
+   (λ (f xs) (condense (formal-map f xs)))))
 
 (define dist-return (magmad-return Subd))
 (define dist-bind   (magmad-bind   Subd))
@@ -107,7 +107,7 @@ magmad using the standard encoding of distributions as formal sums.
   [(define (write-proc x port mode)
      (fprintf port (distribution->string (Normalized-distribution x))))])
 
-(define (wrap x) (Normalized x))
+(define (wrap x)   (Normalized x))
 (define (unwrap x) (Normalized-distribution x))
 
 (define Norm
