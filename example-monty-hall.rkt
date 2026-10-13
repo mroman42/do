@@ -57,11 +57,11 @@
 ;;
 ;; The program lines mean that
 ;; 
-;; (1) the car is distributed uniformly;
-;; (2) the host (knowing our choice) opens a door;
+;; (1) the prize is distributed uniformly;
+;; (2) the host (knowing our where the prize is) opens a door;
 ;; (3) we observe the host opened the left door.
-;;
-;; What is the probability distribution of the car?
+;; 
+;; (r) What is the probability distribution of the prize?
 
 (define (l-monty-hall)
   (leftDo Norm
@@ -124,10 +124,21 @@
 
 (define (monty-hall-2)
   (do (prize) <- uniformDoor
+      return (prize (do (door) <- (host prize)
+                        return (door)))))
+
+(define (monty-hall-m1)
+  (do (prize) <- uniformDoor
       (door) <- (host prize)
       return (prize door)))
 
 (define (monty-hall-3)
+  (do (prize) <- uniformDoor
+      (door) <- (host prize)
+      return (prize door (do () <- (observe 'l door)
+                        return ()))))
+
+(define (monty-hall-m2)
   (do (prize) <- uniformDoor
       (door) <- (host prize)
       () <- (observe 'l door)
@@ -139,25 +150,15 @@
       () <- (observe 'l door)
       return (prize)))
 
-(define (e-monty-hall-2)
-  (do (prize) <- uniformDoor
-      return (prize (do (door) <- (host prize)
-                        return (door)))))
-
-(define (e-monty-hall-3)
-  (do (prize) <- uniformDoor
-      (door) <- (host prize)
-      return (prize door (do () <- (observe 'l door)
-                        return ()))))
 
 
 (displayln "Claim A.2 - Section 1.1.")
 (displayln "The first solution, computed step-by-step, goes as follows:")
 (printf "(i)   ~a~n"  (monty-hall-1))
-(printf "(ii)  ~a~n"  (e-monty-hall-2))
-(printf "(μ1)  ~a~n"  (monty-hall-2))
-(printf "(iii) ~a~n"  (e-monty-hall-3))
-(printf "(μ2)  ~a~n"  (monty-hall-3))
+(printf "(ii)  ~a~n"  (monty-hall-2))
+(printf "(μ1)  ~a~n"  (monty-hall-m1))
+(printf "(iii) ~a~n"  (monty-hall-3))
+(printf "(μ2)  ~a~n"  (monty-hall-m2))
 (printf "(π)   ~a~n"  (monty-hall-r))
 (displayln "")
 
@@ -175,36 +176,37 @@
 (define (r-monty-hall-3)
   (do (prize) <- uniformDoor
       return (prize (do (door) <- (host prize)
+                         return (door (do () <- (observe 'l door)
+                                          return ()))))))
+
+(define (r-monty-hall-m2)
+  (do (prize) <- uniformDoor
+      return (prize (do (door) <- (host prize)
                          () <- (observe 'l door)
                          return (door)))))
 
-(define (r-monty-hall-r1)
+(define (r-monty-hall-m1)
   (do (prize) <- uniformDoor
       (door) <- (do (door) <- (host prize)
                     () <- (observe 'l door)
                     return (door))
       return (prize door)))
 
-(define (r-monty-hall-r2)
+(define (r-monty-hall-r)
   (do (prize) <- uniformDoor
       (door) <- (do (door) <- (host prize)
                     () <- (observe 'l door)
                     return (door))
       return (prize)))
 
-(define (a-monty-hall-3)
-  (do (prize) <- uniformDoor
-      return (prize (do (door) <- (host prize)
-                         return (door (do () <- (observe 'l door)
-                                          return ()))))))
 
 (displayln "Claim A.3 - Section 1.1.")
 (displayln "The second solution, computed step-by-step, goes as follows:")
 (printf "(i)   ~a~n" (r-monty-hall-1))
 (printf "    (ii)  ~a~n" (r-monty-hall-2))
-(printf "    (iii) ~a~n" (a-monty-hall-3))
-(printf "    (μ2)  ~a~n" (r-monty-hall-3))
-(printf "(μ1)  ~a~n" (r-monty-hall-r1))
-(printf "(π)   ~a~n" (r-monty-hall-r2))
+(printf "    (iii) ~a~n" (r-monty-hall-3))
+(printf "    (μ2)  ~a~n" (r-monty-hall-m2))
+(printf "(μ1)  ~a~n" (r-monty-hall-m1))
+(printf "(π)   ~a~n" (r-monty-hall-r))
 (displayln "")
 (displayln "")
