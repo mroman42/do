@@ -14,10 +14,11 @@ This implementation provides a calculator using the paper's notation: its
 purpose is to check that the computations in the paper are correct and
 reproducible. The claims relate to the correctness of these computations and are
 modest; the code is not verified nor it formalizes any of the proofs of the
-paper beyond checking its computations.
+paper beyond checking its computations. The main contribution is an
+implementation of left-associative do-notation.
 
 Finally, note that the reviewers have suggested to change the notation and
-descriptions of the computations for the first version of the article. The
+descriptions of the computations of the first version of the article. The
 version of the article that we provide with this submission is the updated
 version: the implementation has been modified so that its notation matches this
 updated version. The public version on the arXiv
@@ -71,11 +72,12 @@ review.
 
  - **Claim C.2 - Definition 4.13.** Definition 4.13 coincides exactly with the
    implementation of `leftDo` (in `leftDo.rkt`). This is claimed in Remark 4.15,
-   and implicitly for the rest of the claims.
+   and all other claims depend on this one.
 
  - **Claim C.3 - Remark 4.15.** The notation `do` introduced in Remark 4.15
-   coincides with the notation provided by `normDo.rkt`. Note that, in the paper
-   the `Norm` magmad is denoted by `MD`.
+   coincides with the notation provided by `normDo.rkt`. Note that, in the paper,
+   the `Norm` magmad is denoted by `MD`. This is claimed in Remark 4.15,
+   and all other claims depend on this one.
 
 
 **Part D - Front-door adjustment formula**
@@ -114,9 +116,10 @@ branch.
 #### Installation
 
 The Racket platform can be installed following the instructions at the official
-Racket repository, which vary by OS. The Racket platform provides a `racket`
-command to run the code and a `drracket` command to start a dedicated IDE. No
-further installation is required.
+Racket repository, which vary by OS. Your OS may provide a Racket platform
+package (e.g. `sudo apt install racket`). The Racket platform provides a
+`racket` command to run the code and a `drracket` command to start a dedicated
+IDE. No further installation is required.
 
 You may check the version of your installation by running `racket --version`.
 You should get the message "Welcome to Racket v9.3[cs]", or similar.
@@ -174,7 +177,7 @@ The artifact contains 9 Racket source code files.
  - `distributions.rkt`: Provides a naive implementation of probabilistic
    distributions as lists of element-probability pairs.
  
- - `rightDo.rkt`: Provides an implementation of left-associating do-notation.
+ - `rightDo.rkt`: Provides an implementation of right-associating do-notation.
 
  - `leftDo.rkt`: Provides an implementation of left-associating do-notation.
    Depends on the implementation of right-associating do-notation.
@@ -183,6 +186,6 @@ The artifact contains 9 Racket source code files.
    specifically for the normalized distributions magmad.
  
  - `format-strike.rkt`: Optionally enables displaying cancelled terms of a
-   distributions with striked-through text. It does not necessarily work on
+   distribution with striked-through text. It does not necessarily work on
    older terminals, the DrRacket environment, or the less command; it is
    disabled by default.
