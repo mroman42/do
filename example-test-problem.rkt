@@ -36,6 +36,12 @@
 (define (single-test-problem-2)
   (do
       (patient) <- prevalence
+      return (patient (do (test) <- (channel patient)
+                          return (test)))))
+
+(define (single-test-problem-m2)
+  (do
+      (patient) <- prevalence
       (test) <- (channel patient) 
       return (patient test)))
 
@@ -43,8 +49,16 @@
   (do
       (patient) <- prevalence
       (test) <- (channel patient)
+      return (patient test (do () <- (observe 'p test)
+                               return ()))))
+
+(define (single-test-problem-m3)
+  (do
+      (patient) <- prevalence
+      (test) <- (channel patient)
       () <- (observe 'p test)
       return (patient test)))
+
 
 (define (single-test-problem-r)
   (do
@@ -59,8 +73,10 @@
 (printf "We present the solution, computed step-by-step:~n")
 (printf "(i)   ~a~n" (single-test-problem-1))
 (printf "(ii)  ~a~n" (single-test-problem-2))
+(printf "(μ1)  ~a~n" (single-test-problem-m2))
 (printf "(iii) ~a~n" (single-test-problem-3))
-(printf "(r)   ~a~n" (single-test-problem-r))
+(printf "(μ2)  ~a~n" (single-test-problem-m3))
+(printf "(π)   ~a~n" (single-test-problem-r))
 (printf "~n~n")
 
 
@@ -162,12 +178,12 @@
 (displayln "Pearl's update, computed step-by-step.")
 (printf "(i)   ~a~n" (unclear-test-problem-pearl-1))
 (printf "(ii)  ~a~n" (unclear-test-problem-pearl-u1))
-(printf "(n1)  ~a~n" (unclear-test-problem-pearl-2))
+(printf "(μ1)  ~a~n" (unclear-test-problem-pearl-2))
 (printf "(iii) ~a~n" (unclear-test-problem-pearl-u2))
-(printf "(n2)  ~a~n" (unclear-test-problem-pearl-3))
+(printf "(μ2)  ~a~n" (unclear-test-problem-pearl-3))
 (printf "(iv)  ~a~n" (unclear-test-problem-pearl-u3))
-(printf "(n3)  ~a~n" (unclear-test-problem-pearl-4))
-(printf "(r)   ~a~n" (unclear-test-problem-pearl-r))
+(printf "(μ3)  ~a~n" (unclear-test-problem-pearl-4))
+(printf "(π)   ~a~n" (unclear-test-problem-pearl-r))
 (displayln "")
 
 
@@ -190,6 +206,14 @@
       return (result (do (patient) <- prevalence
                           (test) <- (channel patient)
                           return (patient test)))))
+
+(define (unclear-test-problem-jeffrey-a4)
+  (do 
+      (result) <- uncertainty
+      return (result (do (patient) <- prevalence
+                          (test) <- (channel patient)
+                          return (patient test (do () <- (observe test result)
+                                              return ()))))))
 
 (define (unclear-test-problem-jeffrey-4)
   (do 
@@ -231,8 +255,9 @@
 (printf "(i)   ~a~n"     (unclear-test-problem-jeffrey-1))
 (printf "    (ii)  ~a~n" (unclear-test-problem-jeffrey-2))
 (printf "    (iii) ~a~n" (unclear-test-problem-jeffrey-u2))
-(printf "    (m2)  ~a~n" (unclear-test-problem-jeffrey-3))
-(printf "    (iv)  ~a~n" (unclear-test-problem-jeffrey-4))
-(printf "    (r1)  ~a~n" (unclear-test-problem-jeffrey-r1))
-(printf "(r2)  ~a~n"     (unclear-test-problem-jeffrey-r2))
+(printf "    (μ2)  ~a~n" (unclear-test-problem-jeffrey-3))
+(printf "    (iv)  ~a~n" (unclear-test-problem-jeffrey-a4))
+(printf "    (μ2)  ~a~n" (unclear-test-problem-jeffrey-4))
+(printf "(μ1)  ~a~n" (unclear-test-problem-jeffrey-r1))
+(printf "(π)   ~a~n" (unclear-test-problem-jeffrey-r2))
 (printf "~n~n")
