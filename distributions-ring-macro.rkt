@@ -10,14 +10,15 @@
 (define-syntax (provide-distributions-over-ring stx)
   (syntax-parse stx
     [(_ R)
-     #:with validity     (datum->syntax stx 'validity)
-     #:with dist-map     (datum->syntax stx 'dist-map)
-     #:with distribution (datum->syntax stx 'distribution)
-     #:with Norm         (datum->syntax stx 'Norm)
-     #:with observe      (datum->syntax stx 'observe)
-     #:with uniform      (datum->syntax stx 'uniform)
-     #:with dist-uniform (datum->syntax stx 'dist-uniform)
-     #:with define/table (datum->syntax stx 'define/table)
+     #:with validity       (datum->syntax stx 'validity)
+     #:with dist-map       (datum->syntax stx 'dist-map)
+     #:with distribution   (datum->syntax stx 'distribution)
+     #:with Norm           (datum->syntax stx 'Norm)
+     #:with observe        (datum->syntax stx 'observe)
+     #:with uniform        (datum->syntax stx 'uniform)
+     #:with dist-uniform   (datum->syntax stx 'dist-uniform)
+     #:with dist-normalize (datum->syntax stx 'dist-normalize)
+     #:with define/table   (datum->syntax stx 'define/table)
     
      #'(begin
          (define R0 (ring-zero R))
@@ -86,7 +87,9 @@
            (condense (apply append (map rescale xss))))
 
          (define (dist-normalize xs)
-           (condense (dist-map-values (lambda (v) (R/ v (validity xs))) xs)))
+           (if (Rninv? (validity xs))
+               (list)
+               (condense (dist-map-values (lambda (v) (R/ v (validity xs))) xs))))
 
          (define (dist-bind xs f)
            (dist-join (dist-map f xs)))
@@ -147,6 +150,7 @@
          
          (provide dist-uniform
                   dist-map
+                  dist-normalize
                   distribution
                   Norm
                   norm-bind
