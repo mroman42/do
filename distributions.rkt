@@ -127,7 +127,7 @@ magmad using the standard encoding of distributions as formal sums.
       (norm-uniform (list))))
 
 (provide Norm observe)
-
+(provide unwrap)
 
 ;; AUXILIARY MACROS FOR DEFINING NORMALIZED DISTRIBUTIONS.
 
