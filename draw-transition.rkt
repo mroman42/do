@@ -41,4 +41,9 @@
     ['t1 (uniform '(t1))]
     ['t2 (uniform '(t2))]))
 
-(draw-lts (transition-to-graph transition 's0))
+;(draw-lts (transition-to-graph transition 's0))
+
+(define (mdp t s0)
+  (draw-lts (transition-to-graph t s0)))
+
+(provide mdp)
